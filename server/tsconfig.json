@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "incremental": true,
+    "target": "ES6",
+    "lib": ["ESNext"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+
+    "declaration": true,
+    "sourceMap": true,
+
+    "outDir": "./dist",
+    "removeComments": true,
+
+    "isolatedModules": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": false,
+
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "skipLibCheck": true,
+
+    "types": ["node", "express"],
+
+    "paths": {
+      "src/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/**.ts", "index.ts"],
+  "exclude": ["node_modules"]
+}
