@@ -1,6 +1,9 @@
 import cors from 'cors'
+import { configDotenv } from 'dotenv'
 import express, { NextFunction, Request, Response } from 'express'
 import logger from 'morgan'
+
+configDotenv()
 
 const { API_PORT, CLIENT_URL } = process.env
 
