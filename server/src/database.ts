@@ -9,8 +9,12 @@ if (!MONGO_URI) {
   throw new Error('Por favor define la variable MONGO_URI en el archivo .env')
 }
 
+enum ApiVersion {
+  One = '1',
+}
+
 const clientOptions = {
-  serverApi: { version: '1', strict: true, deprecationErrors: true },
+  serverApi: { version: ApiVersion.One, strict: true, deprecationErrors: true },
 }
 
 export const connectDB = async () => {
