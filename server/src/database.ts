@@ -22,11 +22,9 @@ export const connectDB = async () => {
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
     await mongoose.connect(MONGO_URI, clientOptions)
     await mongoose.connection.db.admin().command({ ping: 1 })
-    console.log('MongoDB conectado')
+    // eslint-disable-next-line no-console
+    console.log('Base de datos conectada!')
   } catch (error) {
     console.error(error)
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await mongoose.disconnect()
   }
 }
