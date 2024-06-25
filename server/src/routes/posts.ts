@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import { Post } from 'src/models/Post'
+import { validateRequiredFields } from 'src/utils'
 
 export const postsRouter = express.Router()
 
@@ -47,6 +48,9 @@ postsRouter.get('/:id', async (req, res, next) => {
 postsRouter.post('/', async (req, res, next) => {
   try {
     const { username, content, likes, comments } = req.body
+
+    if (!validateRequiredFields(username, content))
+      return res.status(400).send({ message: 'Faltan datos para crear el post' })
 
     const newPost = new Post({ username, content, likes, comments })
     const savedPost = await newPost.save()
