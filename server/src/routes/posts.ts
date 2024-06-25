@@ -1,4 +1,5 @@
 import express from 'express'
+import mongoose from 'mongoose'
 import { Post } from 'src/models/Post'
 
 export const postsRouter = express.Router()
@@ -26,6 +27,10 @@ postsRouter.get('/', async (req, res, next) => {
 
 postsRouter.get('/:id', async (req, res, next) => {
   const { id: paramId } = req.params
+
+  if (!mongoose.Types.ObjectId.isValid(paramId)) {
+    return res.status(400).send({ message: 'Id del post inválido' })
+  }
 
   try {
     const foundPost = await Post.findById(paramId)
