@@ -5,6 +5,8 @@ export interface IPost extends Document {
   content: string
   likes: number
   comments: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 const PostSchema: Schema = new Schema(
