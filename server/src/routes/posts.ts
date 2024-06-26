@@ -27,14 +27,14 @@ postsRouter.get('/', async (req, res, next) => {
 })
 
 postsRouter.get('/:id', async (req, res, next) => {
-  const { id: paramId } = req.params
+  const { id: postId } = req.params
 
-  if (!mongoose.Types.ObjectId.isValid(paramId)) {
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
     return res.status(400).send({ message: 'Id del post inválido' })
   }
 
   try {
-    const foundPost = await Post.findById(paramId)
+    const foundPost = await Post.findById(postId)
     if (!foundPost) return res.status(404).send({ message: 'Post no encontrado' })
 
     const { id, username, content, likes, comments, createdAt, updatedAt } = foundPost
@@ -56,6 +56,25 @@ postsRouter.post('/', async (req, res, next) => {
     const savedPost = await newPost.save()
 
     res.status(201).send(savedPost)
+  } catch (error) {
+    next(error)
+  }
+})
+
+postsRouter.delete('/:id', async (req, res, next) => {
+  const { id: postId } = req.params
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
+    return res.status(400).send({ message: 'Id del post inválido' })
+  }
+
+  try {
+    const deletedPost = await Post.findByIdAndDelete(postId)
+    if (!deletedPost) {
+      return res.status(404).send({ message: 'Post no encontrado' })
+    }
+
+    res.send(deletedPost)
   } catch (error) {
     next(error)
   }
