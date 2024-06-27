@@ -9,12 +9,13 @@ commentsRouter.post('/', async (req, res, next) => {
   try {
     const { postId, username, content } = req.body
 
-    // Primero se valida que el post exista antes de crear el comentario
-    const foundPost = await Post.findById(postId)
-    if (!foundPost) return res.status(404).send({ message: 'Post no encontrado' })
-
+    // Primero se valida que todos los datos requeridos existan
     if (!validateRequiredFields(postId, username, content))
       return res.status(400).send({ message: 'Faltan datos para crear el comentario' })
+
+    // Luego se valida que el post exista antes de crear el comentario
+    const foundPost = await Post.findById(postId)
+    if (!foundPost) return res.status(404).send({ message: 'Post no encontrado' })
 
     const newComment = new Comment({ postId, username, content })
     const savedComment = await newComment.save()
