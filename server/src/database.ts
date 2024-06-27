@@ -13,17 +13,22 @@ enum ApiVersion {
   One = '1',
 }
 
-const clientOptions = {
-  serverApi: { version: ApiVersion.One, strict: true, deprecationErrors: true },
+const clientOptions: mongoose.ConnectOptions = {
+  dbName: 'TukibookDB',
+  serverApi: {
+    version: ApiVersion.One,
+    strict: true,
+    deprecationErrors: true,
+  },
 }
 
 export const connectDB = async () => {
   try {
-    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+    // Crea un cliente de Mongoose con un objeto MongoClientOptions para setear la version Stable API
     await mongoose.connect(MONGO_URI, clientOptions)
     await mongoose.connection.db.admin().command({ ping: 1 })
     // eslint-disable-next-line no-console
-    console.log('Base de datos conectada!')
+    console.log(`Base de datos ${mongoose.connection.name} conectada!`)
   } catch (error) {
     console.error(error)
   }
