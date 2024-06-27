@@ -7,7 +7,8 @@ export const postsRouter = express.Router()
 
 postsRouter.get('/', async (req, res, next) => {
   try {
-    const posts = await Post.find({})
+    // Con populate se puede hacer un get a los comentarios, con los ids guardados en comments
+    const posts = await Post.find({}).populate('comments')
     const mappedPosts = posts.map(
       ({ createdAt, comments, content, id, likes, updatedAt, username }) => ({
         id,
