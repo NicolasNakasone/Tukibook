@@ -1,0 +1,109 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "import", "prettier", "css-import-order"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:css-import-order/recommended",
+    "prettier"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jest": true,
+    "node": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "react/display-name": "off",
+    "react/jsx-no-duplicate-props": [1, { "ignoreCase": true }],
+    "react/jsx-no-undef": 1,
+    "react/jsx-pascal-case": [
+      1,
+      {
+        "allowAllCaps": true,
+        "ignore": []
+      }
+    ],
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 1,
+    "react/no-deprecated": 1,
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-no-useless-fragment": 1,
+    "react/self-closing-comp": ["error"],
+    "react/jsx-sort-props": [
+      2,
+      {
+        "noSortAlphabetically": true,
+        "reservedFirst": true,
+        "callbacksLast": true,
+        "ignoreCase": false
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/no-unused-vars": [
+      2,
+      {
+        "args": "after-used",
+        "ignoreRestSiblings": false,
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "warn",
+    "no-debugger": 2,
+    "no-console": [
+      2,
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
+    "no-var": 1,
+    "import/no-extraneous-dependencies": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", ["parent", "sibling"]],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ExportDefaultDeclaration",
+        "message": "Exporting a default export is not supported. Use named export instead."
+      }
+    ],
+    "no-await-in-loop": 1,
+    "no-duplicate-imports": 2,
+    "prettier/prettier": "error"
+  },
+  "ignorePatterns": [
+    "**/*.js",
+    "**/*.config.ts",
+    "**/*.json",
+    "node_modules",
+    "public",
+    "styles",
+    ".next",
+    "coverage",
+    "dist"
+  ]
+}
