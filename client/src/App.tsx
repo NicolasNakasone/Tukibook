@@ -1,13 +1,11 @@
-import tukibookLogo from 'public/tuki.webp'
+import { Routes, Route } from 'react-router-dom'
+import { routes } from 'src/constants/routes'
+import { HomePage } from 'src/pages'
 
 export const App = () => {
   return (
-    <>
-      <header style={{ display: 'flex' }}>
-        <h1>Tukibook!</h1>
-        <img src={tukibookLogo} alt="Tukibook Logo" style={{ width: '2rem', height: '2rem' }} />
-      </header>
-      <p>Una red social, tuki 👍</p>
-    </>
+    <Routes>
+      <Route path={routes.home} element={<HomePage />} />
+    </Routes>
   )
 }
