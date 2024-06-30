@@ -9,19 +9,8 @@ postsRouter.get('/', async (req, res, next) => {
   try {
     // Con populate se puede hacer un get a los comentarios, con los ids guardados en comments
     const posts = await Post.find({}).populate('comments')
-    const mappedPosts = posts.map(
-      ({ createdAt, comments, content, id, likes, updatedAt, username }) => ({
-        id,
-        username,
-        content,
-        likes,
-        comments,
-        createdAt,
-        updatedAt,
-      })
-    )
 
-    res.send(mappedPosts)
+    res.send(posts)
   } catch (error) {
     next(error)
   }
@@ -35,12 +24,10 @@ postsRouter.get('/:id', async (req, res, next) => {
   }
 
   try {
-    const foundPost = await Post.findById(postId)
+    const foundPost = await Post.findById(postId).populate('comments')
     if (!foundPost) return res.status(404).send({ message: 'Post no encontrado' })
 
-    const { id, username, content, likes, comments, createdAt, updatedAt } = foundPost
-
-    res.send({ id, username, content, likes, comments, createdAt, updatedAt })
+    res.send(foundPost)
   } catch (error) {
     next(error)
   }
@@ -48,12 +35,13 @@ postsRouter.get('/:id', async (req, res, next) => {
 
 postsRouter.post('/', async (req, res, next) => {
   try {
-    const { username, content, likes, comments } = req.body
+    // No tiene sentido que un post antes de crearse ya tenga likes o comentarios
+    const { username, content } = req.body
 
     if (!validateRequiredFields(username, content))
       return res.status(400).send({ message: 'Faltan datos para crear el post' })
 
-    const newPost = new Post({ username, content, likes, comments })
+    const newPost = new Post({ username, content })
     const savedPost = await newPost.save()
 
     res.status(201).send(savedPost)
