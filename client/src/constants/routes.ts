@@ -1,19 +1,13 @@
-enum RoutesEnum {
-  // login = 'login',
-  // register = 'register',
+enum Routes {
   home = 'home',
-  // recoverPassword = 'recoverPassword',
-  // resetPassword = 'resetPassword',
+  posts = 'posts',
+  comments = 'comments',
+  likes = 'likes',
 }
 
-type Routes = {
-  [route in RoutesEnum]: string
-}
-
-export const routes: Routes = {
-  // login: '/iniciar-sesion',
-  // register: '/registro',
+export const routes: { [key in Routes]: string } = {
   home: '/',
-  // recoverPassword: '/recuperar-contraseña',
-  // resetPassword: '/reestablecer-contraseña',
+  posts: '/posts',
+  comments: '/comments',
+  likes: '/likes',
 }
