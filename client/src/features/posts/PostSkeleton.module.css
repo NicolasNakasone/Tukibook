@@ -1,0 +1,75 @@
+/* src/components/PostSkeleton.module.css */
+:root {
+  --lighter-grey: #282828;
+  --light-grey: #484848;
+  --grey: #686868;
+  --heavy-grey: #888888;
+  --heavier-grey: #a8a8a8;
+}
+
+.skeletonCard {
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border: 1px solid CanvasText;
+  border-radius: 0.25rem;
+  padding: 2rem 1.5rem;
+  background-color: var(--light-grey);
+  animation: skeleton-loading 1.2s infinite ease-in-out;
+}
+
+.skeletonHeader,
+.skeletonContent,
+.skeletonFooter {
+  display: flex;
+  align-items: center;
+}
+
+.skeletonAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--grey);
+}
+
+.skeletonUsername {
+  width: 6rem;
+  height: 1.5rem;
+  margin-left: 1rem;
+  background-color: var(--grey);
+}
+
+.skeletonContent {
+  height: 5rem;
+  background-color: var(--grey);
+}
+
+.skeletonFooter {
+  justify-content: flex-start;
+}
+
+.skeletonButton {
+  width: 4rem;
+  height: 1.5rem;
+  background-color: var(--grey);
+}
+
+/* Revisar animacion, podria ser un gradiente desde #3e3e3e hasta #4e4e4e*/
+@keyframes skeleton-loading {
+  0% {
+    background-image: linear-gradient(90deg, var(--lighter-grey) 0%, var(--light-grey) 25%, var(--grey) 50%, var(--heavy-grey) 75%, var(--heavier-grey) 100%);
+  }
+  25% {
+    background-image: linear-gradient(90deg, var(--heavier-grey) 0%, var(--lighter-grey) 25%, var(--light-grey) 50%, var(--grey) 75%, var(--heavy-grey) 100%);
+  }
+  50% {
+    background-image: linear-gradient(90deg, var(--heavy-grey) 0%, var(--heavier-grey) 25%, var(--lighter-grey) 50%, var(--light-grey) 75%, var(--grey) 100%);
+  }
+  75% {
+    background-image: linear-gradient(90deg, var(--grey) 0%, var(--heavy-grey) 25%, var(--heavier-grey) 50%, var(--lighter-grey) 75%, var(--light-grey) 100%);
+  }
+  100% {
+    background-image: linear-gradient(90deg, var(--light-grey) 0%, var(--grey) 25%, var(--heavy-grey) 50%, var(--heavier-grey) 75%, var(--lighter-grey) 100%);
+  }
+}
