@@ -15,6 +15,12 @@ const CommentSchema = new Schema<IComment>(
     content: { type: String, required: true },
   },
   { timestamps: true }
-)
+).set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
+  },
+})
 
 export const Comment = mongoose.model<IComment>('Comment', CommentSchema)
