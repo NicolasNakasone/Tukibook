@@ -6,8 +6,6 @@ import { Post, PostInput } from 'src/types'
 
 const { VITE_API_URL } = import.meta.env
 
-// TODO: Porque se ejecuta dos veces el fetch para getear posts
-// PD: No es el strict mode
 export const usePosts = () => {
   const [posts, setPosts] = useState<Post[]>([])
 

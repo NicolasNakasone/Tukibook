@@ -4,6 +4,14 @@ import { usePosts } from 'src/hooks/usePosts'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts
+/* PD: Algo raro hay al crear componentes, como sospechaba 
+  para que funcione tenes que mantener todo el codigo
+  en el mismo componente (o sea HomePage), de lo contrario
+  al mandar a componentes individuales deja de actualizarse
+  en tiempo real. Paso lo mismo al borrar un post, con el 
+  codigo en la misma page funcionaba bien, luego al crear
+  PostCardHeader dejo de actualizarse en tiempo real
+*/
 export const AddPostInput = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
   const { addPosts } = usePosts()
