@@ -6,6 +6,8 @@ import { Post, PostInput } from 'src/types'
 
 const { VITE_API_URL } = import.meta.env
 
+// TODO: Porque se ejecuta dos veces el fetch para getear posts
+// PD: No es el strict mode
 export const usePosts = () => {
   const [posts, setPosts] = useState<Post[]>([])
 
@@ -15,7 +17,10 @@ export const usePosts = () => {
       method: 'GET',
     }).then(res => res?.json())
 
-    if (response) setPosts(response)
+    if (response) {
+      setPosts(response)
+    }
+    return response
   }
 
   const addPosts = async (newPost: PostInput) => {
@@ -25,12 +30,17 @@ export const usePosts = () => {
       body: JSON.stringify(newPost),
     }).then(res => res?.json())
 
-    if (response) setPosts(prevPosts => [...prevPosts, response])
+    if (response) {
+      setPosts(prevPosts => [response, ...prevPosts])
+    }
+
+    return response
   }
 
   useEffect(() => {
+    console.log('effect')
     getPosts()
   }, [])
 
-  return { posts, getPosts, addPosts }
+  return { posts, setPosts, getPosts, addPosts }
 }
