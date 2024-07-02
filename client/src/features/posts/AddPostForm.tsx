@@ -12,7 +12,7 @@ import { usePosts } from 'src/hooks/usePosts'
   codigo en la misma page funcionaba bien, luego al crear
   PostCardHeader dejo de actualizarse en tiempo real
 */
-export const AddPostInput = (): JSX.Element => {
+export const AddPostForm = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
   const { addPosts } = usePosts()
 
