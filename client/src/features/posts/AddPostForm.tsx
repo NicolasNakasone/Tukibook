@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react'
 
-import { usePosts } from 'src/hooks/usePosts'
+import { usePosts } from 'src/hooks/usePosts.hook'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts
@@ -46,30 +46,7 @@ export const AddPostForm = (): JSX.Element => {
       }}
       onSubmit={handleAddPost}
     >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1rem',
-        }}
-      >
-        <div
-          style={{
-            width: '2.5rem',
-            height: '2.5rem',
-            backgroundColor: 'CanvasText',
-            borderRadius: '50%',
-          }}
-        />
-        <input
-          name="username"
-          type="text"
-          required
-          disabled={isLoading}
-          placeholder="📝 Tu nombre*"
-          style={{ width: '40%', margin: '0' }}
-        />
-      </div>
+      <AddPostFormHeader {...{ isLoading }} />
       <textarea
         name="content"
         rows={4}
@@ -91,5 +68,34 @@ export const AddPostForm = (): JSX.Element => {
         Crear
       </button>
     </form>
+  )
+}
+
+const AddPostFormHeader = ({ isLoading }: { isLoading: boolean }): JSX.Element => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem',
+      }}
+    >
+      <div
+        style={{
+          width: '2.5rem',
+          height: '2.5rem',
+          backgroundColor: 'CanvasText',
+          borderRadius: '50%',
+        }}
+      />
+      <input
+        name="username"
+        type="text"
+        required
+        disabled={isLoading}
+        placeholder="📝 Tu nombre*"
+        style={{ width: '40%', margin: '0' }}
+      />
+    </div>
   )
 }

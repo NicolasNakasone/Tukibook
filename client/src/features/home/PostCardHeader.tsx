@@ -1,5 +1,5 @@
 import tukibookLogo from 'public/tuki.webp'
-import { usePosts } from 'src/hooks/usePosts'
+import { usePosts } from 'src/hooks/usePosts.hook'
 import { Post } from 'src/types'
 
 export const PostCardHeader = ({ post }: { post: Post }): JSX.Element => {
