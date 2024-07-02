@@ -7,6 +7,12 @@ interface Comment {
   updatedAt: Date
 }
 
+export interface CommentInput {
+  postId: string
+  username: string
+  content: string
+}
+
 export interface Post {
   id: string
   username: string
@@ -21,3 +27,5 @@ export interface PostInput {
   username: string
   content: string
 }
+
+export type PostList = Post[]
