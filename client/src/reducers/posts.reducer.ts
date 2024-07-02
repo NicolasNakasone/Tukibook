@@ -4,9 +4,14 @@ interface State {
   posts: PostList
 }
 
-type ReducerActions = 'SET_POSTS' | 'ADD_POST' | 'DELETE_POST' | 'LIKE_POST' | 'COMMENT_POST'
+export type ReducerActions =
+  | 'SET_POSTS'
+  | 'ADD_POST'
+  | 'DELETE_POST'
+  | 'LIKE_POST'
+  | 'COMMENT_POST'
 
-interface Action {
+export interface PostReducerActions {
   type: ReducerActions
   payload?: any
 }
@@ -15,7 +20,7 @@ export const initialState: State = {
   posts: [],
 }
 
-export const postsReducer = (state: State, action: Action): State => {
+export const postsReducer = (state: State, action: PostReducerActions): State => {
   switch (action.type) {
     case 'SET_POSTS':
       return { ...state, posts: action.payload }

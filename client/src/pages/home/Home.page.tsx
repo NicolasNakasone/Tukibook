@@ -7,7 +7,6 @@ export const HomePage = (): JSX.Element => {
   const {
     state: { posts },
   } = usePosts()
-  console.log({ posts })
 
   return (
     <main
