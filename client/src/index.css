@@ -31,6 +31,37 @@ ul {
   list-style: none;
 }
 
+input {
+  padding: 0.5rem 0.25rem;
+  margin: 0 0 0.5rem;
+  border: none;
+  border-bottom: 1px solid CanvasText;
+  font-family: inherit;
+  font-size: 1rem;
+  
+  &::placeholder {
+    color: CanvasText;
+    opacity: 0.5;
+  }
+
+  &:focus-visible {
+    outline-color: CanvasText;
+  }
+}
+
+textarea {
+  padding: 0.5rem 0.25rem;
+  border: none;
+  border-bottom: 1px solid CanvasText;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: none;
+
+  &:focus-visible {
+    outline-color: CanvasText;
+  }
+}
+
 button {
   cursor: pointer;
   font-family: inherit;
