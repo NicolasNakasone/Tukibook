@@ -1,16 +1,14 @@
-import { useEffect, useReducer } from 'react'
+import { useContext, useEffect } from 'react'
 
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
-import { initialState, postsReducer } from 'src/reducers/posts.reducer'
+import { PostsContext } from 'src/contexts/PostsContext'
 import { CommentInput, PostInput } from 'src/types'
 
 const { VITE_API_URL } = import.meta.env
 
 export const usePosts = () => {
-  // const [posts, setPosts] = useState<PostList>([])
-
-  const [state, dispatch] = useReducer(postsReducer, initialState)
+  const { state, dispatch } = useContext(PostsContext)
 
   const getPosts = async () => {
     const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
@@ -19,7 +17,6 @@ export const usePosts = () => {
     }).then(res => res?.json())
 
     if (response) {
-      // setPosts(response)
       dispatch({ type: 'SET_POSTS', payload: response })
     }
     return response
@@ -33,7 +30,6 @@ export const usePosts = () => {
     }).then(res => res?.json())
 
     if (response) {
-      /* setPosts(prevPosts => [response, ...prevPosts]) */
       dispatch({ type: 'ADD_POST', payload: response })
     }
     return response
@@ -46,10 +42,6 @@ export const usePosts = () => {
     }).then(res => res?.json())
 
     if (response) {
-      // setPosts(prevPosts => {
-      //   const filteredPosts = prevPosts.filter(post => post.id !== postId)
-      //   return filteredPosts
-      // })
       dispatch({ type: 'DELETE_POST', payload: postId })
     }
     return response
@@ -62,12 +54,6 @@ export const usePosts = () => {
     }).then(res => res?.json())
 
     if (response) {
-      // setPosts(prevPosts => {
-      //   const mappedPosts = prevPosts.map(post =>
-      //     post.id === postId ? { ...post, likes: post.likes + 1 } : post
-      //   )
-      //   return mappedPosts
-      // })
       dispatch({ type: 'LIKE_POST', payload: postId })
     }
     return response
@@ -94,10 +80,8 @@ export const usePosts = () => {
   }, [])
 
   return {
-    // posts,
     state,
     dispatch,
-    // setPosts,
     getPosts,
     addPosts,
     deletePost,
