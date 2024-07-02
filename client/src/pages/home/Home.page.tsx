@@ -10,7 +10,7 @@ import styles from 'src/pages/home/Home.module.css'
 
 export const HomePage = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
-  const { posts, addPosts, deletePost } = usePosts()
+  const { posts, addPosts, deletePost, likePost } = usePosts()
 
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {
     setIsLoading(true)
@@ -157,6 +157,7 @@ export const HomePage = (): JSX.Element => {
             )}
             <button
               style={{ width: 'max-content', padding: '0.25rem 0.5rem' }}
+              onClick={() => likePost(post.id)}
             >{`👍 ${post.likes || ''} ${post.likes ? (post.likes > 1 ? 'tukis' : 'tuki') : 'Tuki'}`}</button>
             {Boolean(post.comments.length) && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

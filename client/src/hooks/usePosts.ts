@@ -15,9 +15,7 @@ export const usePosts = () => {
       method: 'GET',
     }).then(res => res?.json())
 
-    if (response) {
-      setPosts(response)
-    }
+    if (response) setPosts(response)
     return response
   }
 
@@ -28,15 +26,13 @@ export const usePosts = () => {
       body: JSON.stringify(newPost),
     }).then(res => res?.json())
 
-    if (response) {
+    if (response)
       setPosts(prevPosts => {
         const copiedPosts = structuredClone(prevPosts)
 
         const newPosts = [response, ...copiedPosts]
         return newPosts
       })
-    }
-
     return response
   }
 
@@ -46,13 +42,27 @@ export const usePosts = () => {
       method: 'DELETE',
     }).then(res => res?.json())
 
-    if (response) {
+    if (response)
       setPosts(prevPosts => {
         const filteredPosts = prevPosts.filter(post => post.id !== postId)
         return filteredPosts
       })
-    }
+    return response
+  }
 
+  const likePost = async (postId: string) => {
+    const response = await handleFetch(`${VITE_API_URL}${routes.likes}/${postId}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'PATCH',
+    }).then(res => res?.json())
+
+    if (response)
+      setPosts(prevPosts => {
+        const mappedPosts = prevPosts.map(post =>
+          post.id === postId ? { ...post, likes: post.likes + 1 } : post
+        )
+        return mappedPosts
+      })
     return response
   }
 
@@ -60,5 +70,5 @@ export const usePosts = () => {
     getPosts()
   }, [])
 
-  return { posts, setPosts, getPosts, addPosts, deletePost }
+  return { posts, setPosts, getPosts, addPosts, deletePost, likePost }
 }
