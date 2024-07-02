@@ -18,12 +18,25 @@ const PostSchema: Schema = new Schema(
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   },
   { timestamps: true }
-).set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id
-    delete returnedObject._id
-    delete returnedObject.__v
-  },
-})
+)
+  .set('toJSON', {
+    transform: (document, returnedObject) => {
+      returnedObject.id = returnedObject._id
+      delete returnedObject._id
+      delete returnedObject.__v
+    },
+  })
+  .pre('find', function () {
+    this.populate({
+      path: 'comments',
+      options: { sort: { createdAt: -1 } }, // Ordena los comentarios por fecha de creación en orden descendente
+    })
+  })
+  .pre('findOne', function () {
+    this.populate({
+      path: 'comments',
+      options: { sort: { createdAt: -1 } }, // Ordena los comentarios por fecha de creación en orden descendente
+    })
+  })
 
 export const Post = mongoose.model<IPost>('Post', PostSchema)

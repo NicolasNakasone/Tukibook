@@ -8,7 +8,7 @@ export const postsRouter = express.Router()
 postsRouter.get('/', async (req, res, next) => {
   try {
     // Con populate se puede hacer un get a los comentarios, con los ids guardados en comments
-    const posts = await Post.find({}).populate('comments')
+    const posts = await Post.find({}).populate('comments').sort({ createdAt: -1 })
 
     res.send(posts)
   } catch (error) {
