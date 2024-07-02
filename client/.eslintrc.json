@@ -1,11 +1,11 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "import", "prettier", "css-import-order"],
+  "plugins": ["react", "import", "prettier" /* "css-import-order" */],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:css-import-order/recommended",
+    // "plugin:css-import-order/recommended",
     "prettier"
   ],
   "env": {
