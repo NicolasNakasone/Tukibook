@@ -32,7 +32,10 @@ export const usePosts = () => {
 
     if (response) {
       setPosts(prevPosts => {
-        return [response].concat(prevPosts.filter(post => post))
+        const copiedPosts = structuredClone(prevPosts)
+
+        const newPosts = [response, ...copiedPosts]
+        return newPosts
       })
     }
 
@@ -56,7 +59,6 @@ export const usePosts = () => {
   }
 
   useEffect(() => {
-    console.log('effect')
     getPosts()
   }, [])
 
