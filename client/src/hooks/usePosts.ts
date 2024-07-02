@@ -31,7 +31,25 @@ export const usePosts = () => {
     }).then(res => res?.json())
 
     if (response) {
-      setPosts(prevPosts => [response, ...prevPosts])
+      setPosts(prevPosts => {
+        return [response].concat(prevPosts.filter(post => post))
+      })
+    }
+
+    return response
+  }
+
+  const deletePost = async (postId: string) => {
+    const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'DELETE',
+    }).then(res => res?.json())
+
+    if (response) {
+      setPosts(prevPosts => {
+        const filteredPosts = prevPosts.filter(post => post.id !== postId)
+        return filteredPosts
+      })
     }
 
     return response
@@ -42,5 +60,5 @@ export const usePosts = () => {
     getPosts()
   }, [])
 
-  return { posts, setPosts, getPosts, addPosts }
+  return { posts, setPosts, getPosts, addPosts, deletePost }
 }
