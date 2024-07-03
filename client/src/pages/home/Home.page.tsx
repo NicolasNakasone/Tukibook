@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { AddPostForm } from 'src/features/posts/AddPostForm'
 import { PostCard } from 'src/features/posts/PostCard'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
@@ -6,7 +8,12 @@ import { usePosts } from 'src/hooks/usePosts.hook'
 export const HomePage = (): JSX.Element => {
   const {
     state: { posts },
+    getPosts,
   } = usePosts()
+
+  useEffect(() => {
+    getPosts()
+  }, [])
 
   return (
     <main

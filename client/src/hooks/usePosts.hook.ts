@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
@@ -74,10 +74,18 @@ export const usePosts = () => {
     }
     return response
   }
-
-  useEffect(() => {
-    getPosts()
-  }, [])
+  console.log('usePosts')
+  /* Lo comente, porque por algun motivo desde que implemente 
+    el context, provider, y el reducer estaba causando 11 requests
+    para getPosts. Cuando agregaba posts tambien traia
+    3 veces mas los posts. Asi que por ahora la llamada esta 
+    en HomePage (ahi solo trae una vez los posts, al inicio 
+    y al agregar no porque solo se ejecuta una vez el effect)
+  */
+  // useEffect(() => {
+  //   console.log('getPosts effect')
+  //   getPosts()
+  // }, [])
 
   return {
     state,
