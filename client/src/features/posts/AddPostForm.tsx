@@ -1,8 +1,6 @@
 import { FormEvent, memo, useState } from 'react'
 
-import { useDispatch } from 'react-redux'
-import { addPost } from 'src/states/slices/postsSlice'
-import { AppDispatch } from 'src/states/store'
+import { usePosts } from 'src/hooks/usePosts.hook'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts
@@ -16,7 +14,8 @@ import { AppDispatch } from 'src/states/store'
 */
 export const AddPostForm = memo((): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
-  const dispatch = useDispatch<AppDispatch>()
+  console.log('AddPostForm')
+  const { addPost } = usePosts()
 
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {
     setIsLoading(true)
@@ -26,7 +25,7 @@ export const AddPostForm = memo((): JSX.Element => {
     const username = (target[0] as HTMLInputElement).value
     const content = (target[1] as HTMLInputElement).value
 
-    await dispatch(addPost({ username, content }))
+    await addPost({ username, content })
 
     target.reset()
     setIsLoading(false)

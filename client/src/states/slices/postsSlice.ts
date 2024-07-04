@@ -4,7 +4,7 @@ import { routes } from 'src/constants/routes'
 import { PostList, PostInput, CommentInput, Post } from 'src/types'
 
 const { VITE_API_URL } = import.meta.env
-
+console.log('postsSlice')
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
     headers: { 'Content-Type': 'application/json' },

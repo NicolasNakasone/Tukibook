@@ -1,13 +1,11 @@
-import { useDispatch } from 'react-redux'
-import { likePost } from 'src/states/slices/postsSlice'
-import { AppDispatch } from 'src/states/store'
+import { usePosts } from 'src/hooks/usePosts.hook'
 import { Post } from 'src/types'
 
 export const LikePostButton = ({ post }: { post: Post }): JSX.Element => {
-  const dispatch = useDispatch<AppDispatch>()
-
+  const { likePost } = usePosts()
+  console.log('LikePostButton')
   const handleLikePost = async () => {
-    await dispatch(likePost(post.id))
+    await likePost(post.id)
   }
 
   return (
