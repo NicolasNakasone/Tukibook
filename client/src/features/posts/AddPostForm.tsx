@@ -1,6 +1,8 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, memo, useState } from 'react'
 
-import { usePosts } from 'src/hooks/usePosts.hook'
+import { useDispatch } from 'react-redux'
+import { addPost } from 'src/states/slices/postsSlice'
+import { AppDispatch } from 'src/states/store'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts
@@ -12,24 +14,21 @@ import { usePosts } from 'src/hooks/usePosts.hook'
   codigo en la misma page funcionaba bien, luego al crear
   PostCardHeader dejo de actualizarse en tiempo real
 */
-export const AddPostForm = (): JSX.Element => {
+export const AddPostForm = memo((): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
-  const { addPosts } = usePosts()
+  const dispatch = useDispatch<AppDispatch>()
 
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {
     setIsLoading(true)
     event.preventDefault()
 
     const target = event.target as HTMLFormElement
+    const username = (target[0] as HTMLInputElement).value
+    const content = (target[1] as HTMLInputElement).value
 
-    const username = target[0] as HTMLInputElement
-    const content = target[1] as HTMLInputElement
+    await dispatch(addPost({ username, content }))
 
-    await addPosts({ username: username.value, content: content.value })
-
-    username.value = ''
-    content.value = ''
-
+    target.reset()
     setIsLoading(false)
   }
 
@@ -69,7 +68,7 @@ export const AddPostForm = (): JSX.Element => {
       </button>
     </form>
   )
-}
+})
 
 const AddPostFormHeader = ({ isLoading }: { isLoading: boolean }): JSX.Element => {
   return (
