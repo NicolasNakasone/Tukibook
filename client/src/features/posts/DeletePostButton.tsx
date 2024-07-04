@@ -1,13 +1,19 @@
-import { usePosts } from 'src/hooks/usePosts.hook'
+import { useDispatch } from 'react-redux'
+import { deletePost } from 'src/states/slices/postsSlice'
+import { AppDispatch } from 'src/states/store'
 import { Post } from 'src/types'
 
 export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
-  const { deletePost } = usePosts()
+  const dispatch = useDispatch<AppDispatch>()
+
+  const handleDeletePost = async () => {
+    await dispatch(deletePost(post.id))
+  }
 
   return (
     <button
       style={{ width: 'max-content', padding: '0.25rem', margin: '0 0 0 auto' }}
-      onClick={() => deletePost(post.id)}
+      onClick={handleDeletePost}
     >
       ❌
     </button>
