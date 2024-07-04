@@ -1,18 +1,21 @@
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
+import { useDispatch, useSelector } from 'react-redux'
 import { AddPostForm } from 'src/features/posts/AddPostForm'
 import { PostCard } from 'src/features/posts/PostCard'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
-import { usePosts } from 'src/hooks/usePosts.hook'
+import { fetchPosts } from 'src/states/slices/postsSlice'
+import { AppDispatch, RootState } from 'src/states/store'
 
-export const HomePage = (): JSX.Element => {
-  const {
-    state: { posts },
-    getPosts,
-  } = usePosts()
+export const HomePage = memo((): JSX.Element => {
+  const dispatch = useDispatch<AppDispatch>()
+  const posts = useSelector((state: RootState) => state.posts.posts)
+  const postStatus = useSelector((state: RootState) => state.posts.status)
 
   useEffect(() => {
-    getPosts()
+    if (!posts?.length) {
+      dispatch(fetchPosts())
+    }
   }, [])
 
   return (
@@ -25,7 +28,7 @@ export const HomePage = (): JSX.Element => {
         gap: '4rem',
       }}
     >
-      {!posts.length ? (
+      {postStatus !== 'succeeded' ? (
         <>
           <PostSkeleton />
           <PostSkeleton />
@@ -40,4 +43,4 @@ export const HomePage = (): JSX.Element => {
       })}
     </main>
   )
-}
+})
