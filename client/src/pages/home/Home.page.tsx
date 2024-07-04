@@ -7,10 +7,8 @@ import { usePosts } from 'src/hooks/usePosts.hook'
 
 export const HomePage = memo((): JSX.Element => {
   const { posts, status, getPosts } = usePosts()
-  console.log('HomePage')
+
   useEffect(() => {
-    console.log('HomePage eff')
-    console.log({ posts, status })
     if (status === 'loading') {
       getPosts()
     }

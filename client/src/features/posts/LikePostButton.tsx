@@ -3,7 +3,7 @@ import { Post } from 'src/types'
 
 export const LikePostButton = ({ post }: { post: Post }): JSX.Element => {
   const { likePost } = usePosts()
-  console.log('LikePostButton')
+
   const handleLikePost = async () => {
     await likePost(post.id)
   }

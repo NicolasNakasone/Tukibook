@@ -3,7 +3,7 @@ import { Post } from 'src/types'
 
 export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
   const { deletePost } = usePosts()
-  console.log('DeletePostButton', post.id)
+
   const handleDeletePost = async () => {
     await deletePost(post.id)
   }

@@ -14,7 +14,7 @@ import { usePosts } from 'src/hooks/usePosts.hook'
 */
 export const AddPostForm = memo((): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
-  console.log('AddPostForm')
+
   const { addPost } = usePosts()
 
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {

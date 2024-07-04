@@ -6,7 +6,7 @@ import { Post } from 'src/types'
 
 export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   const { commentPost } = usePosts()
-  console.log('AddCommentForm')
+
   const handleCommentPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
