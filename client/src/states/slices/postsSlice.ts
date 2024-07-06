@@ -2,10 +2,11 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { PostList, PostInput, CommentInput, Post } from 'src/types'
+import { PostsActionTypes } from 'src/types/reducer'
 
 const { VITE_API_URL } = import.meta.env
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
+export const fetchPosts = createAsyncThunk(PostsActionTypes.GET_POSTS, async () => {
   const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'GET',
@@ -13,7 +14,7 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   return response as PostList
 })
 
-export const addPost = createAsyncThunk('posts/addPost', async (newPost: PostInput) => {
+export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPost: PostInput) => {
   const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
@@ -22,15 +23,18 @@ export const addPost = createAsyncThunk('posts/addPost', async (newPost: PostInp
   return response as Post
 })
 
-export const deletePost = createAsyncThunk('posts/deletePost', async (postId: string) => {
-  await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
-    headers: { 'Content-Type': 'application/json' },
-    method: 'DELETE',
-  }).then(res => res?.json())
-  return postId
-})
+export const deletePost = createAsyncThunk(
+  PostsActionTypes.DELETE_POST,
+  async (postId: string) => {
+    await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'DELETE',
+    }).then(res => res?.json())
+    return postId
+  }
+)
 
-export const likePost = createAsyncThunk('posts/likePost', async (postId: string) => {
+export const likePost = createAsyncThunk(PostsActionTypes.LIKE_POST, async (postId: string) => {
   await handleFetch(`${VITE_API_URL}${routes.likes}/${postId}`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
@@ -39,7 +43,7 @@ export const likePost = createAsyncThunk('posts/likePost', async (postId: string
 })
 
 export const commentPost = createAsyncThunk(
-  'posts/commentPost',
+  PostsActionTypes.COMMENT_POST,
   async (newComment: CommentInput) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.comments}`, {
       headers: { 'Content-Type': 'application/json' },
@@ -52,7 +56,6 @@ export const commentPost = createAsyncThunk(
 
 interface PostsState {
   posts: PostList
-  // status: 'idle' | 'loading' | 'succeeded' | 'failed'
   status: 'loading' | 'succeeded' | 'failed'
   error: string | null
 }
