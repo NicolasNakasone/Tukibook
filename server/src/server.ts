@@ -27,8 +27,7 @@ server.use(express.json({ limit: '50mb' }))
 
 server.use('/', router)
 
-server.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  // @ts-expect-error Type Error does not include status
+server.use((err: any, req: Request, res: Response, next: NextFunction) => {
   const status = err.status || 500
   const message = err.message /* || err */ || 'Internal Server Error'
   console.error(err)

@@ -9,14 +9,10 @@ if (!MONGO_URI) {
   throw new Error('Por favor define la variable MONGO_URI en el archivo .env')
 }
 
-enum ApiVersion {
-  One = '1',
-}
-
 const clientOptions: mongoose.ConnectOptions = {
   dbName: 'TukibookDB',
   serverApi: {
-    version: ApiVersion.One,
+    version: '1',
     strict: true,
     deprecationErrors: true,
   },
