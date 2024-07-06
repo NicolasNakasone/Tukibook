@@ -1,4 +1,4 @@
-import { FormEvent, memo, useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 import { usePosts } from 'src/hooks/usePosts.hook'
 
@@ -12,7 +12,7 @@ import { usePosts } from 'src/hooks/usePosts.hook'
   codigo en la misma page funcionaba bien, luego al crear
   PostCardHeader dejo de actualizarse en tiempo real
 */
-export const AddPostForm = memo((): JSX.Element => {
+export const AddPostForm = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
 
   const { addPost } = usePosts()
@@ -67,7 +67,7 @@ export const AddPostForm = memo((): JSX.Element => {
       </button>
     </form>
   )
-})
+}
 
 const AddPostFormHeader = ({ isLoading }: { isLoading: boolean }): JSX.Element => {
   return (
