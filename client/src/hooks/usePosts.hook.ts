@@ -7,7 +7,7 @@ import {
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
-import { CommentInput, PostInput } from 'src/types'
+import { CommentInput, Post, PostInput } from 'src/types'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -17,9 +17,9 @@ export const usePosts = () => {
 
   const handleAddPost = (newPost: PostInput) => dispatch(addPost(newPost))
 
-  const handleDeletePost = (postId: string) => dispatch(deletePost(postId))
+  const handleDeletePost = (postId: Post['id']) => dispatch(deletePost(postId))
 
-  const handleLikePost = (postId: string) => dispatch(likePost(postId))
+  const handleLikePost = (postId: Post['id']) => dispatch(likePost(postId))
 
   const handleCommentPost = (newComment: CommentInput) => dispatch(commentPost(newComment))
 

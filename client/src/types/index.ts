@@ -1,24 +1,11 @@
-export interface Comment {
-  id: string
-  postId: string
-  username: string
-  content: string
-  createdAt: Date
-  updatedAt: Date
-}
-
 export interface CommentInput {
   postId: string
   username: string
   content: string
 }
 
-export interface Post {
+export interface Comment extends CommentInput {
   id: string
-  username: string
-  content: string
-  likes: number
-  comments: Comment[]
   createdAt: Date
   updatedAt: Date
 }
@@ -26,6 +13,14 @@ export interface Post {
 export interface PostInput {
   username: string
   content: string
+}
+
+export interface Post extends PostInput {
+  id: string
+  likes: number
+  comments: Comment[]
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type PostList = Post[]
