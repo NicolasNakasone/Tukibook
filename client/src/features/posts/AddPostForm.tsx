@@ -12,6 +12,10 @@ import { usePosts } from 'src/hooks/usePosts.hook'
   codigo en la misma page funcionaba bien, luego al crear
   PostCardHeader dejo de actualizarse en tiempo real
 */
+/* PD2: Se arregla de dos formas, al crear un contexto y provider
+  y sacar los valores de estados de ahi o al usar Redux o un 
+  gestor de estados globales
+*/
 export const AddPostForm = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
 
