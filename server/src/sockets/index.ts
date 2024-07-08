@@ -7,7 +7,7 @@ export const initializeSocket = (server: HttpServer): void => {
   const io = new Server(server)
   console.log('Socket iniciado en el servidor!')
   io.on('connection', socket => {
-    console.log('a user connected')
+    console.log('a user connected', socket.id)
     handleSocketEvents(io, socket)
 
     socket.on('disconnect', () => {
