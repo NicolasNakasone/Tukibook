@@ -3,6 +3,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitNewPost, socket } from 'src/sockets'
 import { Post } from 'src/types'
+import { SocketEvents } from 'src/types/socket'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts
@@ -29,7 +30,7 @@ export const AddPostForm = (): JSX.Element => {
     return () => {
       // console.log('socket off')
       // No aparece nunca el log 👀
-      socket.off('newPost')
+      socket.off(SocketEvents.NEW_POST)
     }
   }, [])
 
