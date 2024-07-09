@@ -84,7 +84,10 @@ const postsSlice = createSlice({
         state.error = action.error.message || 'Failed to fetch posts'
       })
       .addCase(addPost.fulfilled, (state, action) => {
-        state.posts.unshift(action.payload)
+        const exists = state.posts.some(post => post.id === action.payload.id)
+        if (!exists) {
+          state.posts.unshift(action.payload)
+        }
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.posts = state.posts.filter(post => post.id !== action.payload)
