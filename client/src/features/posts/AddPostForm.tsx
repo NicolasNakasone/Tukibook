@@ -1,6 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
 
-import { useDispatch } from 'react-redux'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitNewPost, socket } from 'src/sockets'
 import { Post } from 'src/types'
@@ -22,21 +21,17 @@ import { Post } from 'src/types'
 export const AddPostForm = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
 
-  const { addPost } = usePosts()
-
-  const dispatch = useDispatch()
+  const { addPost, addPostAfter } = usePosts()
 
   useEffect(() => {
-    socket.on('newPost', (post: Post) => {
-      dispatch({ type: 'posts/addPost/fulfilled', payload: post })
-    })
+    addPostAfter()
 
     return () => {
       // console.log('socket off')
       // No aparece nunca el log 👀
       socket.off('newPost')
     }
-  }, [dispatch])
+  }, [])
 
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {
     setIsLoading(true)
@@ -48,11 +43,7 @@ export const AddPostForm = (): JSX.Element => {
 
     const response = await addPost({ username, content })
 
-    const newPost = response.payload as Post
-
-    if (newPost) {
-      emitNewPost(newPost as Post)
-    }
+    if (response.payload) emitNewPost(response.payload as Post)
 
     target.reset()
     setIsLoading(false)
