@@ -1,6 +1,9 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
+import { useDispatch } from 'react-redux'
 import { usePosts } from 'src/hooks/usePosts.hook'
+import { emitNewPost, socket } from 'src/sockets'
+import { Post } from 'src/types'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts
@@ -21,6 +24,20 @@ export const AddPostForm = (): JSX.Element => {
 
   const { addPost } = usePosts()
 
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    socket.on('newPost', (post: Post) => {
+      dispatch({ type: 'posts/addPost/fulfilled', payload: post })
+    })
+
+    return () => {
+      // console.log('socket off')
+      // No aparece nunca el log 👀
+      socket.off('newPost')
+    }
+  }, [dispatch])
+
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {
     setIsLoading(true)
     event.preventDefault()
@@ -29,7 +46,13 @@ export const AddPostForm = (): JSX.Element => {
     const username = (target[0] as HTMLInputElement).value
     const content = (target[1] as HTMLInputElement).value
 
-    await addPost({ username, content })
+    const response = await addPost({ username, content })
+
+    const newPost = response.payload as Post
+
+    if (newPost) {
+      emitNewPost(newPost as Post)
+    }
 
     target.reset()
     setIsLoading(false)
