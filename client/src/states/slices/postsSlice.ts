@@ -84,6 +84,11 @@ const postsSlice = createSlice({
         state.error = action.error.message || 'Failed to fetch posts'
       })
       .addCase(addPost.fulfilled, (state, action) => {
+        /* TODO: Optimizar busqueda innecesaria la primera vez,
+          ya que la primera vez es logico que tenga que agregar
+          el post. Ver como hacer para saber 
+          cuando es la "primera vez"
+        */
         const exists = state.posts.some(post => post.id === action.payload.id)
         if (!exists) {
           state.posts.unshift(action.payload)
