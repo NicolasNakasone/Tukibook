@@ -1,11 +1,27 @@
+import { useEffect } from 'react'
+
 import { usePosts } from 'src/hooks/usePosts.hook'
+import { emitDeletedPost, socket } from 'src/sockets'
 import { Post } from 'src/types'
+import { SocketEvents } from 'src/types/socket'
 
 export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
-  const { deletePost } = usePosts()
+  const { deletePost, deletePostAfter } = usePosts()
+
+  useEffect(() => {
+    deletePostAfter()
+
+    return () => {
+      // console.log('socket off')
+      // No aparece nunca el log 👀
+      socket.off(SocketEvents.DELETED_POST)
+    }
+  }, [])
 
   const handleDeletePost = async () => {
-    await deletePost(post.id)
+    const response = await deletePost(post.id)
+    console.log({ response })
+    if (response.payload) emitDeletedPost(response.payload as Post)
   }
 
   return (

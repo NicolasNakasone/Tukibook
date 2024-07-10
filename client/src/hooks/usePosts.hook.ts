@@ -9,6 +9,7 @@ import {
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
 import { CommentInput, Post, PostInput } from 'src/types'
+import { SocketEvents } from 'src/types/socket'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -26,10 +27,19 @@ export const usePosts = () => {
 
   const handleCommentPost = (newComment: CommentInput) => dispatch(commentPost(newComment))
 
-  const handleAddPostToAllClients = () =>
-    socket.on('newPost', (createdPost: Post) => {
+  // Socket functions
+
+  const handleAddPostToAllClients = () => {
+    return socket.on(SocketEvents.NEW_POST, (createdPost: Post) => {
       dispatch({ type: 'posts/addPost/fulfilled', payload: createdPost })
     })
+  }
+
+  const handleDeletePostOnAllClients = () => {
+    return socket.on(SocketEvents.DELETED_POST, (deletedPost: Post) => {
+      dispatch({ type: 'posts/deletePost/fulfilled', payload: deletedPost })
+    })
+  }
 
   return {
     posts,
@@ -42,5 +52,6 @@ export const usePosts = () => {
     commentPost: handleCommentPost,
     // TODO: Pensar otro nombre
     addPostAfter: handleAddPostToAllClients,
+    deletePostAfter: handleDeletePostOnAllClients,
   }
 }

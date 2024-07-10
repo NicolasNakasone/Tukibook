@@ -26,11 +26,11 @@ export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPos
 export const deletePost = createAsyncThunk(
   PostsActionTypes.DELETE_POST,
   async (postId: string) => {
-    await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
+    const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'DELETE',
     }).then(res => res?.json())
-    return postId
+    return response as Post
   }
 )
 
@@ -95,7 +95,9 @@ const postsSlice = createSlice({
         }
       })
       .addCase(deletePost.fulfilled, (state, action) => {
-        state.posts = state.posts.filter(post => post.id !== action.payload)
+        if (action.payload.id) {
+          state.posts = state.posts.filter(post => post.id !== action.payload.id)
+        }
       })
       .addCase(likePost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload)
