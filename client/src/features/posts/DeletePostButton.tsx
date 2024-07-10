@@ -20,7 +20,7 @@ export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
 
   const handleDeletePost = async () => {
     const response = await deletePost(post.id)
-    console.log({ response })
+
     if (response.payload) emitDeletedPost(response.payload as Post)
   }
 
