@@ -25,7 +25,7 @@ export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPos
 
 export const deletePost = createAsyncThunk(
   PostsActionTypes.DELETE_POST,
-  async (postId: string) => {
+  async (postId: Post['id']) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'DELETE',
@@ -34,13 +34,16 @@ export const deletePost = createAsyncThunk(
   }
 )
 
-export const likePost = createAsyncThunk(PostsActionTypes.LIKE_POST, async (postId: string) => {
-  await handleFetch(`${VITE_API_URL}${routes.likes}/${postId}`, {
-    headers: { 'Content-Type': 'application/json' },
-    method: 'PATCH',
-  }).then(res => res?.json())
-  return postId
-})
+export const likePost = createAsyncThunk(
+  PostsActionTypes.LIKE_POST,
+  async (postId: Post['id']) => {
+    await handleFetch(`${VITE_API_URL}${routes.likes}/${postId}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'PATCH',
+    }).then(res => res?.json())
+    return postId
+  }
+)
 
 export const commentPost = createAsyncThunk(
   PostsActionTypes.COMMENT_POST,
