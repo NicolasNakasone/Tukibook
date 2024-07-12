@@ -1,4 +1,5 @@
 export enum SocketEvents {
   NEW_POST = 'newPost',
-  DELETED_POST = 'deletedPost',
+  DELETE_POST = 'deletePost',
+  COMMENTED_POST = 'commentPost',
 }
