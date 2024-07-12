@@ -11,5 +11,5 @@ export const emitNewPost = (newPost: Post) => {
 }
 
 export const emitDeletedPost = (deletedPost: Post) => {
-  socket.emit(SocketEvents.DELETED_POST, deletedPost)
+  socket.emit(SocketEvents.DELETE_POST, deletedPost)
 }

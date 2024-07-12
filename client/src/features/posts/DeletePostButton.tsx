@@ -14,7 +14,7 @@ export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
     return () => {
       // console.log('socket off')
       // No aparece nunca el log 👀
-      socket.off(SocketEvents.DELETED_POST)
+      socket.off(SocketEvents.DELETE_POST)
     }
   }, [deletePostAfter])
 

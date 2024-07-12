@@ -36,7 +36,7 @@ export const usePosts = () => {
   }
 
   const handleDeletePostOnAllClients = () => {
-    return socket.on(SocketEvents.DELETED_POST, (deletedPost: Post) => {
+    return socket.on(SocketEvents.DELETE_POST, (deletedPost: Post) => {
       dispatch({ type: 'posts/deletePost/fulfilled', payload: deletedPost })
     })
   }
