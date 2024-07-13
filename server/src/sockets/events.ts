@@ -12,4 +12,8 @@ export const handleSocketEvents = (io: Server, socket: Socket): void => {
   socket.on('commentPost', (comment /* : Comment // TODO: Crear tipo Comment */) => {
     io.emit('commentPost', comment) // Emite el comentario que se creo a todos los clientes conectados
   })
+
+  socket.on('likePost', post => {
+    io.emit('likePost', post) // Emite el post que se 'likeo' a todos los clientes conectados
+  })
 }
