@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
-import { validateRequiredFields } from 'src/utils'
+import { isValidObjectId, validateRequiredFields } from 'src/utils'
 
 export const addCommentToPost: RequestHandler = async (req, res, next) => {
   try {
@@ -23,6 +23,25 @@ export const addCommentToPost: RequestHandler = async (req, res, next) => {
     await foundPost.save()
 
     res.status(201).send(savedComment)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteComment: RequestHandler = async (req, res, next) => {
+  const { id: commentId } = req.params
+
+  // TODO: Revisar que al parecer existe la misma funcion de mongoose
+  if (!isValidObjectId(commentId)) {
+    return res.status(400).send({ message: 'Id del comentario inválido' })
+  }
+  try {
+    const deletedComment = await Comment.findByIdAndDelete(commentId)
+    if (!deletedComment) {
+      return res.status(404).send({ message: 'Comentario no encontrado' })
+    }
+
+    res.send(deletedComment)
   } catch (error) {
     next(error)
   }
