@@ -17,3 +17,7 @@ export const emitDeletedPost = (deletedPost: Post) => {
 export const emitCommentPost = (newComment: Comment) => {
   socket.emit(SocketEvents.COMMENT_POST, newComment)
 }
+
+export const emitLikePost = (updatedPost: Post) => {
+  socket.emit(SocketEvents.LIKE_POST, updatedPost)
+}
