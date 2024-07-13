@@ -8,7 +8,7 @@ import {
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
-import { CommentInput, Post, PostInput } from 'src/types'
+import { Comment, CommentInput, Post, PostInput } from 'src/types'
 import { SocketEvents } from 'src/types/socket'
 
 export const usePosts = () => {
@@ -41,6 +41,12 @@ export const usePosts = () => {
     })
   }
 
+  const handleCommentPostToAllClients = () => {
+    return socket.on(SocketEvents.COMMENT_POST, (newComment: Comment) => {
+      dispatch({ type: 'posts/commentPost/fulfilled', payload: newComment })
+    })
+  }
+
   return {
     posts,
     status,
@@ -53,5 +59,6 @@ export const usePosts = () => {
     // TODO: Pensar otro nombre
     addPostAfter: handleAddPostToAllClients,
     deletePostAfter: handleDeletePostOnAllClients,
+    commentPostAfter: handleCommentPostToAllClients,
   }
 }
