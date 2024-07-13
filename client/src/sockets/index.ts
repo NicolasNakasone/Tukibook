@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client'
-import { Post } from 'src/types'
+import { Comment, Post } from 'src/types'
 import { SocketEvents } from 'src/types/socket'
 
 const { VITE_API_URL } = import.meta.env
@@ -12,4 +12,8 @@ export const emitNewPost = (newPost: Post) => {
 
 export const emitDeletedPost = (deletedPost: Post) => {
   socket.emit(SocketEvents.DELETE_POST, deletedPost)
+}
+
+export const emitCommentPost = (newComment: Comment) => {
+  socket.emit(SocketEvents.COMMENT_POST, newComment)
 }
