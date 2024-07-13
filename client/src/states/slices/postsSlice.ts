@@ -37,11 +37,11 @@ export const deletePost = createAsyncThunk(
 export const likePost = createAsyncThunk(
   PostsActionTypes.LIKE_POST,
   async (postId: Post['id']) => {
-    await handleFetch(`${VITE_API_URL}${routes.likes}/${postId}`, {
+    const response = await handleFetch(`${VITE_API_URL}${routes.likes}/${postId}`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'PATCH',
     }).then(res => res?.json())
-    return postId
+    return response as Post
   }
 )
 
@@ -103,8 +103,9 @@ const postsSlice = createSlice({
         }
       })
       .addCase(likePost.fulfilled, (state, action) => {
-        const post = state.posts.find(post => post.id === action.payload)
-        if (post) {
+        const post = state.posts.find(post => post.id === action.payload.id)
+        // Para evitar que 'likee' de mas
+        if (post && post.likes + 1 === action.payload.likes) {
           post.likes += 1
         }
       })

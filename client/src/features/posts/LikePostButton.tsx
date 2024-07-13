@@ -1,11 +1,27 @@
+import { useEffect } from 'react'
+
 import { usePosts } from 'src/hooks/usePosts.hook'
+import { emitLikePost, socket } from 'src/sockets'
 import { Post } from 'src/types'
+import { SocketEvents } from 'src/types/socket'
 
 export const LikePostButton = ({ post }: { post: Post }): JSX.Element => {
-  const { likePost } = usePosts()
+  const { likePost, likePostAfter } = usePosts()
+
+  useEffect(() => {
+    likePostAfter()
+
+    return () => {
+      // console.log('socket off')
+      // No aparece nunca el log 👀
+      socket.off(SocketEvents.LIKE_POST)
+    }
+  }, [])
 
   const handleLikePost = async () => {
-    await likePost(post.id)
+    const response = await likePost(post.id)
+
+    if (response.payload) emitLikePost(response.payload as Post)
   }
 
   return (

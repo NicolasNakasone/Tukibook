@@ -47,6 +47,12 @@ export const usePosts = () => {
     })
   }
 
+  const handleLikePostOnAllClients = () => {
+    return socket.on(SocketEvents.LIKE_POST, (updatedPost: Post) => {
+      dispatch({ type: 'posts/likePost/fulfilled', payload: updatedPost })
+    })
+  }
+
   return {
     posts,
     status,
@@ -60,5 +66,6 @@ export const usePosts = () => {
     addPostAfter: handleAddPostToAllClients,
     deletePostAfter: handleDeletePostOnAllClients,
     commentPostAfter: handleCommentPostToAllClients,
+    likePostAfter: handleLikePostOnAllClients,
   }
 }
