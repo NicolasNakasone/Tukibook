@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
-import { PostList, PostInput, CommentInput, Post } from 'src/types'
+import { PostList, PostInput, CommentInput, Post, Comment } from 'src/types'
 import { PostsActionTypes } from 'src/types/reducer'
 
 const { VITE_API_URL } = import.meta.env
@@ -53,7 +53,7 @@ export const commentPost = createAsyncThunk(
       method: 'POST',
       body: JSON.stringify(newComment),
     }).then(res => res?.json())
-    return { postId: newComment.postId, newComment: response }
+    return { postId: newComment.postId, newComment: response as Comment }
   }
 )
 
@@ -111,7 +111,10 @@ const postsSlice = createSlice({
       .addCase(commentPost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.postId)
         if (post) {
-          post.comments.unshift(action.payload.newComment)
+          const newCommentId = action.payload.newComment.id
+          const isNewCommentExist = post.comments.some(comment => comment.id === newCommentId)
+
+          !isNewCommentExist && post.comments.unshift(action.payload.newComment)
         }
       })
   },
