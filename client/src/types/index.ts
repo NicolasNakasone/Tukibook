@@ -24,3 +24,7 @@ export interface Post extends PostInput {
 }
 
 export type PostList = Post[]
+
+export interface GetPage {
+  page: number
+}
