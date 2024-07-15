@@ -4,9 +4,15 @@ import { Post } from 'src/models/Post'
 import { validateRequiredFields } from 'src/utils'
 
 export const getPosts: RequestHandler = async (req, res, next) => {
+  const { page = 1, limit = 10 } = req.query
+
   try {
     // Con populate se puede hacer un get a los comentarios, con los ids guardados en comments
-    const posts = await Post.find({}).populate('comments').sort({ createdAt: -1 })
+    const posts = await Post.find({})
+      .populate('comments')
+      .sort({ createdAt: -1 })
+      .limit(Number(limit))
+      .skip((Number(page) - 1) * Number(limit))
 
     res.send(posts)
   } catch (error) {
