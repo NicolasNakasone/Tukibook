@@ -1,18 +1,44 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { AddPostForm } from 'src/features/posts/AddPostForm'
 import { PostCard } from 'src/features/posts/PostCard'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
 import { usePosts } from 'src/hooks/usePosts.hook'
 
+const observerOptions = {
+  root: null,
+  rootMargin: '20px',
+  threshold: 1.0,
+}
+
 export const HomePage = (): JSX.Element => {
-  const { posts, status, getPosts } = usePosts()
+  const { posts, status, page, getPosts, getMorePosts } = usePosts()
+
+  const loader = useRef(null)
+
+  const observer = new IntersectionObserver(entities => {
+    if (entities[0].isIntersecting) {
+      getMorePosts()
+    }
+  }, observerOptions)
 
   useEffect(() => {
     if (status === 'loading') {
-      getPosts()
+      getPosts({ page })
     }
   }, [])
+
+  useEffect(() => {
+    if (loader.current) {
+      observer.observe(loader.current)
+    }
+
+    return () => {
+      if (loader.current) {
+        observer.unobserve(loader.current)
+      }
+    }
+  }, [page])
 
   return (
     <main
@@ -37,6 +63,8 @@ export const HomePage = (): JSX.Element => {
       {posts.map(post => {
         return <PostCard key={post.id} {...{ post }} />
       })}
+      {status === 'loading' && <p>Loading...</p>}
+      <div ref={loader} />
     </main>
   )
 }
