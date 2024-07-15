@@ -1,18 +1,26 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
-import { PostList, PostInput, CommentInput, Post, Comment } from 'src/types'
+import { PostList, PostInput, CommentInput, Post, Comment, GetPage } from 'src/types'
 import { PostsActionTypes } from 'src/types/reducer'
 
 const { VITE_API_URL } = import.meta.env
 
-export const fetchPosts = createAsyncThunk(PostsActionTypes.GET_POSTS, async () => {
-  const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
-    headers: { 'Content-Type': 'application/json' },
-    method: 'GET',
-  }).then(res => res?.json())
-  return response as PostList
-})
+const PAGE_LIMIT = 2
+
+export const fetchPosts = createAsyncThunk(
+  PostsActionTypes.GET_POSTS,
+  async ({ page }: GetPage) => {
+    const response = await handleFetch(
+      `${VITE_API_URL}${routes.posts}?page=${page}&limit=${PAGE_LIMIT}`,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'GET',
+      }
+    ).then(res => res?.json())
+    return response as PostList
+  }
+)
 
 export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPost: PostInput) => {
   const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
@@ -61,12 +69,16 @@ interface PostsState {
   posts: PostList
   status: 'loading' | 'succeeded' | 'failed'
   error: string | null
+  page: number
+  hasMore: boolean
 }
 
 const initialState: PostsState = {
   posts: [],
   status: 'loading',
   error: null,
+  page: 1,
+  hasMore: true,
 }
 
 const postsSlice = createSlice({
@@ -80,7 +92,9 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<PostList>) => {
         state.status = 'succeeded'
-        state.posts = action.payload
+        state.posts = [...state.posts, ...action.payload]
+        state.page += 1
+        state.hasMore = action.payload.length > 0
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed'
