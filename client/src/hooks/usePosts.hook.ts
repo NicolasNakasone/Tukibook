@@ -8,16 +8,24 @@ import {
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
-import { Comment, CommentInput, Post, PostInput } from 'src/types'
+import { Comment, CommentInput, GetPage, Post, PostInput } from 'src/types'
 import { SocketEvents } from 'src/types/socket'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { posts, status, error } = useSelector(({ posts }: RootState) => posts)
+  const { posts, status, error, page, hasMore } = useSelector(({ posts }: RootState) => posts)
 
   console.log('usePosts')
 
-  const handleGetPosts = () => dispatch(fetchPosts())
+  const handleGetPosts = ({ page }: GetPage) => {
+    return dispatch(fetchPosts({ page }))
+  }
+
+  const handleGetMorePosts = () => {
+    if (status === 'succeeded' && hasMore) {
+      dispatch(fetchPosts({ page }))
+    }
+  }
 
   const handleAddPost = (newPost: PostInput) => dispatch(addPost(newPost))
 
@@ -57,7 +65,10 @@ export const usePosts = () => {
     posts,
     status,
     error,
+    page,
+    hasMore,
     getPosts: handleGetPosts,
+    getMorePosts: handleGetMorePosts,
     addPost: handleAddPost,
     deletePost: handleDeletePost,
     likePost: handleLikePost,
