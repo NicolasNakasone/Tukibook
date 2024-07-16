@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react'
 
 import { AddPostForm } from 'src/features/posts/AddPostForm'
-import { PostCard } from 'src/features/posts/PostCard'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
 import { usePosts } from 'src/hooks/usePosts.hook'
+import { HomeContainer } from 'src/pages/home/HomeContainer'
 
 const observerOptions = {
   root: null,
-  rootMargin: '20px',
-  threshold: 1.0,
+  rootMargin: '100px',
+  threshold: 0.25,
 }
 
 export const HomePage = (): JSX.Element => {
@@ -60,9 +60,7 @@ export const HomePage = (): JSX.Element => {
       ) : (
         <AddPostForm />
       )}
-      {posts.map(post => {
-        return <PostCard key={post.id} {...{ post }} />
-      })}
+      <HomeContainer {...{ posts }} />
       {status === 'loading' && <p>Loading...</p>}
       <div ref={loader} />
     </main>
