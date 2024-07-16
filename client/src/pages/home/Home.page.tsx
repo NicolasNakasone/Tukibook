@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 
+import { HomeContainer } from 'src/features/home/HomeContainer'
 import { AddPostForm } from 'src/features/posts/AddPostForm'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { HomeContainer } from 'src/pages/home/HomeContainer'
 
 const observerOptions = {
   root: null,
