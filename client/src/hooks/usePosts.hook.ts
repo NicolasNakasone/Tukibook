@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { socket } from 'src/sockets'
 import {
@@ -17,15 +19,15 @@ export const usePosts = () => {
 
   console.log('usePosts')
 
-  const handleGetPosts = ({ page }: GetPage) => {
+  const handleGetPosts = useCallback(({ page }: GetPage) => {
     return dispatch(fetchPosts({ page }))
-  }
+  }, [])
 
-  const handleGetMorePosts = () => {
+  const handleGetMorePosts = useCallback(() => {
     if (status === 'succeeded' && hasMore) {
       dispatch(fetchPosts({ page }))
     }
-  }
+  }, [page, fetchPosts])
 
   const handleAddPost = (newPost: PostInput) => dispatch(addPost(newPost))
 
