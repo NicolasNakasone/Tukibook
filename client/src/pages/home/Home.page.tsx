@@ -61,7 +61,7 @@ export const HomePage = (): JSX.Element => {
         <AddPostForm />
       )}
       <HomeContainer {...{ posts }} />
-      {status === 'loading' && <p>Loading...</p>}
+      {status === 'loading' && <p>Cargando...</p>}
       <div ref={loader} />
     </main>
   )
