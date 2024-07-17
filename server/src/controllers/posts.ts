@@ -14,7 +14,10 @@ export const getPosts: RequestHandler = async (req, res, next) => {
       .limit(Number(limit))
       .skip((Number(page) - 1) * Number(limit))
 
-    res.send(posts)
+    const postsLength = await Post.countDocuments()
+
+    // TODO: Crear tipo para esta response
+    res.send({ posts, postsLength })
   } catch (error) {
     next(error)
   }
