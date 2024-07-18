@@ -18,7 +18,10 @@ export const fetchPosts = createAsyncThunk(
         method: 'GET',
       }
     ).then(res => res?.json())
-    return response as PostList
+    return {
+      posts: response.posts as PostList,
+      totalItems: response.totalItems as number,
+    }
   }
 )
 
@@ -90,11 +93,25 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.pending, state => {
         state.status = 'loading'
       })
-      .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<PostList>) => {
+      .addCase(fetchPosts.fulfilled, (state, { payload }) => {
+        console.log('slice')
+        if (
+          state.posts.some((post, i) => {
+            console.log({ postID: post.id, i })
+            return post.id === payload.posts[0].id
+          })
+        )
+          return
+
         state.status = 'succeeded'
-        state.posts = [...state.posts, ...action.payload]
+        state.posts = [...state.posts, ...payload.posts]
         state.page += 1
-        state.hasMore = action.payload.length > 0
+        state.hasMore = payload.totalItems > state.posts.length
+        console.log('paso slice', {
+          page: state.page,
+          hasMore: state.hasMore,
+          postsLength: state.posts.length,
+        })
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed'
