@@ -5,9 +5,9 @@ import { AddPostForm } from 'src/features/posts/AddPostForm'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
 import { usePosts } from 'src/hooks/usePosts.hook'
 
-const observerOptions = {
+const observerOptions: IntersectionObserverInit = {
   root: null,
-  rootMargin: '100px',
+  rootMargin: '4rem',
   threshold: 0.25,
 }
 
