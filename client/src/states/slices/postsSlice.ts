@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { PostList, PostInput, CommentInput, Post, Comment, GetPage } from 'src/types'
@@ -94,24 +94,12 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, { payload }) => {
-        console.log('slice')
-        if (
-          state.posts.some((post, i) => {
-            console.log({ postID: post.id, i })
-            return post.id === payload.posts[0].id
-          })
-        )
-          return
+        if (state.posts.some(post => post.id === payload.posts[0].id)) return
 
         state.status = 'succeeded'
         state.posts = [...state.posts, ...payload.posts]
         state.page += 1
         state.hasMore = payload.totalItems > state.posts.length
-        console.log('paso slice', {
-          page: state.page,
-          hasMore: state.hasMore,
-          postsLength: state.posts.length,
-        })
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed'
