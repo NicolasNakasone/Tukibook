@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitDeletedPost, socket } from 'src/sockets'
+import { emitDeletePost, socket } from 'src/sockets'
 import { Post } from 'src/types'
 import { SocketEvents } from 'src/types/socket'
 
@@ -21,7 +21,7 @@ export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
   const handleDeletePost = async () => {
     const response = await deletePost(post.id)
 
-    if (response.payload) emitDeletedPost(response.payload as Post)
+    if (response.payload) emitDeletePost(response.payload as Post)
   }
 
   return (

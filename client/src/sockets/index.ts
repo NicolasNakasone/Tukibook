@@ -10,7 +10,7 @@ export const emitNewPost = (newPost: Post) => {
   socket.emit(SocketEvents.NEW_POST, newPost)
 }
 
-export const emitDeletedPost = (deletedPost: Post) => {
+export const emitDeletePost = (deletedPost: Post) => {
   socket.emit(SocketEvents.DELETE_POST, deletedPost)
 }
 
