@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express'
-import mongoose from 'mongoose'
 import { Post } from 'src/models/Post'
+import { isValidObjectId } from 'src/utils'
 
 export const addLikeToPost: RequestHandler = async (req, res, next) => {
   const { id: postId } = req.params
 
-  if (!mongoose.Types.ObjectId.isValid(postId)) {
+  if (!isValidObjectId(postId)) {
     return res.status(400).send({ message: 'Id del post inválido' })
   }
 

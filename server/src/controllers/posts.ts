@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express'
-import mongoose from 'mongoose'
 import { Post } from 'src/models/Post'
-import { validateRequiredFields } from 'src/utils'
+import { isValidObjectId, validateRequiredFields } from 'src/utils'
 
 export const getPosts: RequestHandler = async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query
@@ -26,7 +25,7 @@ export const getPosts: RequestHandler = async (req, res, next) => {
 export const getPostById: RequestHandler = async (req, res, next) => {
   const { id: postId } = req.params
 
-  if (!mongoose.Types.ObjectId.isValid(postId)) {
+  if (!isValidObjectId(postId)) {
     return res.status(400).send({ message: 'Id del post inválido' })
   }
 
@@ -60,7 +59,7 @@ export const addPost: RequestHandler = async (req, res, next) => {
 export const deletePost: RequestHandler = async (req, res, next) => {
   const { id: postId } = req.params
 
-  if (!mongoose.Types.ObjectId.isValid(postId)) {
+  if (!isValidObjectId(postId)) {
     return res.status(400).send({ message: 'Id del post inválido' })
   }
 
