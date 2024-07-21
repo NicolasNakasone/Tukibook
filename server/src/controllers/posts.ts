@@ -5,13 +5,15 @@ import { isValidObjectId, validateRequiredFields } from 'src/utils'
 export const getPosts: RequestHandler = async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query
 
+  const offset = (Number(page) - 1) * Number(limit)
+
   try {
     // Con populate se puede hacer un get a los comentarios, con los ids guardados en comments
     const posts = await Post.find({})
       .populate('comments')
       .sort({ createdAt: -1 })
       .limit(Number(limit))
-      .skip((Number(page) - 1) * Number(limit))
+      .skip(offset)
 
     const postsLength = await Post.countDocuments()
 
