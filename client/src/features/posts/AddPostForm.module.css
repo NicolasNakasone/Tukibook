@@ -7,3 +7,28 @@
   border-radius: 0.5rem;
   padding: 2rem 1.5rem;
 }
+
+.addPostButton {
+  width: max-content;
+  padding: 0.5rem 1rem;
+  margin: 0 0 0 auto;
+  font-size: 1.25rem;
+}
+
+.addPostFormHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.addPostImage {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: CanvasText;
+  border-radius: 50%;
+}
+
+.addPostUsernameInput {
+  width: 40%;
+  margin: 0;
+}

@@ -60,18 +60,8 @@ export const AddPostForm = (): JSX.Element => {
         required
         disabled={isLoading}
         placeholder="Escribe un post...*"
-        style={{ margin: '0' }}
       />
-      <button
-        type="submit"
-        disabled={isLoading}
-        style={{
-          width: 'max-content',
-          padding: '0.5rem 1rem',
-          margin: '0 0 0 auto',
-          fontSize: '1.25rem',
-        }}
-      >
+      <button type="submit" disabled={isLoading} className={styles.addPostButton}>
         Crear
       </button>
     </form>
@@ -80,28 +70,15 @@ export const AddPostForm = (): JSX.Element => {
 
 const AddPostFormHeader = ({ isLoading }: { isLoading: boolean }): JSX.Element => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '1rem',
-      }}
-    >
-      <div
-        style={{
-          width: '2.5rem',
-          height: '2.5rem',
-          backgroundColor: 'CanvasText',
-          borderRadius: '50%',
-        }}
-      />
+    <div className={styles.addPostFormHeader}>
+      <div className={styles.addPostFormImage} />
       <input
         name="username"
         type="text"
         required
         disabled={isLoading}
         placeholder="📝 Tu nombre*"
-        style={{ width: '40%', margin: '0' }}
+        className={styles.addPostUsernameInput}
       />
     </div>
   )
