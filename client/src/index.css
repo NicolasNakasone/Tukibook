@@ -5,7 +5,7 @@
 }
 
 :root {
-  font-family: "Shantell Sans", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Shantell Sans', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -38,7 +38,7 @@ input {
   border-bottom: 1px solid CanvasText;
   font-family: inherit;
   font-size: 1rem;
-  
+
   &::placeholder {
     color: CanvasText;
     opacity: 0.5;
@@ -51,6 +51,7 @@ input {
 
 textarea {
   padding: 0.5rem 0.25rem;
+  margin: 0;
   border: none;
   border-bottom: 1px solid CanvasText;
   font-family: inherit;
