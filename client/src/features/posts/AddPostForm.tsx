@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react'
 
+import styles from 'src/features/posts/AddPostForm.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitNewPost, socket } from 'src/sockets'
 import { Post } from 'src/types'
@@ -51,18 +52,7 @@ export const AddPostForm = (): JSX.Element => {
   }
 
   return (
-    <form
-      style={{
-        width: '60vw',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2rem',
-        border: '2px solid CanvasText',
-        borderRadius: '0.5rem',
-        padding: '2rem 1.5rem',
-      }}
-      onSubmit={handleAddPost}
-    >
+    <form className={styles.addPostForm} onSubmit={handleAddPost}>
       <AddPostFormHeader {...{ isLoading }} />
       <textarea
         name="content"

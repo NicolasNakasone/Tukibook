@@ -1,0 +1,9 @@
+.addPostForm {
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border: 2px solid CanvasText;
+  border-radius: 0.5rem;
+  padding: 2rem 1.5rem;
+}
