@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import styles from 'src/features/posts/DeletePostButton.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitDeletePost, socket } from 'src/sockets'
 import { Post } from 'src/types'
@@ -25,10 +26,7 @@ export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
   }
 
   return (
-    <button
-      style={{ width: 'max-content', padding: '0.25rem', margin: '0 0 0 auto' }}
-      onClick={handleDeletePost}
-    >
+    <button className={styles.deletePostButton} onClick={handleDeletePost}>
       ❌
     </button>
   )
