@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import styles from 'src/features/posts/LikePostButton.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitLikePost, socket } from 'src/sockets'
 import { Post } from 'src/types'
@@ -26,7 +27,7 @@ export const LikePostButton = ({ post }: { post: Post }): JSX.Element => {
 
   return (
     <button
-      style={{ width: 'max-content', padding: '0.25rem 0.5rem' }}
+      className={styles.likePostButton}
       onClick={handleLikePost}
     >{`👍 ${post.likes || ''} ${post.likes ? (post.likes > 1 ? 'tukis' : 'tuki') : 'Tuki'}`}</button>
   )
