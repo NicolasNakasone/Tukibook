@@ -1,0 +1,24 @@
+.commentCardContainer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.commentUsername {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: CanvasText;
+  border-radius: 50%;
+}
+
+.commentContent {
+  margin: 0.25rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.commentContentSpan {
+  font-weight: 400;
+}

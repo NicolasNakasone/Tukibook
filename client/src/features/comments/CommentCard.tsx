@@ -1,32 +1,19 @@
 import tukibookLogo from 'public/tuki.webp'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
+import styles from 'src/features/comments/CommentCard.module.css'
 import { Comment, Post } from 'src/types'
 
 export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
   return (
-    <div key={comment.id} style={{ display: 'flex', gap: '0.5rem' }}>
+    <div key={comment.id} className={styles.commentCardContainer}>
       <img
         src={tukibookLogo}
         alt={`${post.username}'s profile picture`}
-        style={{
-          width: '2.5rem',
-          height: '2.5rem',
-          backgroundColor: 'CanvasText',
-          borderRadius: '50%',
-        }}
+        className={styles.commentUsername}
       />
-      <p
-        style={{
-          margin: '0.25rem 0 0',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.25rem',
-          fontSize: '0.75rem',
-          fontWeight: 700,
-        }}
-      >
+      <p className={styles.commentContent}>
         <span>{comment.username}</span>
-        <span style={{ fontWeight: 400 }}>
+        <span className={styles.commentContentSpan}>
           <CommentCardContent {...{ comment }} />
         </span>
       </p>
