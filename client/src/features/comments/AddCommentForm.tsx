@@ -1,7 +1,7 @@
 import { FormEvent, useEffect } from 'react'
 
+import styles from 'src/features/comments/AddCommentForm.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import styles from 'src/pages/home/Home.module.css'
 import { emitCommentPost, socket } from 'src/sockets'
 import { Comment, Post } from 'src/types'
 import { SocketEvents } from 'src/types/socket'
@@ -33,7 +33,7 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   }
 
   return (
-    <form style={{ width: '100%' }} onSubmit={handleCommentPost}>
+    <form className={styles.commentForm} onSubmit={handleCommentPost}>
       <input type="text" placeholder="Comentar..." className={styles.commentInput} />
     </form>
   )
