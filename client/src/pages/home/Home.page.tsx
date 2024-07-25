@@ -7,7 +7,7 @@ import { usePosts } from 'src/hooks/usePosts.hook'
 
 const observerOptions: IntersectionObserverInit = {
   root: null,
-  rootMargin: '4rem',
+  rootMargin: '100px',
   threshold: 0.25,
 }
 
