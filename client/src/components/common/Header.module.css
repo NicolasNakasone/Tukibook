@@ -1,0 +1,25 @@
+header {
+  width: 100%;
+  /* margin: 0 0 2rem; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid CanvasText;
+}
+
+.heading {
+  margin: 1rem 0 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.appLogo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+}
+
+.appDescription {
+  margin: 0 0 2rem;
+}

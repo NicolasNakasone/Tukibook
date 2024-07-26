@@ -1,29 +1,14 @@
 import tukibookLogo from 'public/tuki.webp'
+import styles from 'src/components/common/Header.module.css'
 
 export const Header = (): JSX.Element => {
   return (
-    <header
-      style={{
-        width: '100%',
-        // margin: '0 0 2rem',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        borderBottom: '1px solid CanvasText',
-      }}
-    >
-      <div
-        role="heading"
-        style={{ margin: '1rem 0 0', display: 'flex', alignItems: 'center', gap: '1rem' }}
-      >
+    <header>
+      <div role="heading" className={styles.heading}>
         <h1>Tukibook!</h1>
-        <img
-          src={tukibookLogo}
-          alt="Tukibook Logo"
-          style={{ width: '2rem', height: '2rem', borderRadius: '0.25rem' }}
-        />
+        <img src={tukibookLogo} alt="Tukibook Logo" className={styles.appLogo} />
       </div>
-      <p style={{ margin: '0 0 2rem' }}>Una red social, tuki 👍</p>
+      <p className={styles.appDescription}>Una red social, tuki 👍</p>
     </header>
   )
 }
