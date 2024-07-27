@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import styles from 'src/components/common/TextInput.module.css'
+
 interface TextInputProps {
   placeholder?: string | undefined
 }
@@ -11,34 +13,12 @@ export const TextInput = ({ placeholder }: TextInputProps): JSX.Element => {
 
   return (
     <div
-      style={{
-        width: '40%',
-        height: 'max-content',
-        position: 'relative',
-      }}
+      className={styles.inputContainer}
       onClick={() => setIsClicked(true)}
       onBlur={() => setIsClicked(false)}
     >
-      {isClicked && (
-        <label
-          style={{
-            padding: '0.25rem',
-            // border: '1px solid red',
-            position: 'absolute',
-            top: '-40%',
-            left: '2%',
-            backgroundColor: 'Canvas',
-            fontSize: '0.875rem',
-          }}
-        >
-          {placeholder}
-        </label>
-      )}
-      <input
-        type="text"
-        placeholder={!isClicked ? placeholder : ''}
-        style={{ width: '100%', margin: '0' }}
-      />
+      {isClicked && <label>{placeholder}</label>}
+      <input type="text" placeholder={!isClicked ? placeholder : ''} />
     </div>
   )
 }
