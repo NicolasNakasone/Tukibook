@@ -1,0 +1,15 @@
+{
+  "name": "tukibook",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Una red social, tuki 👍",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "client": "npm --prefix client run dev",
+    "server": "npm --prefix server run dev",
+    "install": "npm install --workspaces"
+  }
+}
