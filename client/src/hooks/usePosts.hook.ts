@@ -10,8 +10,7 @@ import {
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
-import { Comment, CommentInput, GetPage, Post, PostInput } from 'src/types'
-import { SocketEvents } from 'src/types/socket'
+import { GetPage, PostInput, Post, CommentInput, SocketEvents } from 'tukibook-helper'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
