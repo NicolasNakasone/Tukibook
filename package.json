@@ -6,7 +6,7 @@
   "workspaces": [
     "client",
     "server",
-    "shared"
+    "tukibook-helper"
   ],
   "scripts": {
     "client": "npm --prefix client run dev",

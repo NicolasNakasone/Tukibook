@@ -4,3 +4,5 @@ export enum SocketEvents {
   COMMENT_POST = 'commentPost',
   LIKE_POST = 'likePost',
 }
+
+export const a = 1
