@@ -5,7 +5,8 @@
   "description": "Una red social, tuki 👍",
   "workspaces": [
     "client",
-    "server"
+    "server",
+    "shared"
   ],
   "scripts": {
     "client": "npm --prefix client run dev",
