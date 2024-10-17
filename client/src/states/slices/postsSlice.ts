@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
-import { PostList, PostInput, CommentInput, Post, Comment, GetPage } from 'src/types'
 import { PostsActionTypes } from 'src/types/reducer'
+import { GetPage, PostList, PostInput, Post, CommentInput, Comment } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 

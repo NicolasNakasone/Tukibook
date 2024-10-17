@@ -1,6 +1,5 @@
 import { io } from 'socket.io-client'
-import { Comment, Post } from 'src/types'
-import { SocketEvents } from 'src/types/socket'
+import { Comment, Post, SocketEvents } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 

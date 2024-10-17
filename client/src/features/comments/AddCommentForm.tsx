@@ -3,8 +3,7 @@ import { FormEvent, useEffect } from 'react'
 import styles from 'src/features/comments/AddCommentForm.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitCommentPost, socket } from 'src/sockets'
-import { Comment, Post } from 'src/types'
-import { SocketEvents } from 'src/types/socket'
+import { Comment, Post, SocketEvents } from 'tukibook-helper'
 
 export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   const { commentPost, commentPostAfter } = usePosts()

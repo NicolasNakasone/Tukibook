@@ -1,3 +1,5 @@
+import { Comment } from './comments'
+
 export interface PostInput {
   username: string
   content: string

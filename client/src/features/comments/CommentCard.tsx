@@ -1,7 +1,7 @@
 import tukibookLogo from 'public/tuki.webp'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import styles from 'src/features/comments/CommentCard.module.css'
-import { Comment, Post } from 'src/types'
+import { Comment, Post } from 'tukibook-helper'
 
 export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
   return (

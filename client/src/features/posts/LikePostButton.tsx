@@ -3,8 +3,7 @@ import { useEffect } from 'react'
 import styles from 'src/features/posts/LikePostButton.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitLikePost, socket } from 'src/sockets'
-import { Post } from 'src/types'
-import { SocketEvents } from 'src/types/socket'
+import { Post, SocketEvents } from 'tukibook-helper'
 
 export const LikePostButton = ({ post }: { post: Post }): JSX.Element => {
   const { likePost, likePostAfter } = usePosts()

@@ -3,8 +3,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import styles from 'src/features/posts/AddPostForm.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitNewPost, socket } from 'src/sockets'
-import { Post } from 'src/types'
-import { SocketEvents } from 'src/types/socket'
+import { SocketEvents, Post } from 'tukibook-helper'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts

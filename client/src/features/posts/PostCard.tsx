@@ -5,7 +5,7 @@ import { CommentCard } from 'src/features/comments/CommentCard'
 import { DeletePostButton } from 'src/features/posts/DeletePostButton'
 import { LikePostButton } from 'src/features/posts/LikePostButton'
 import styles from 'src/features/posts/PostCard.module.css'
-import { Post } from 'src/types'
+import { Post } from 'tukibook-helper'
 
 interface PostCardProps {
   post: Post
