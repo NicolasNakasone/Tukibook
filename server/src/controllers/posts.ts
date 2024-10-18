@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
+import { GetPostsResponse, PostList } from 'tukibook-helper'
 
 export const getPosts: RequestHandler = async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query
@@ -15,10 +16,13 @@ export const getPosts: RequestHandler = async (req, res, next) => {
       .limit(Number(limit))
       .skip(offset)
 
-    const postsLength = await Post.countDocuments()
+    const totalItems = await Post.countDocuments()
 
-    // TODO: Crear tipo para esta response
-    res.send({ posts, postsLength })
+    const response: GetPostsResponse = {
+      posts: posts as unknown as PostList,
+      totalItems,
+    }
+    res.send(response)
   } catch (error) {
     next(error)
   }
