@@ -1,112 +1,61 @@
-# Tukibook
+Tukibook Monorepo
 
-Tukibook es una red social con temática de un meme llamado 'Flork' haciendo 👍. La aplicación permite a los usuarios crear publicaciones, comentarlas y darles like en tiempo real, gracias a la integración con WebSockets.
+Este es el monorepo de Tukibook, que incluye el cliente (frontend) y el servidor (backend).
 
-## Tecnologías Utilizadas
+Instalación de dependencias
 
-- **Frontend**: React, Redux Toolkit, TypeScript
-- **Backend**: Node.js, Express, Mongoose, Socket.IO
-- **Base de Datos**: MongoDB
+Ejecuta el siguiente comando en la raíz del monorepo para instalar las dependencias de todos los paquetes:
 
-## Características
-
-- Crear publicaciones
-- Comentar publicaciones
-- Dar like a publicaciones
-- Actualización en tiempo real mediante WebSockets
-- En proximas versiones, se vendrán multiples funcionalidades como:
-- Usuarios, poder tener seguidores, chats en tiempo real, poder crear hilos, y más
-
-## Instalación
-
-Sigue estos pasos para levantar el proyecto localmente.
-
-### Prerrequisitos
-
-- Node.js (versión 14 o superior)
-- MongoDB (local o en la nube)
-
-### Clonar el Repositorio
-
-```bash
-git clone https://github.com/tu-usuario/tukibook.git
-cd tukibook
-```
-
-### Instalar Dependencias
-
-#### Backend
-
-```bash
-cd server
 npm install
-```
 
-#### Frontend
+Si necesitas instalar dependencias en un paquete específico (cliente o servidor), muévete a la carpeta correspondiente y ejecuta npm install.
 
-```bash
-cd ../client
-npm install
-```
+Levantar el proyecto
 
-## Configuración
+Levantar cliente y servidor juntos
 
-### Backend
+Desde la raíz del proyecto, ejecuta:
 
-Crea un archivo `.env` en la carpeta `server` con las siguientes variables:
-
-```env
-API_PORT=3000
-MONGO_URI=mongodb://localhost:27017/tukibook
-CLIENT_URL=http://localhost:5173
-```
-
-### Frontend
-
-Crea un archivo `.env` en la carpeta `client` con las siguientes variables:
-
-```env
-VITE_API_URL=http://localhost:3000
-```
-
-## Ejecución
-
-### Backend
-
-```bash
-cd server
 npm run dev
-```
 
-### Frontend
+Levantar el cliente (Vite)
 
-```bash
-cd ../client
-npm start
-```
+npm run dev:client
 
-Abre tu navegador y visita `http://localhost:5173` para ver la aplicación en funcionamiento.
+Por defecto, el cliente correrá en http://localhost:5173.
 
-## Estructura del Proyecto
+Levantar el servidor (Express + TypeScript)
 
-```
-tukibook/
-├── client/         # Código del frontend
-├── server/         # Código del backend
-└── README.md       # Este archivo
-```
+npm run dev:server
 
-## Uso
+Por defecto, el servidor correrá en http://localhost:3000.
 
-1. Crea una cuenta o inicia sesión.
-2. Crea una publicación.
-3. Observa cómo las publicaciones se actualizan en tiempo real en todos los clientes conectados.
-4. Comenta y da like a las publicaciones.
+Configuración
 
-## Contribuciones
+CORS
 
-¡Las contribuciones son bienvenidas! Si tienes alguna sugerencia o encuentras algún problema, por favor abre un issue o envía un pull request.
+Asegúrate de que en tu servidor Express tengas configurado CORS correctamente para permitir el acceso desde el cliente:
 
-## Licencia
+import cors from 'cors';
+import express from 'express';
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+const app = express();
+
+app.use(cors({
+origin: 'http://localhost:5173', // Ajusta esto según el entorno
+credentials: true,
+}));
+
+MongoDB Atlas
+
+Si usas MongoDB Atlas, recuerda agregar tu IP a la whitelist en la configuración de seguridad de Atlas. También, define correctamente la variable de entorno MONGO_URI en tu archivo .env del servidor.
+
+MONGO_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/miBaseDeDatos
+
+Compartir Tipos de TypeScript
+
+Los tipos compartidos se encuentran en el paquete tukibook-helper. Para importarlos en cualquier parte del monorepo:
+
+import { Post, Comment } from 'tukibook-helper';
+
+Si necesitas más detalles o cambios, házmelo saber.
