@@ -1,61 +1,72 @@
-Tukibook Monorepo
+# Tukibook
 
-Este es el monorepo de Tukibook, que incluye el cliente (frontend) y el servidor (backend).
+Tukibook es una red social en desarrollo, estructurada como un monorepo utilizando npm workspaces. El proyecto consta de tres paquetes principales:
 
-Instalación de dependencias
+- `client`: Aplicación frontend creada con Vite.
+- `server`: Backend desarrollado con Express y TypeScript.
+- `tukibook-helper`: Paquete compartido que almacena tipos de TypeScript y otras utilidades comunes.
 
-Ejecuta el siguiente comando en la raíz del monorepo para instalar las dependencias de todos los paquetes:
+## Estructura del Monorepo
 
+```
+Tukibook/
+│── client/               # Frontend (Vite + React)
+│   ├── src/              # Código fuente del cliente
+│   ├── public/           # Archivos públicos
+│   ├── node_modules/
+│── server/               # Backend (Express + TypeScript)
+│   ├── src/              # Código fuente del servidor
+│   ├── node_modules/
+│── tukibook-helper/      # Módulo compartido con tipos
+│   ├── types/            # Tipos TypeScript compartidos
+│   ├── index.ts          # Exportaciones principales
+│── node_modules/         # Módulos raíz del monorepo
+│── .gitignore            # Archivos ignorados por Git
+│── .nvmrc                # Versión de Node recomendada
+│── .prettier.cjs         # Configuración de Prettier
+│── package.json          # Configuración del monorepo
+│── package-lock.json     # Bloqueo de dependencias
+│── README.md             # Documentación del proyecto
+```
+
+## Instalación
+
+Asegúrate de tener instalado [Node.js](https://nodejs.org/) y `npm`. Luego, ejecuta:
+
+```sh
 npm install
+```
 
-Si necesitas instalar dependencias en un paquete específico (cliente o servidor), muévete a la carpeta correspondiente y ejecuta npm install.
+Esto instalará todas las dependencias del monorepo y sus paquetes.
 
-Levantar el proyecto
+## Ejecución del Proyecto
 
-Levantar cliente y servidor juntos
+Para iniciar el frontend (Vite):
 
-Desde la raíz del proyecto, ejecuta:
+```sh
+npm run client
+```
 
-npm run dev
+Para iniciar el backend (Express):
 
-Levantar el cliente (Vite)
+```sh
+npm run server
+```
 
-npm run dev:client
+También puedes instalar o verificar los tipos compartidos con:
 
-Por defecto, el cliente correrá en http://localhost:5173.
+```sh
+npm run type-check
+```
 
-Levantar el servidor (Express + TypeScript)
+## Contribuir
 
-npm run dev:server
+1. Clona el repositorio
+2. Crea una rama nueva (`git checkout -b mi-nueva-rama`)
+3. Realiza los cambios y haz commits (`git commit -m "Mi cambio"`)
+4. Sube la rama (`git push origin mi-nueva-rama`)
+5. Abre un Pull Request
 
-Por defecto, el servidor correrá en http://localhost:3000.
+---
 
-Configuración
-
-CORS
-
-Asegúrate de que en tu servidor Express tengas configurado CORS correctamente para permitir el acceso desde el cliente:
-
-import cors from 'cors';
-import express from 'express';
-
-const app = express();
-
-app.use(cors({
-origin: 'http://localhost:5173', // Ajusta esto según el entorno
-credentials: true,
-}));
-
-MongoDB Atlas
-
-Si usas MongoDB Atlas, recuerda agregar tu IP a la whitelist en la configuración de seguridad de Atlas. También, define correctamente la variable de entorno MONGO_URI en tu archivo .env del servidor.
-
-MONGO_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/miBaseDeDatos
-
-Compartir Tipos de TypeScript
-
-Los tipos compartidos se encuentran en el paquete tukibook-helper. Para importarlos en cualquier parte del monorepo:
-
-import { Post, Comment } from 'tukibook-helper';
-
-Si necesitas más detalles o cambios, házmelo saber.
+¡Tuki arriba! 🚀
