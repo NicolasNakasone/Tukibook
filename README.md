@@ -92,6 +92,6 @@ npm run type-check
 Los tipos compartidos se encuentran en el paquete tukibook-helper.
 Para importarlos en cualquier parte del monorepo:
 
-```sh
-import { Post, Comment } from 'tukibook-helper';
+```js
+import { Post, Comment } from 'tukibook-helper'
 ```
