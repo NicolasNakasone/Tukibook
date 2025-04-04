@@ -12,33 +12,36 @@ const observerOptions: IntersectionObserverInit = {
 }
 
 export const HomePage = (): JSX.Element => {
-  const { posts, status, page, getPosts, getMorePosts } = usePosts()
-
+  const { posts, status, page, getPosts, getMorePosts /* , isLoadingMore */ } = usePosts()
   const loader = useRef(null)
 
-  const observer = new IntersectionObserver(entities => {
-    if (entities[0].isIntersecting) {
-      getMorePosts()
-    }
-  }, observerOptions)
-
+  // Carga inicial
   useEffect(() => {
     if (status === 'loading') {
       getPosts({ page })
     }
   }, [])
 
+  // Scroll infinito controlado
   useEffect(() => {
-    if (loader.current) {
-      observer.observe(loader.current)
-    }
+    const currentLoader = loader.current
+    if (!currentLoader) return
+
+    const observer = new IntersectionObserver(entities => {
+      const isVisible = entities[0].isIntersecting
+
+      // Prevenir múltiples requests
+      if (isVisible /* && !isLoadingMore */ && status === 'succeeded') {
+        getMorePosts()
+      }
+    }, observerOptions)
+
+    observer.observe(currentLoader)
 
     return () => {
-      if (loader.current) {
-        observer.unobserve(loader.current)
-      }
+      if (currentLoader) observer.unobserve(currentLoader)
     }
-  }, [page])
+  }, [loader, getMorePosts, /* isLoadingMore, */ status])
 
   return (
     <main
@@ -61,7 +64,7 @@ export const HomePage = (): JSX.Element => {
         <AddPostForm />
       )}
       <HomeContainer {...{ posts }} />
-      {status === 'loading' && <p>Cargando...</p>}
+      {/* {isLoadingMore && <p>Cargando más...</p>} */}
       <div ref={loader} />
     </main>
   )
