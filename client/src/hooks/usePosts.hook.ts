@@ -16,7 +16,7 @@ export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { posts, status, error, page, hasMore } = useSelector(({ posts }: RootState) => posts)
 
-  console.log('usePosts')
+  // console.log('usePosts')
 
   const handleGetPosts = useCallback(({ page }: GetPage) => {
     return dispatch(fetchPosts({ page }))
