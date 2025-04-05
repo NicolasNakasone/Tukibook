@@ -23,10 +23,10 @@ export const usePosts = () => {
   }, [])
 
   const handleGetMorePosts = useCallback(() => {
-    if (status === 'succeeded' && hasMore) {
+    if (status !== 'loading' && hasMore) {
       dispatch(fetchPosts({ page }))
     }
-  }, [page, fetchPosts])
+  }, [page, hasMore, status, dispatch])
 
   const handleAddPost = (newPost: PostInput) => dispatch(addPost(newPost))
 

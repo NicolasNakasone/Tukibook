@@ -30,8 +30,7 @@ export const HomePage = (): JSX.Element => {
     const observer = new IntersectionObserver(entities => {
       const isVisible = entities[0].isIntersecting
 
-      // Prevenir múltiples requests
-      if (isVisible /* && !isLoadingMore */ && status === 'succeeded') {
+      if (isVisible) {
         getMorePosts()
       }
     }, observerOptions)
@@ -41,7 +40,7 @@ export const HomePage = (): JSX.Element => {
     return () => {
       if (currentLoader) observer.unobserve(currentLoader)
     }
-  }, [loader, getMorePosts, /* isLoadingMore, */ status])
+  }, [loader, getMorePosts])
 
   return (
     <main
