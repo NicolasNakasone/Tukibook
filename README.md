@@ -1,4 +1,6 @@
-# Tukibook
+# Tukibook 👍
+
+![Tukibook logo](client/public/tuki.webp)
 
 Tukibook es una red social en desarrollo, estructurada como un monorepo utilizando npm workspaces. El proyecto consta de tres paquetes principales:
 
