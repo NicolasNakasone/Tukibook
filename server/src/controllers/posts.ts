@@ -62,6 +62,34 @@ export const addPost: RequestHandler = async (req, res, next) => {
   }
 }
 
+export const editPost: RequestHandler = async (req, res, next) => {
+  const { id: postId } = req.params
+  const { content } = req.body
+
+  if (!isValidObjectId(postId)) {
+    return res.status(400).send({ message: 'Id del post inválido' })
+  }
+
+  if (typeof content !== 'string' || !content.trim()) {
+    return res.status(400).send({ message: 'El contenido no puede estar vacío' })
+  }
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { content, updatedAt: new Date() },
+      { new: true }
+    )
+
+    if (!updatedPost) {
+      return res.status(404).send({ message: 'Post no encontrado' })
+    }
+
+    res.send(updatedPost)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const deletePost: RequestHandler = async (req, res, next) => {
   const { id: postId } = req.params
 
