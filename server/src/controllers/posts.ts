@@ -70,15 +70,12 @@ export const editPost: RequestHandler = async (req, res, next) => {
     return res.status(400).send({ message: 'Id del post inválido' })
   }
 
-  if (typeof content !== 'string' || !content.trim()) {
-    return res.status(400).send({ message: 'El contenido no puede estar vacío' })
-  }
+  // if (typeof content !== 'string' || !content.trim()) {
+  //   return res.status(400).send({ message: 'El contenido no puede estar vacío' })
+  // }
+
   try {
-    const updatedPost = await Post.findByIdAndUpdate(
-      postId,
-      { content, updatedAt: new Date() },
-      { new: true }
-    )
+    const updatedPost = await Post.findByIdAndUpdate(postId, { content }, { new: true })
 
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado' })
