@@ -12,7 +12,7 @@ const observerOptions: IntersectionObserverInit = {
 }
 
 export const HomePage = (): JSX.Element => {
-  const { posts, status, page, getPosts, getMorePosts /* , isLoadingMore */ } = usePosts()
+  const { posts, status, page, getPosts, getMorePosts } = usePosts()
   const loader = useRef(null)
 
   // Carga inicial
@@ -63,7 +63,6 @@ export const HomePage = (): JSX.Element => {
         <AddPostForm />
       )}
       <HomeContainer {...{ posts }} />
-      {/* {isLoadingMore && <p>Cargando más...</p>} */}
       <div ref={loader} />
     </main>
   )
