@@ -1,11 +1,15 @@
-import { useEffect } from 'react'
+import { ButtonHTMLAttributes, useEffect } from 'react'
 
 import styles from 'src/features/posts/DeletePostButton.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitDeletePost, socket } from 'src/sockets'
 import { Post, SocketEvents } from 'tukibook-helper'
 
-export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
+interface DeletePostButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  post: Post
+}
+
+export const DeletePostButton = ({ post, ...props }: DeletePostButtonProps): JSX.Element => {
   const { deletePost, deletePostAfter } = usePosts()
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export const DeletePostButton = ({ post }: { post: Post }): JSX.Element => {
   }
 
   return (
-    <button className={styles.deletePostButton} onClick={handleDeletePost}>
+    <button {...props} className={styles.deletePostButton} onClick={handleDeletePost}>
       ❌
     </button>
   )

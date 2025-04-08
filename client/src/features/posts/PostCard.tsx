@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import tukibookLogo from 'public/tuki.webp'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import { AddCommentForm } from 'src/features/comments/AddCommentForm'
@@ -12,21 +14,38 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post }: PostCardProps): JSX.Element => {
+  const [isEditing, setIsEditing] = useState(false)
+
   return (
     <div key={post.id} className={styles.postCardContainer}>
       {/* Cambiar mas adelante a un menu tipo tooltip con tres puntos
         para mostrar opciones como borrar el post o cosas asi
       */}
-      <PostCardHeader {...{ post }} />
-      <PostCardContent {...{ post }} />
-      <LikePostButton {...{ post }} />
-      <PostCardComments {...{ post }} />
-      <AddCommentForm {...{ post }} />
+      <PostCardHeader
+        {...{ post, isEditing }}
+        toggleEdit={() => setIsEditing(prevState => !prevState)}
+      />
+      <PostCardContent {...{ post, isEditing }} />
+      {!isEditing && (
+        <>
+          <LikePostButton {...{ post }} />
+          <PostCardComments {...{ post }} />
+          <AddCommentForm {...{ post }} />
+        </>
+      )}
     </div>
   )
 }
 
-const PostCardHeader = ({ post }: { post: Post }): JSX.Element => {
+const PostCardHeader = ({
+  post,
+  isEditing,
+  toggleEdit,
+}: {
+  post: Post
+  isEditing: boolean
+  toggleEdit: () => void
+}): JSX.Element => {
   return (
     <div className={styles.postCardHeaderContainer}>
       <h2 className={styles.postCardUsername}>
@@ -37,12 +56,19 @@ const PostCardHeader = ({ post }: { post: Post }): JSX.Element => {
         />
         {post.username}
       </h2>
-      <DeletePostButton {...{ post }} />
+      <div className={styles.postCardHeaderButtons}>
+        <button className={styles.editButton} onClick={toggleEdit}>
+          ✏️
+        </button>
+        <DeletePostButton {...{ post }} disabled={isEditing} />
+      </div>
     </div>
   )
 }
 
-const PostCardContent = ({ post }: { post: Post }): JSX.Element => {
+const PostCardContent = ({ post, isEditing }: { post: Post; isEditing: boolean }): JSX.Element => {
+  if (isEditing) return <textarea />
+
   return post.content.length <= 200 ? (
     <p className={styles.postContent}>{post.content}</p>
   ) : (
