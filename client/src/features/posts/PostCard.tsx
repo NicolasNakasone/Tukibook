@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { SetStateAction, useState } from 'react'
 
 import tukibookLogo from 'public/tuki.webp'
+import { Button } from 'src/components/common/Button'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import { AddCommentForm } from 'src/features/comments/AddCommentForm'
 import { CommentCard } from 'src/features/comments/CommentCard'
@@ -15,6 +16,7 @@ interface PostCardProps {
 
 export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
+  const [newContent, setNewContent] = useState(post.content)
 
   return (
     <div key={post.id} className={styles.postCardContainer}>
@@ -25,7 +27,7 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
         {...{ post, isEditing }}
         toggleEdit={() => setIsEditing(prevState => !prevState)}
       />
-      <PostCardContent {...{ post, isEditing }} />
+      <PostCardContent {...{ post, isEditing, newContent, setNewContent }} />
       {!isEditing && (
         <>
           <LikePostButton {...{ post }} />
@@ -33,6 +35,7 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
           <AddCommentForm {...{ post }} />
         </>
       )}
+      {isEditing && <Button disabled={newContent === post.content}>Guardar</Button>}
     </div>
   )
 }
@@ -57,17 +60,28 @@ const PostCardHeader = ({
         {post.username}
       </h2>
       <div className={styles.postCardHeaderButtons}>
-        <button className={styles.editButton} onClick={toggleEdit}>
-          ✏️
-        </button>
+        <Button onClick={toggleEdit}>✏️</Button>
         <DeletePostButton {...{ post }} disabled={isEditing} />
       </div>
     </div>
   )
 }
 
-const PostCardContent = ({ post, isEditing }: { post: Post; isEditing: boolean }): JSX.Element => {
-  if (isEditing) return <textarea />
+interface PostCardContentProps {
+  post: Post
+  isEditing: boolean
+  newContent: string
+  setNewContent: (value: SetStateAction<string>) => void
+}
+
+const PostCardContent = ({
+  post,
+  isEditing,
+  newContent,
+  setNewContent,
+}: PostCardContentProps): JSX.Element => {
+  if (isEditing)
+    return <textarea value={newContent} onChange={e => setNewContent(e.target.value)} />
 
   return post.content.length <= 200 ? (
     <p className={styles.postContent}>{post.content}</p>
