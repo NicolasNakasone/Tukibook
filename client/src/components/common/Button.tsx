@@ -4,10 +4,10 @@ import styles from 'src/components/common/Button.module.css'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const Button = ({ ...props }: ButtonProps): JSX.Element => {
+export const Button = ({ children, className = '', ...rest }: ButtonProps): JSX.Element => {
   return (
-    <button {...props} className={`${styles.button} ${props.className || ''}`}>
-      {props.children}
+    <button className={`${styles.button} ${className}`} {...rest}>
+      {children}
     </button>
   )
 }
