@@ -8,6 +8,7 @@ import { CommentCard } from 'src/features/comments/CommentCard'
 import { DeletePostButton } from 'src/features/posts/DeletePostButton'
 import { LikePostButton } from 'src/features/posts/LikePostButton'
 import styles from 'src/features/posts/PostCard.module.css'
+import { usePosts } from 'src/hooks/usePosts.hook'
 import { Post } from 'tukibook-helper'
 
 interface PostCardProps {
@@ -17,6 +18,17 @@ interface PostCardProps {
 export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
   const [newContent, setNewContent] = useState(post.content)
+
+  const { editPost } = usePosts()
+
+  const handleEditPost = async () => {
+    const response = await editPost({ id: post.id, content: newContent })
+
+    if (response.payload) {
+      setIsEditing(false)
+      setNewContent(post.content)
+    }
+  }
 
   return (
     <div key={post.id} className={styles.postCardContainer}>
@@ -35,7 +47,11 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
           <AddCommentForm {...{ post }} />
         </>
       )}
-      {isEditing && <Button disabled={newContent === post.content}>Guardar</Button>}
+      {isEditing && (
+        <Button disabled={newContent === post.content} onClick={handleEditPost}>
+          Guardar
+        </Button>
+      )}
     </div>
   )
 }

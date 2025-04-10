@@ -6,11 +6,19 @@ import {
   addPost,
   commentPost,
   deletePost,
+  editPost,
   fetchPosts,
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
-import { GetPage, PostInput, Post, CommentInput, SocketEvents } from 'tukibook-helper'
+import {
+  GetPage,
+  PostInput,
+  Post,
+  CommentInput,
+  SocketEvents,
+  UpdatePostInput,
+} from 'tukibook-helper'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -36,6 +44,8 @@ export const usePosts = () => {
 
   const handleCommentPost = (newComment: CommentInput) => dispatch(commentPost(newComment))
 
+  const handleEditPost = (updatedPost: UpdatePostInput) => dispatch(editPost(updatedPost))
+
   // Socket functions
 
   const handleAddPostToAllClients = () => {
@@ -50,15 +60,15 @@ export const usePosts = () => {
     })
   }
 
-  const handleCommentPostToAllClients = () => {
-    return socket.on(SocketEvents.COMMENT_POST, (newComment: Comment) => {
-      dispatch({ type: 'posts/commentPost/fulfilled', payload: newComment })
-    })
-  }
-
   const handleLikePostOnAllClients = () => {
     return socket.on(SocketEvents.LIKE_POST, (updatedPost: Post) => {
       dispatch({ type: 'posts/likePost/fulfilled', payload: updatedPost })
+    })
+  }
+
+  const handleCommentPostToAllClients = () => {
+    return socket.on(SocketEvents.COMMENT_POST, (newComment: Comment) => {
+      dispatch({ type: 'posts/commentPost/fulfilled', payload: newComment })
     })
   }
 
@@ -74,10 +84,11 @@ export const usePosts = () => {
     deletePost: handleDeletePost,
     likePost: handleLikePost,
     commentPost: handleCommentPost,
+    editPost: handleEditPost,
     // TODO: Pensar otro nombre
     addPostAfter: handleAddPostToAllClients,
     deletePostAfter: handleDeletePostOnAllClients,
-    commentPostAfter: handleCommentPostToAllClients,
     likePostAfter: handleLikePostOnAllClients,
+    commentPostAfter: handleCommentPostToAllClients,
   }
 }

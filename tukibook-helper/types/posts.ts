@@ -5,6 +5,10 @@ export interface PostInput {
   content: string
 }
 
+export interface UpdatePostInput extends Partial<PostInput> {
+  id: string
+}
+
 export interface Post extends PostInput {
   id: string
   likes: number
