@@ -72,6 +72,12 @@ export const usePosts = () => {
     })
   }
 
+  const handleEditPostOnAllClients = () => {
+    return socket.on(SocketEvents.EDIT_POST, (editedPost: Post) => {
+      dispatch({ type: 'posts/editPost/fulfilled', payload: editedPost })
+    })
+  }
+
   return {
     posts,
     status,
@@ -90,5 +96,6 @@ export const usePosts = () => {
     deletePostAfter: handleDeletePostOnAllClients,
     likePostAfter: handleLikePostOnAllClients,
     commentPostAfter: handleCommentPostToAllClients,
+    editPostAfter: handleEditPostOnAllClients,
   }
 }

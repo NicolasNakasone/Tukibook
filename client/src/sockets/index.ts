@@ -20,3 +20,7 @@ export const emitCommentPost = (newComment: Comment) => {
 export const emitLikePost = (updatedPost: Post) => {
   socket.emit(SocketEvents.LIKE_POST, updatedPost)
 }
+
+export const emitEditPost = (updatedPost: Post) => {
+  socket.emit(SocketEvents.EDIT_POST, updatedPost)
+}

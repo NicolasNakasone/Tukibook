@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 
 import tukibookLogo from 'public/tuki.webp'
 import { Button } from 'src/components/common/Button'
@@ -9,7 +9,8 @@ import { DeletePostButton } from 'src/features/posts/DeletePostButton'
 import { LikePostButton } from 'src/features/posts/LikePostButton'
 import styles from 'src/features/posts/PostCard.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { Post } from 'tukibook-helper'
+import { emitEditPost, socket } from 'src/sockets'
+import { Post, SocketEvents } from 'tukibook-helper'
 
 interface PostCardProps {
   post: Post
@@ -19,14 +20,23 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
   const [newContent, setNewContent] = useState(post.content)
 
-  const { editPost } = usePosts()
+  const { editPost, editPostAfter } = usePosts()
+
+  useEffect(() => {
+    editPostAfter()
+
+    return () => {
+      socket.off(SocketEvents.EDIT_POST)
+    }
+  }, [])
 
   const handleEditPost = async () => {
     const response = await editPost({ id: post.id, content: newContent })
 
     if (response.payload) {
+      emitEditPost(response.payload as Post)
       setIsEditing(false)
-      setNewContent(post.content)
+      setNewContent((response.payload as Post).content)
     }
   }
 
