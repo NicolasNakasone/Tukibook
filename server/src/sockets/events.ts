@@ -17,4 +17,8 @@ export const handleSocketEvents = (io: Server, socket: Socket): void => {
   socket.on(SocketEvents.LIKE_POST, (post: Post) => {
     io.emit(SocketEvents.LIKE_POST, post) // Emite el post que se 'likeo' a todos los clientes conectados
   })
+
+  socket.on(SocketEvents.EDIT_POST, (post: Post) => {
+    io.emit(SocketEvents.EDIT_POST, post) // Emite el post que se edito a todos los clientes conectados
+  })
 }
