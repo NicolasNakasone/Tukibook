@@ -23,6 +23,12 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   const { editPost, editPostAfter } = usePosts()
 
   useEffect(() => {
+    if (!isEditing) {
+      setNewContent(post.content)
+    }
+  }, [post.content, isEditing])
+
+  useEffect(() => {
     editPostAfter()
 
     return () => {
