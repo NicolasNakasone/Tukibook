@@ -5,15 +5,15 @@ import { SocketEvents, Post, Comment } from 'tukibook-helper'
 
 export const registerPostListeners = (dispatch: AppDispatch) => {
   socket.on(SocketEvents.NEW_POST, (createdPost: Post) => {
-    dispatch({ type: `${PostsActionTypes.ADD_POST}/fullfilled`, payload: createdPost })
+    dispatch({ type: `${PostsActionTypes.ADD_POST}/fulfilled`, payload: createdPost })
   })
 
   socket.on(SocketEvents.DELETE_POST, (deletedPost: Post) => {
-    dispatch({ type: `${PostsActionTypes.DELETE_POST}/fullfilled`, payload: deletedPost })
+    dispatch({ type: `${PostsActionTypes.DELETE_POST}/fulfilled`, payload: deletedPost })
   })
 
   socket.on(SocketEvents.LIKE_POST, (updatedPost: Post) => {
-    dispatch({ type: `${PostsActionTypes.LIKE_POST}/fullfilled`, payload: updatedPost })
+    dispatch({ type: `${PostsActionTypes.LIKE_POST}/fulfilled`, payload: updatedPost })
   })
 
   socket.on(SocketEvents.COMMENT_POST, (newComment: Comment) => {
