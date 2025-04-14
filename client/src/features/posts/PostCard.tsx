@@ -9,8 +9,8 @@ import { DeletePostButton } from 'src/features/posts/DeletePostButton'
 import { LikePostButton } from 'src/features/posts/LikePostButton'
 import styles from 'src/features/posts/PostCard.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitEditPost, socket } from 'src/sockets'
-import { Post, SocketEvents } from 'tukibook-helper'
+import { emitEditPost } from 'src/sockets'
+import { Post } from 'tukibook-helper'
 
 interface PostCardProps {
   post: Post
@@ -20,21 +20,13 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
   const [newContent, setNewContent] = useState(post.content)
 
-  const { editPost, editPostAfter } = usePosts()
+  const { editPost } = usePosts()
 
   useEffect(() => {
     if (!isEditing) {
       setNewContent(post.content)
     }
   }, [post.content, isEditing])
-
-  useEffect(() => {
-    editPostAfter()
-
-    return () => {
-      socket.off(SocketEvents.EDIT_POST)
-    }
-  }, [])
 
   const handleEditPost = async () => {
     const response = await editPost({ id: post.id, content: newContent })

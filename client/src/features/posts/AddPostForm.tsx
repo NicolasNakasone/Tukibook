@@ -1,9 +1,9 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 import styles from 'src/features/posts/AddPostForm.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitNewPost, socket } from 'src/sockets'
-import { SocketEvents, Post } from 'tukibook-helper'
+import { emitNewPost } from 'src/sockets'
+import { Post } from 'tukibook-helper'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts
@@ -22,17 +22,7 @@ import { SocketEvents, Post } from 'tukibook-helper'
 export const AddPostForm = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
 
-  const { addPost, addPostAfter } = usePosts()
-
-  useEffect(() => {
-    addPostAfter()
-
-    return () => {
-      // console.log('socket off')
-      // No aparece nunca el log 👀
-      socket.off(SocketEvents.NEW_POST)
-    }
-  }, [])
+  const { addPost } = usePosts()
 
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {
     setIsLoading(true)

@@ -1,22 +1,12 @@
-import { FormEvent, useEffect } from 'react'
+import { FormEvent } from 'react'
 
 import styles from 'src/features/comments/AddCommentForm.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitCommentPost, socket } from 'src/sockets'
-import { Comment, Post, SocketEvents } from 'tukibook-helper'
+import { emitCommentPost } from 'src/sockets'
+import { Comment, Post } from 'tukibook-helper'
 
 export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
-  const { commentPost, commentPostAfter } = usePosts()
-
-  useEffect(() => {
-    commentPostAfter()
-
-    return () => {
-      // console.log('socket off')
-      // No aparece nunca el log 👀
-      socket.off(SocketEvents.COMMENT_POST)
-    }
-  }, [])
+  const { commentPost } = usePosts()
 
   const handleCommentPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()

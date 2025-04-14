@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { socket } from 'src/sockets'
 import {
   addPost,
   commentPost,
@@ -11,14 +10,7 @@ import {
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
-import {
-  GetPage,
-  PostInput,
-  Post,
-  CommentInput,
-  SocketEvents,
-  UpdatePostInput,
-} from 'tukibook-helper'
+import { GetPage, PostInput, Post, CommentInput, UpdatePostInput } from 'tukibook-helper'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -46,38 +38,6 @@ export const usePosts = () => {
 
   const handleEditPost = (updatedPost: UpdatePostInput) => dispatch(editPost(updatedPost))
 
-  // Socket functions
-
-  const handleAddPostToAllClients = () => {
-    return socket.on(SocketEvents.NEW_POST, (createdPost: Post) => {
-      dispatch({ type: 'posts/addPost/fulfilled', payload: createdPost })
-    })
-  }
-
-  const handleDeletePostOnAllClients = () => {
-    return socket.on(SocketEvents.DELETE_POST, (deletedPost: Post) => {
-      dispatch({ type: 'posts/deletePost/fulfilled', payload: deletedPost })
-    })
-  }
-
-  const handleLikePostOnAllClients = () => {
-    return socket.on(SocketEvents.LIKE_POST, (updatedPost: Post) => {
-      dispatch({ type: 'posts/likePost/fulfilled', payload: updatedPost })
-    })
-  }
-
-  const handleCommentPostToAllClients = () => {
-    return socket.on(SocketEvents.COMMENT_POST, (newComment: Comment) => {
-      dispatch({ type: 'posts/commentPost/fulfilled', payload: newComment })
-    })
-  }
-
-  const handleEditPostOnAllClients = () => {
-    return socket.on(SocketEvents.EDIT_POST, (editedPost: Post) => {
-      dispatch({ type: 'posts/editPost/fulfilled', payload: editedPost })
-    })
-  }
-
   return {
     posts,
     status,
@@ -91,11 +51,5 @@ export const usePosts = () => {
     likePost: handleLikePost,
     commentPost: handleCommentPost,
     editPost: handleEditPost,
-    // TODO: Pensar otro nombre
-    addPostAfter: handleAddPostToAllClients,
-    deletePostAfter: handleDeletePostOnAllClients,
-    likePostAfter: handleLikePostOnAllClients,
-    commentPostAfter: handleCommentPostToAllClients,
-    editPostAfter: handleEditPostOnAllClients,
   }
 }

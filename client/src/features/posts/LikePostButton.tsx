@@ -1,22 +1,10 @@
-import { useEffect } from 'react'
-
 import styles from 'src/features/posts/LikePostButton.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitLikePost, socket } from 'src/sockets'
-import { Post, SocketEvents } from 'tukibook-helper'
+import { emitLikePost } from 'src/sockets'
+import { Post } from 'tukibook-helper'
 
 export const LikePostButton = ({ post }: { post: Post }): JSX.Element => {
-  const { likePost, likePostAfter } = usePosts()
-
-  useEffect(() => {
-    likePostAfter()
-
-    return () => {
-      // console.log('socket off')
-      // No aparece nunca el log 👀
-      socket.off(SocketEvents.LIKE_POST)
-    }
-  }, [])
+  const { likePost } = usePosts()
 
   const handleLikePost = async () => {
     const response = await likePost(post.id)
