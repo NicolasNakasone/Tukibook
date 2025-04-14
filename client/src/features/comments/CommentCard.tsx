@@ -22,6 +22,8 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
 }
 
 export const CommentCardContent = ({ comment }: { comment: Comment }): JSX.Element | string => {
+  if (!comment?.content) return ''
+
   return comment.content.length <= 100 ? (
     comment.content
   ) : (
