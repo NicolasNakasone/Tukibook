@@ -89,6 +89,17 @@ export const commentPost = createAsyncThunk(
   }
 )
 
+export const deleteComment = createAsyncThunk(
+  PostsActionTypes.DELETE_COMMENT,
+  async (commentId: Comment['id']) => {
+    const response = await handleFetch(`${VITE_API_URL}${routes.comments}/${commentId}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'DELETE',
+    }).then(res => res?.json())
+    return response as Comment
+  }
+)
+
 interface PostsState {
   posts: PostList
   status: 'loading' | 'succeeded' | 'failed'
@@ -169,6 +180,16 @@ const postsSlice = createSlice({
               en lugar de propiedad por propiedad 
             */
           }
+        }
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        const deletedComment = action.payload
+
+        const post = state.posts.find(post =>
+          post.comments.some(comment => comment.id === deletedComment.id)
+        )
+        if (post) {
+          post.comments = post.comments.filter(comment => comment.id !== deletedComment.id)
         }
       })
   },

@@ -13,14 +13,18 @@ export const emitDeletePost = (deletedPost: Post) => {
   socket.emit(SocketEvents.DELETE_POST, deletedPost)
 }
 
-export const emitCommentPost = (newComment: Comment) => {
-  socket.emit(SocketEvents.COMMENT_POST, newComment)
-}
-
 export const emitLikePost = (updatedPost: Post) => {
   socket.emit(SocketEvents.LIKE_POST, updatedPost)
 }
 
 export const emitEditPost = (updatedPost: Post) => {
   socket.emit(SocketEvents.EDIT_POST, updatedPost)
+}
+
+export const emitCommentPost = (newComment: Comment) => {
+  socket.emit(SocketEvents.COMMENT_POST, newComment)
+}
+
+export const emitDeleteComment = (deletedComment: Comment) => {
+  socket.emit(SocketEvents.DELETE_COMMENT, deletedComment)
 }

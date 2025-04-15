@@ -3,6 +3,7 @@ export enum PostsActionTypes {
   ADD_POST = 'posts/addPost',
   DELETE_POST = 'posts/deletePost',
   LIKE_POST = 'posts/likePost',
-  COMMENT_POST = 'posts/commentPost',
   EDIT_POST = 'posts/editPost',
+  COMMENT_POST = 'posts/commentPost',
+  DELETE_COMMENT = 'posts/deleteComment',
 }

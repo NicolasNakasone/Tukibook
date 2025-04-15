@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   addPost,
   commentPost,
+  deleteComment,
   deletePost,
   editPost,
   fetchPosts,
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
-import { GetPage, PostInput, Post, CommentInput, UpdatePostInput } from 'tukibook-helper'
+import { GetPage, PostInput, Post, CommentInput, UpdatePostInput, Comment } from 'tukibook-helper'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -34,9 +35,11 @@ export const usePosts = () => {
 
   const handleLikePost = (postId: Post['id']) => dispatch(likePost(postId))
 
+  const handleEditPost = (updatedPost: UpdatePostInput) => dispatch(editPost(updatedPost))
+
   const handleCommentPost = (newComment: CommentInput) => dispatch(commentPost(newComment))
 
-  const handleEditPost = (updatedPost: UpdatePostInput) => dispatch(editPost(updatedPost))
+  const handleDeleteComment = (commentId: Comment['id']) => dispatch(deleteComment(commentId))
 
   return {
     posts,
@@ -49,7 +52,8 @@ export const usePosts = () => {
     addPost: handleAddPost,
     deletePost: handleDeletePost,
     likePost: handleLikePost,
-    commentPost: handleCommentPost,
     editPost: handleEditPost,
+    commentPost: handleCommentPost,
+    deleteComment: handleDeleteComment,
   }
 }

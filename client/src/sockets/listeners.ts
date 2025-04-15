@@ -16,11 +16,15 @@ export const registerPostListeners = (dispatch: AppDispatch) => {
     dispatch({ type: `${PostsActionTypes.LIKE_POST}/fulfilled`, payload: updatedPost })
   })
 
+  socket.on(SocketEvents.EDIT_POST, (editedPost: Post) => {
+    dispatch({ type: `${PostsActionTypes.EDIT_POST}/fulfilled`, payload: editedPost })
+  })
+
   socket.on(SocketEvents.COMMENT_POST, (newComment: Comment) => {
     dispatch({ type: `${PostsActionTypes.COMMENT_POST}/fulfilled`, payload: newComment })
   })
 
-  socket.on(SocketEvents.EDIT_POST, (editedPost: Post) => {
-    dispatch({ type: `${PostsActionTypes.EDIT_POST}/fulfilled`, payload: editedPost })
+  socket.on(SocketEvents.DELETE_COMMENT, (deletedComment: Comment) => {
+    dispatch({ type: `${PostsActionTypes.DELETE_COMMENT}/fulfilled`, payload: deletedComment })
   })
 }
