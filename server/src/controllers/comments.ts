@@ -28,6 +28,26 @@ export const addCommentToPost: RequestHandler = async (req, res, next) => {
   }
 }
 
+export const editComment: RequestHandler = async (req, res, next) => {
+  const { id: commentId } = req.params
+  const { content } = req.body
+
+  if (!isValidObjectId(commentId)) {
+    return res.status(400).send({ message: 'Id del comentario inválido' })
+  }
+
+  try {
+    const updatedComment = await Comment.findByIdAndUpdate(commentId, { content }, { new: true })
+    if (!updatedComment) {
+      return res.status(404).send({ message: 'Comentario no encontrado' })
+    }
+
+    res.send(updatedComment)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const deleteComment: RequestHandler = async (req, res, next) => {
   const { id: commentId } = req.params
 

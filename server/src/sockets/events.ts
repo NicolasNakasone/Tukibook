@@ -22,6 +22,10 @@ export const handleSocketEvents = (io: Server, socket: Socket): void => {
     io.emit(SocketEvents.COMMENT_POST, comment) // Emite el comentario que se creo a todos los clientes conectados
   })
 
+  socket.on(SocketEvents.EDIT_COMMENT, (updatedComment: Comment) => {
+    io.emit(SocketEvents.EDIT_COMMENT, updatedComment) // Emite el comentario que se edito a todos los clientes conectados
+  })
+
   socket.on(SocketEvents.DELETE_COMMENT, (comment: Comment) => {
     io.emit(SocketEvents.DELETE_COMMENT, comment) // Emite el comentario que se borro a todos los clientes conectados
   })
