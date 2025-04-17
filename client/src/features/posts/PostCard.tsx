@@ -1,8 +1,10 @@
 import { SetStateAction, useEffect, useState } from 'react'
 
 import tukibookLogo from 'public/tuki.webp'
+import { Link } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
+import { routes } from 'src/constants/routes'
 import { AddCommentForm } from 'src/features/comments/AddCommentForm'
 import { CommentCard } from 'src/features/comments/CommentCard'
 import { DeletePostButton } from 'src/features/posts/DeletePostButton'
@@ -43,6 +45,7 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
       {/* Cambiar mas adelante a un menu tipo tooltip con tres puntos
         para mostrar opciones como borrar el post o cosas asi
       */}
+      <Link to={routes.postDetail.replace(':id', post.id)}>Detalle</Link>
       <PostCardHeader
         {...{ post, isEditing }}
         toggleEdit={() => setIsEditing(prevState => !prevState)}

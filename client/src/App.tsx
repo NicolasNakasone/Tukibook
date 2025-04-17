@@ -2,7 +2,7 @@ import { Routes, Route, Outlet } from 'react-router-dom'
 import { Footer } from 'src/components/common/Footer'
 import { Header } from 'src/components/common/Header'
 import { routes } from 'src/constants/routes'
-import { HomePage } from 'src/pages'
+import { HomePage, PostDetailPage } from 'src/pages'
 
 export const App = () => {
   return (
@@ -18,6 +18,7 @@ export const App = () => {
         }
       >
         <Route path={routes.home} element={<HomePage />} />
+        <Route path={routes.postDetail} element={<PostDetailPage />} />
       </Route>
     </Routes>
   )
