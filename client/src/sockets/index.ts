@@ -25,6 +25,10 @@ export const emitCommentPost = (newComment: Comment) => {
   socket.emit(SocketEvents.COMMENT_POST, newComment)
 }
 
+export const emitEditComment = (updatedComment: Comment) => {
+  socket.emit(SocketEvents.EDIT_COMMENT, updatedComment)
+}
+
 export const emitDeleteComment = (deletedComment: Comment) => {
   socket.emit(SocketEvents.DELETE_COMMENT, deletedComment)
 }

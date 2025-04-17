@@ -6,12 +6,21 @@ import {
   commentPost,
   deleteComment,
   deletePost,
+  editComment,
   editPost,
   fetchPosts,
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
-import { GetPage, PostInput, Post, CommentInput, UpdatePostInput, Comment } from 'tukibook-helper'
+import {
+  GetPage,
+  PostInput,
+  Post,
+  CommentInput,
+  UpdatePostInput,
+  Comment,
+  UpdateCommentInput,
+} from 'tukibook-helper'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -39,6 +48,9 @@ export const usePosts = () => {
 
   const handleCommentPost = (newComment: CommentInput) => dispatch(commentPost(newComment))
 
+  const handleEditComment = (updatedComment: UpdateCommentInput) =>
+    dispatch(editComment(updatedComment))
+
   const handleDeleteComment = (commentId: Comment['id']) => dispatch(deleteComment(commentId))
 
   return {
@@ -54,6 +66,7 @@ export const usePosts = () => {
     likePost: handleLikePost,
     editPost: handleEditPost,
     commentPost: handleCommentPost,
+    editComment: handleEditComment,
     deleteComment: handleDeleteComment,
   }
 }

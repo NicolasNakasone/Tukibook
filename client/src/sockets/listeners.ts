@@ -24,6 +24,13 @@ export const registerPostListeners = (dispatch: AppDispatch) => {
     dispatch({ type: `${PostsActionTypes.COMMENT_POST}/fulfilled`, payload: newComment })
   })
 
+  socket.on(SocketEvents.EDIT_COMMENT, (updatedComment: Comment) => {
+    dispatch({
+      type: `${PostsActionTypes.EDIT_COMMENT}/fulfilled`,
+      payload: updatedComment,
+    })
+  })
+
   socket.on(SocketEvents.DELETE_COMMENT, (deletedComment: Comment) => {
     dispatch({ type: `${PostsActionTypes.DELETE_COMMENT}/fulfilled`, payload: deletedComment })
   })

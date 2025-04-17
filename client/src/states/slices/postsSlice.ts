@@ -11,6 +11,7 @@ import {
   Comment,
   GetPostsResponse,
   UpdatePostInput,
+  UpdateCommentInput,
 } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -86,6 +87,18 @@ export const commentPost = createAsyncThunk(
       body: JSON.stringify(newComment),
     }).then(res => res?.json())
     return { postId: newComment.postId, newComment: response as Comment }
+  }
+)
+
+export const editComment = createAsyncThunk(
+  PostsActionTypes.EDIT_COMMENT,
+  async ({ id, ...newComment }: UpdateCommentInput) => {
+    const response = await handleFetch(`${VITE_API_URL}${routes.comments}/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newComment),
+    }).then(res => res?.json())
+    return response as Comment
   }
 )
 
@@ -179,6 +192,17 @@ const postsSlice = createSlice({
             /* Tambien se puede directamente ...action.payload, 
               en lugar de propiedad por propiedad 
             */
+          }
+        }
+      })
+      .addCase(editComment.fulfilled, (state, action) => {
+        const updated = action.payload
+        const post = state.posts.find(p => p.comments.some(c => c.id === updated.id))
+        if (post) {
+          const comment = post.comments.find(c => c.id === updated.id)
+          if (comment) {
+            comment.content = updated.content
+            comment.updatedAt = updated.updatedAt
           }
         }
       })

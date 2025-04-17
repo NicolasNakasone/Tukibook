@@ -1,13 +1,34 @@
+import { useEffect, useState } from 'react'
+
 import tukibookLogo from 'public/tuki.webp'
 import { Button } from 'src/components/common/Button'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import styles from 'src/features/comments/CommentCard.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitDeleteComment } from 'src/sockets'
+import { emitDeleteComment, emitEditComment } from 'src/sockets'
 import { Comment, Post } from 'tukibook-helper'
 
 export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
-  const { deleteComment } = usePosts()
+  const [isEditing, setIsEditing] = useState(false)
+  const [newContent, setNewContent] = useState(comment.content)
+
+  const { deleteComment, editComment } = usePosts()
+
+  useEffect(() => {
+    if (!isEditing) {
+      setNewContent(comment.content)
+    }
+  }, [comment.content, isEditing])
+
+  const handleEditComment = async () => {
+    const response = await editComment({ id: comment.id, content: newContent })
+
+    if (response.payload) {
+      emitEditComment(response.payload as Comment)
+      setIsEditing(false)
+      setNewContent((response.payload as Comment).content)
+    }
+  }
 
   const handleDeleteComment = async () => {
     const response = await deleteComment(comment.id)
@@ -22,13 +43,27 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
         alt={`${post.username}'s profile picture`}
         className={styles.commentUsername}
       />
-      <p className={styles.commentContent}>
-        <span>{comment.username}</span>
-        <span className={styles.commentContentSpan}>
-          <CommentCardContent {...{ comment }} />
-        </span>
-      </p>
-      <Button onClick={handleDeleteComment}>❌</Button>
+      {!isEditing && (
+        <>
+          <p className={styles.commentContent}>
+            <span>{comment.username}</span>
+            <span className={styles.commentContentSpan}>
+              <CommentCardContent {...{ comment }} />
+            </span>
+          </p>
+          <Button onClick={() => setIsEditing(true)}>✏️</Button>
+          <Button onClick={handleDeleteComment}>❌</Button>
+        </>
+      )}
+      {isEditing && (
+        <>
+          <textarea value={newContent} onChange={e => setNewContent(e.target.value)} />
+          <Button disabled={newContent === comment.content} onClick={handleEditComment}>
+            Guardar
+          </Button>
+          <Button onClick={() => setIsEditing(false)}>Cancelar</Button>
+        </>
+      )}
     </div>
   )
 }

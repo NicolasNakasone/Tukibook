@@ -9,3 +9,7 @@ export interface Comment extends CommentInput {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface UpdateCommentInput extends Partial<CommentInput> {
+  id: string
+}
