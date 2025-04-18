@@ -148,6 +148,12 @@ const postsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
+    const updatePostDetailIfNeeded = (state: PostsState, post: Post) => {
+      if (post.id === state.postDetail?.id) {
+        state.postDetail = post
+      }
+    }
+
     builder
       .addCase(fetchPosts.pending, state => {
         state.status = 'loading'
@@ -193,19 +199,23 @@ const postsSlice = createSlice({
       })
       .addCase(likePost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.id)
+        if (!post) return
         // Para evitar que 'likee' de mas
-        if (post && post.likes + 1 === action.payload.likes) {
+        if (post.likes + 1 === action.payload.likes) {
           post.likes += 1
         }
+
+        updatePostDetailIfNeeded(state, post)
       })
       .addCase(commentPost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.postId)
-        if (post) {
-          const newCommentId = action.payload.newComment.id
-          const isNewCommentExist = post.comments.some(comment => comment.id === newCommentId)
+        if (!post) return
+        const newCommentId = action.payload.newComment.id
+        const isNewCommentExist = post.comments.some(comment => comment.id === newCommentId)
 
-          !isNewCommentExist && post.comments.unshift(action.payload.newComment)
-        }
+        !isNewCommentExist && post.comments.unshift(action.payload.newComment)
+
+        updatePostDetailIfNeeded(state, post)
       })
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.posts.findIndex(post => post.id === action.payload.id)
@@ -219,17 +229,20 @@ const postsSlice = createSlice({
             */
           }
         }
+
+        updatePostDetailIfNeeded(state, state.posts[index])
       })
       .addCase(editComment.fulfilled, (state, action) => {
         const updated = action.payload
         const post = state.posts.find(p => p.comments.some(c => c.id === updated.id))
-        if (post) {
-          const comment = post.comments.find(c => c.id === updated.id)
-          if (comment) {
-            comment.content = updated.content
-            comment.updatedAt = updated.updatedAt
-          }
+        if (!post) return
+        const comment = post.comments.find(c => c.id === updated.id)
+        if (comment) {
+          comment.content = updated.content
+          comment.updatedAt = updated.updatedAt
         }
+
+        updatePostDetailIfNeeded(state, post)
       })
       .addCase(deleteComment.fulfilled, (state, action) => {
         const deletedComment = action.payload
@@ -237,9 +250,10 @@ const postsSlice = createSlice({
         const post = state.posts.find(post =>
           post.comments.some(comment => comment.id === deletedComment.id)
         )
-        if (post) {
-          post.comments = post.comments.filter(comment => comment.id !== deletedComment.id)
-        }
+        if (!post) return
+        post.comments = post.comments.filter(comment => comment.id !== deletedComment.id)
+
+        updatePostDetailIfNeeded(state, post)
       })
   },
 })
