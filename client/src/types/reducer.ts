@@ -1,5 +1,6 @@
 export enum PostsActionTypes {
   GET_POSTS = 'posts/fetchPosts',
+  GET_POST_DETAIL = 'posts/getPostById',
   ADD_POST = 'posts/addPost',
   DELETE_POST = 'posts/deletePost',
   LIKE_POST = 'posts/likePost',

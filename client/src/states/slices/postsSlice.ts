@@ -35,6 +35,18 @@ export const fetchPosts = createAsyncThunk(
   }
 )
 
+export const fetchPostById = createAsyncThunk(
+  PostsActionTypes.GET_POST_DETAIL,
+  async (postId: Post['id']) => {
+    const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await response?.json()
+    return data as Post
+  }
+)
+
 export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPost: PostInput) => {
   const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
     headers: { 'Content-Type': 'application/json' },
@@ -119,10 +131,12 @@ interface PostsState {
   error: string | null
   page: number
   hasMore: boolean
+  postDetail: Post | null
 }
 
 const initialState: PostsState = {
   posts: [],
+  postDetail: null,
   status: 'loading',
   error: null,
   page: 1,
@@ -148,7 +162,18 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed'
-        state.error = action.error.message || 'Failed to fetch posts'
+        state.error = action.error.message || 'Error al obtener posts'
+      })
+      .addCase(fetchPostById.pending, state => {
+        state.status = 'loading'
+      })
+      .addCase(fetchPostById.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded'
+        state.postDetail = payload
+      })
+      .addCase(fetchPostById.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || 'Error al obtener el post'
       })
       .addCase(addPost.fulfilled, (state, action) => {
         /* TODO: Optimizar busqueda innecesaria la primera vez,

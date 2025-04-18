@@ -8,6 +8,7 @@ import {
   deletePost,
   editComment,
   editPost,
+  fetchPostById,
   fetchPosts,
   likePost,
 } from 'src/states/slices/postsSlice'
@@ -24,9 +25,9 @@ import {
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { posts, status, error, page, hasMore } = useSelector(({ posts }: RootState) => posts)
-
-  // console.log('usePosts')
+  const { posts, status, error, page, hasMore, postDetail } = useSelector(
+    ({ posts }: RootState) => posts
+  )
 
   const handleGetPosts = useCallback(({ page }: GetPage) => {
     return dispatch(fetchPosts({ page }))
@@ -37,6 +38,8 @@ export const usePosts = () => {
       dispatch(fetchPosts({ page }))
     }
   }, [page, hasMore, status, dispatch])
+
+  const handleGetPostById = (postId: Post['id']) => dispatch(fetchPostById(postId))
 
   const handleAddPost = (newPost: PostInput) => dispatch(addPost(newPost))
 
@@ -55,12 +58,14 @@ export const usePosts = () => {
 
   return {
     posts,
+    postDetail,
     status,
     error,
     page,
     hasMore,
     getPosts: handleGetPosts,
     getMorePosts: handleGetMorePosts,
+    getPostById: handleGetPostById,
     addPost: handleAddPost,
     deletePost: handleDeletePost,
     likePost: handleLikePost,
