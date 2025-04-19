@@ -10,9 +10,13 @@ export const PostDetailPage = (): JSX.Element => {
   const navigate = useNavigate()
   const { postDetail, status, getPostById } = usePosts()
 
+  // console.log(!postDetail || postDetail.id !== id)
+
   useEffect(() => {
-    if (id) getPostById(id)
-  }, [id])
+    if (id && (!postDetail || postDetail.id !== id)) {
+      getPostById(id)
+    }
+  }, [id, postDetail])
 
   if (status === 'loading') return <p>Cargando post...</p>
   if (status === 'failed') return <p>Ocurrió un error</p>

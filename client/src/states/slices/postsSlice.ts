@@ -199,6 +199,8 @@ const postsSlice = createSlice({
       })
       .addCase(likePost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.id)
+        // Probar con una condicion como state.posts && !post, ya que el problema
+        // es que no existe un array de posts si se entra al detalle de post por URL
         if (!post) return
         // Para evitar que 'likee' de mas
         if (post.likes + 1 === action.payload.likes) {
