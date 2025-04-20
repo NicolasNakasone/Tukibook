@@ -148,9 +148,9 @@ const postsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    const updatePostDetailIfNeeded = (state: PostsState, post: Post) => {
-      if (post.id === state.postDetail?.id) {
-        state.postDetail = post
+    const syncPostDetail = (state: PostsState, updated: Post) => {
+      if (updated.id === state.postDetail?.id) {
+        state.postDetail = { ...state.postDetail, ...updated }
       }
     }
 
@@ -201,13 +201,13 @@ const postsSlice = createSlice({
         const post = state.posts.find(post => post.id === action.payload.id)
         // Probar con una condicion como state.posts && !post, ya que el problema
         // es que no existe un array de posts si se entra al detalle de post por URL
-        if (!post) return
+        if (!post) return syncPostDetail(state, action.payload)
         // Para evitar que 'likee' de mas
         if (post.likes + 1 === action.payload.likes) {
           post.likes += 1
         }
 
-        updatePostDetailIfNeeded(state, post)
+        syncPostDetail(state, post)
       })
       .addCase(commentPost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.postId)
@@ -217,7 +217,7 @@ const postsSlice = createSlice({
 
         !isNewCommentExist && post.comments.unshift(action.payload.newComment)
 
-        updatePostDetailIfNeeded(state, post)
+        syncPostDetail(state, post)
       })
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.posts.findIndex(post => post.id === action.payload.id)
@@ -232,7 +232,7 @@ const postsSlice = createSlice({
           }
         }
 
-        updatePostDetailIfNeeded(state, state.posts[index])
+        syncPostDetail(state, state.posts[index])
       })
       .addCase(editComment.fulfilled, (state, action) => {
         const updated = action.payload
@@ -244,7 +244,7 @@ const postsSlice = createSlice({
           comment.updatedAt = updated.updatedAt
         }
 
-        updatePostDetailIfNeeded(state, post)
+        syncPostDetail(state, post)
       })
       .addCase(deleteComment.fulfilled, (state, action) => {
         const deletedComment = action.payload
@@ -255,7 +255,7 @@ const postsSlice = createSlice({
         if (!post) return
         post.comments = post.comments.filter(comment => comment.id !== deletedComment.id)
 
-        updatePostDetailIfNeeded(state, post)
+        syncPostDetail(state, post)
       })
   },
 })
