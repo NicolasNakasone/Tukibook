@@ -199,8 +199,6 @@ const postsSlice = createSlice({
       })
       .addCase(likePost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.id)
-        // Probar con una condicion como state.posts && !post, ya que el problema
-        // es que no existe un array de posts si se entra al detalle de post por URL
         if (!post) return syncPostDetail(state, action.payload)
         // Para evitar que 'likee' de mas
         if (post.likes + 1 === action.payload.likes) {
@@ -221,15 +219,15 @@ const postsSlice = createSlice({
       })
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.posts.findIndex(post => post.id === action.payload.id)
-        if (index !== -1) {
-          state.posts[index] = {
-            ...state.posts[index],
-            content: action.payload.content,
-            updatedAt: action.payload.updatedAt,
-            /* Tambien se puede directamente ...action.payload, 
-              en lugar de propiedad por propiedad 
-            */
-          }
+        if (index === -1) return syncPostDetail(state, action.payload)
+
+        state.posts[index] = {
+          ...state.posts[index],
+          content: action.payload.content,
+          updatedAt: action.payload.updatedAt,
+          /* Tambien se puede directamente ...action.payload, 
+            en lugar de propiedad por propiedad 
+          */
         }
 
         syncPostDetail(state, state.posts[index])
