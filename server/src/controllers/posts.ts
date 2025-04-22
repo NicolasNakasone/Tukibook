@@ -75,7 +75,10 @@ export const editPost: RequestHandler = async (req, res, next) => {
   // }
 
   try {
-    const updatedPost = await Post.findByIdAndUpdate(postId, { content }, { new: true })
+    const updatedPost = await Post.findByIdAndUpdate(postId, { content }, { new: true }).populate({
+      path: 'comments',
+      options: { sort: { createdAt: -1 } },
+    })
 
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado' })
