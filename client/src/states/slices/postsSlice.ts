@@ -154,6 +154,10 @@ const postsSlice = createSlice({
       }
     }
 
+    const isPostRelatedAction = (action: any): action is { payload: Post; type: string } => {
+      return action.type.endsWith('/fulfilled') && action.payload?.id
+    }
+
     builder
       .addCase(fetchPosts.pending, state => {
         state.status = 'loading'
@@ -199,18 +203,30 @@ const postsSlice = createSlice({
       })
       .addCase(likePost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.id)
-        if (!post) return syncPostDetail(state, action.payload)
+        if (!post) return
         // Para evitar que 'likee' de mas
         if (post.likes + 1 === action.payload.likes) {
           post.likes += 1
         }
-
-        syncPostDetail(state, post)
       })
       .addCase(commentPost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.postId)
-        if (!post) return
+
         const newCommentId = action.payload.newComment.id
+
+        if (!post) {
+          if (!state.postDetail) return
+          const isNewCommentExist = state.postDetail.comments.some(
+            comment => comment.id === newCommentId
+          )
+
+          !isNewCommentExist &&
+            syncPostDetail(state, {
+              ...state.postDetail,
+              comments: [action.payload.newComment, ...state.postDetail.comments],
+            })
+          return
+        }
         const isNewCommentExist = post.comments.some(comment => comment.id === newCommentId)
 
         !isNewCommentExist && post.comments.unshift(action.payload.newComment)
@@ -219,7 +235,7 @@ const postsSlice = createSlice({
       })
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.posts.findIndex(post => post.id === action.payload.id)
-        if (index === -1) return syncPostDetail(state, action.payload)
+        if (index === -1) return
 
         state.posts[index] = {
           ...state.posts[index],
@@ -229,8 +245,6 @@ const postsSlice = createSlice({
             en lugar de propiedad por propiedad 
           */
         }
-
-        syncPostDetail(state, state.posts[index])
       })
       .addCase(editComment.fulfilled, (state, action) => {
         const updated = action.payload
@@ -254,6 +268,13 @@ const postsSlice = createSlice({
         post.comments = post.comments.filter(comment => comment.id !== deletedComment.id)
 
         syncPostDetail(state, post)
+      })
+      .addMatcher(isPostRelatedAction, (state, action) => {
+        const updatedPost = action.payload
+
+        if (state.postDetail?.id === updatedPost.id) {
+          state.postDetail = { ...state.postDetail, ...updatedPost }
+        }
       })
   },
 })
