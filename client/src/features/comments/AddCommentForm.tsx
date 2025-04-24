@@ -3,7 +3,7 @@ import { FormEvent } from 'react'
 import styles from 'src/features/comments/AddCommentForm.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitCommentPost } from 'src/sockets'
-import { Comment, Post } from 'tukibook-helper'
+import { Post } from 'tukibook-helper'
 
 export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   const { commentPost } = usePosts()
@@ -16,7 +16,7 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
 
     const response = await commentPost({ postId: post.id, username: 'otro user', content })
 
-    if (response.payload) emitCommentPost(response.payload as Comment)
+    if (response.payload) emitCommentPost(response.payload as Post)
 
     target.reset()
   }

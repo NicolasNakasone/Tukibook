@@ -98,7 +98,7 @@ export const commentPost = createAsyncThunk(
       method: 'POST',
       body: JSON.stringify(newComment),
     }).then(res => res?.json())
-    return { postId: newComment.postId, newComment: response as Comment }
+    return response as Post
   }
 )
 
@@ -110,7 +110,7 @@ export const editComment = createAsyncThunk(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newComment),
     }).then(res => res?.json())
-    return response as Comment
+    return response as Post
   }
 )
 
@@ -121,7 +121,7 @@ export const deleteComment = createAsyncThunk(
       headers: { 'Content-Type': 'application/json' },
       method: 'DELETE',
     }).then(res => res?.json())
-    return response as Comment
+    return response as Post
   }
 )
 
@@ -148,11 +148,11 @@ const postsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    const syncPostDetail = (state: PostsState, updated: Post) => {
-      if (updated.id === state.postDetail?.id) {
-        state.postDetail = { ...state.postDetail, ...updated }
-      }
-    }
+    // const syncPostDetail = (state: PostsState, updated: Post) => {
+    //   if (updated.id === state.postDetail?.id) {
+    //     state.postDetail = { ...state.postDetail, ...updated }
+    //   }
+    // }
 
     const isPostRelatedAction = (action: any): action is { payload: Post; type: string } => {
       return action.type.endsWith('/fulfilled') && action.payload?.id
@@ -209,30 +209,6 @@ const postsSlice = createSlice({
           post.likes += 1
         }
       })
-      .addCase(commentPost.fulfilled, (state, action) => {
-        const post = state.posts.find(post => post.id === action.payload.postId)
-
-        const newCommentId = action.payload.newComment.id
-
-        if (!post) {
-          if (!state.postDetail) return
-          const isNewCommentExist = state.postDetail.comments.some(
-            comment => comment.id === newCommentId
-          )
-
-          !isNewCommentExist &&
-            syncPostDetail(state, {
-              ...state.postDetail,
-              comments: [action.payload.newComment, ...state.postDetail.comments],
-            })
-          return
-        }
-        const isNewCommentExist = post.comments.some(comment => comment.id === newCommentId)
-
-        !isNewCommentExist && post.comments.unshift(action.payload.newComment)
-
-        syncPostDetail(state, post)
-      })
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.posts.findIndex(post => post.id === action.payload.id)
         if (index === -1) return
@@ -246,29 +222,9 @@ const postsSlice = createSlice({
           */
         }
       })
-      .addCase(editComment.fulfilled, (state, action) => {
-        const updated = action.payload
-        const post = state.posts.find(p => p.comments.some(c => c.id === updated.id))
-        if (!post) return
-        const comment = post.comments.find(c => c.id === updated.id)
-        if (comment) {
-          comment.content = updated.content
-          comment.updatedAt = updated.updatedAt
-        }
-
-        syncPostDetail(state, post)
-      })
-      .addCase(deleteComment.fulfilled, (state, action) => {
-        const deletedComment = action.payload
-
-        const post = state.posts.find(post =>
-          post.comments.some(comment => comment.id === deletedComment.id)
-        )
-        if (!post) return
-        post.comments = post.comments.filter(comment => comment.id !== deletedComment.id)
-
-        syncPostDetail(state, post)
-      })
+      .addCase(commentPost.fulfilled, () => {})
+      .addCase(editComment.fulfilled, () => {})
+      .addCase(deleteComment.fulfilled, () => {})
       .addMatcher(isPostRelatedAction, (state, action) => {
         const updatedPost = action.payload
 

@@ -24,16 +24,17 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
     const response = await editComment({ id: comment.id, content: newContent })
 
     if (response.payload) {
-      emitEditComment(response.payload as Comment)
+      emitEditComment(response.payload as Post)
       setIsEditing(false)
-      setNewContent((response.payload as Comment).content)
+      const foundNewContent = (response.payload as Post).comments.find(c => c.id === comment.id)
+      setNewContent(foundNewContent?.content || '')
     }
   }
 
   const handleDeleteComment = async () => {
     const response = await deleteComment(comment.id)
 
-    if (response.payload) emitDeleteComment(response.payload as Comment)
+    if (response.payload) emitDeleteComment(response.payload as Post)
   }
 
   return (

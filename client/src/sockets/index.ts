@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client'
-import { Comment, Post, SocketEvents } from 'tukibook-helper'
+import { Post, SocketEvents } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -21,14 +21,14 @@ export const emitEditPost = (updatedPost: Post) => {
   socket.emit(SocketEvents.EDIT_POST, updatedPost)
 }
 
-export const emitCommentPost = (newComment: Comment) => {
-  socket.emit(SocketEvents.COMMENT_POST, newComment)
+export const emitCommentPost = (updatedPost: Post) => {
+  socket.emit(SocketEvents.COMMENT_POST, updatedPost)
 }
 
-export const emitEditComment = (updatedComment: Comment) => {
-  socket.emit(SocketEvents.EDIT_COMMENT, updatedComment)
+export const emitEditComment = (updatedPost: Post) => {
+  socket.emit(SocketEvents.EDIT_COMMENT, updatedPost)
 }
 
-export const emitDeleteComment = (deletedComment: Comment) => {
-  socket.emit(SocketEvents.DELETE_COMMENT, deletedComment)
+export const emitDeleteComment = (updatedPost: Post) => {
+  socket.emit(SocketEvents.DELETE_COMMENT, updatedPost)
 }

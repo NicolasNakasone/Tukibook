@@ -1,7 +1,7 @@
 import { socket } from 'src/sockets'
 import { AppDispatch } from 'src/states/store'
 import { PostsActionTypes } from 'src/types/reducer'
-import { SocketEvents, Post, Comment } from 'tukibook-helper'
+import { SocketEvents, Post } from 'tukibook-helper'
 
 export const registerPostListeners = (dispatch: AppDispatch) => {
   socket.on(SocketEvents.NEW_POST, (createdPost: Post) => {
@@ -20,18 +20,15 @@ export const registerPostListeners = (dispatch: AppDispatch) => {
     dispatch({ type: `${PostsActionTypes.EDIT_POST}/fulfilled`, payload: editedPost })
   })
 
-  socket.on(SocketEvents.COMMENT_POST, (newComment: Comment) => {
-    dispatch({ type: `${PostsActionTypes.COMMENT_POST}/fulfilled`, payload: newComment })
+  socket.on(SocketEvents.COMMENT_POST, (updatedPost: Post) => {
+    dispatch({ type: `${PostsActionTypes.COMMENT_POST}/fulfilled`, payload: updatedPost })
   })
 
-  socket.on(SocketEvents.EDIT_COMMENT, (updatedComment: Comment) => {
-    dispatch({
-      type: `${PostsActionTypes.EDIT_COMMENT}/fulfilled`,
-      payload: updatedComment,
-    })
+  socket.on(SocketEvents.EDIT_COMMENT, (updatedPost: Post) => {
+    dispatch({ type: `${PostsActionTypes.EDIT_COMMENT}/fulfilled`, payload: updatedPost })
   })
 
-  socket.on(SocketEvents.DELETE_COMMENT, (deletedComment: Comment) => {
-    dispatch({ type: `${PostsActionTypes.DELETE_COMMENT}/fulfilled`, payload: deletedComment })
+  socket.on(SocketEvents.DELETE_COMMENT, (updatedPost: Post) => {
+    dispatch({ type: `${PostsActionTypes.DELETE_COMMENT}/fulfilled`, payload: updatedPost })
   })
 }
