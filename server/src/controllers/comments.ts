@@ -6,14 +6,18 @@ import { populateFullPost } from 'src/utils/populatePost'
 
 export const addCommentToPost: RequestHandler = async (req, res, next) => {
   try {
-    const { postId, username, content } = req.body
+    const { postId, username, content, parentCommentId } = req.body
 
     if (!validateRequiredFields(postId, username, content)) {
       return res.status(400).send({ message: 'Faltan datos para crear el comentario' })
     }
 
     if (!isValidObjectId(postId)) {
-      return res.status(400).send({ message: 'ID del post inválido' })
+      return res.status(400).send({ message: 'Id del post inválido' })
+    }
+
+    if (parentCommentId && !isValidObjectId(parentCommentId)) {
+      return res.status(400).send({ message: 'Id del comentario padre inválido' })
     }
 
     const foundPost = await Post.findById(postId)
@@ -21,7 +25,13 @@ export const addCommentToPost: RequestHandler = async (req, res, next) => {
       return res.status(404).send({ message: 'Post no encontrado' })
     }
 
-    const newComment = new Comment({ postId, username, content })
+    const newComment = new Comment({
+      postId,
+      username,
+      content,
+      parentCommentId: parentCommentId ?? null,
+    })
+
     const savedComment = await newComment.save()
 
     foundPost.comments.unshift(savedComment)
