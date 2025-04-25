@@ -52,8 +52,10 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
               <CommentCardContent {...{ comment }} />
             </span>
           </p>
-          <Button onClick={() => setIsEditing(true)}>✏️</Button>
-          <Button onClick={handleDeleteComment}>❌</Button>
+          <div className={styles.commentCardButtons}>
+            <Button onClick={() => setIsEditing(true)}>✏️</Button>
+            <Button onClick={handleDeleteComment}>❌</Button>
+          </div>
         </>
       )}
       {isEditing && (
