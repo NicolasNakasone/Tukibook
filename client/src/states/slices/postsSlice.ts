@@ -228,8 +228,15 @@ const postsSlice = createSlice({
       .addMatcher(isPostRelatedAction, (state, action) => {
         const updatedPost = action.payload
 
+        // Actualizar detalle si aplica
         if (state.postDetail?.id === updatedPost.id) {
-          state.postDetail = { ...state.postDetail, ...updatedPost }
+          state.postDetail = updatedPost
+        }
+
+        // Actualizar post en lista si existe
+        const index = state.posts.findIndex(post => post.id === updatedPost.id)
+        if (index !== -1) {
+          state.posts[index] = updatedPost
         }
       })
   },
