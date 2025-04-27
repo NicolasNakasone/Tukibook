@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useMemo, useState } from 'react'
 
 import tukibookLogo from 'public/tuki.webp'
 import { Link } from 'react-router-dom'
@@ -118,10 +118,14 @@ const PostCardContent = ({
 }
 
 const PostCardComments = ({ post }: { post: Post }): JSX.Element | boolean => {
+  const parentComments = useMemo(() => {
+    return post.comments.filter(comment => !comment.parentCommentId)
+  }, [post.comments])
+
   return (
     Boolean(post.comments.length) && (
       <div className={styles.commentsContainer}>
-        {post.comments.map(comment => {
+        {parentComments.map(comment => {
           return <CommentCard key={comment.id} {...{ comment, post }} />
         })}
       </div>
