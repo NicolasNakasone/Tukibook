@@ -14,7 +14,12 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
     const target = event.target as HTMLFormElement
     const content = (target[0] as HTMLInputElement).value
 
-    const response = await commentPost({ postId: post.id, username: 'otro user', content })
+    const response = await commentPost({
+      postId: post.id,
+      username: 'otro user',
+      content,
+      parentCommentId: null,
+    })
 
     if (response.payload) emitCommentPost(response.payload as Post)
 

@@ -5,15 +5,17 @@ import { Button } from 'src/components/common/Button'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import styles from 'src/features/comments/CommentCard.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitDeleteComment, emitEditComment } from 'src/sockets'
+import { emitCommentPost, emitDeleteComment, emitEditComment } from 'src/sockets'
 import { Comment, Post } from 'tukibook-helper'
 
 export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
   const [newContent, setNewContent] = useState(comment.content)
   const [showReplies, setShowReplies] = useState(false)
+  const [isReplying, setIsReplying] = useState(false)
+  const [replyNewContent, setReplyNewContent] = useState('')
 
-  const { deleteComment, editComment } = usePosts()
+  const { deleteComment, editComment, commentPost } = usePosts()
 
   useEffect(() => {
     if (!isEditing) {
@@ -44,7 +46,20 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
     if (response.payload) emitDeleteComment(response.payload as Post)
   }
 
-  // if (comment.parentCommentId && showReplies) return <div />
+  const handleReplyComment = async () => {
+    const response = await commentPost({
+      content: replyNewContent,
+      parentCommentId: comment.parentCommentId || comment.id,
+      postId: post.id,
+      username: 'otro user',
+    })
+
+    if (response.payload) {
+      emitCommentPost(response.payload as Post)
+      setReplyNewContent('')
+      setIsReplying(false)
+    }
+  }
 
   return (
     <div className={styles.commentCardMainContainer}>
@@ -61,7 +76,24 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
               <span className={styles.commentContentSpan}>
                 <CommentCardContent {...{ comment }} />
               </span>
-              <Button>Responder</Button>
+              <Button disabled={isReplying} onClick={() => setIsReplying(true)}>
+                Responder
+              </Button>
+              {isReplying && (
+                <>
+                  <input
+                    style={{ width: '100%' }}
+                    value={replyNewContent}
+                    onChange={e => setReplyNewContent(e.target.value)}
+                  />
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                    <Button disabled={!replyNewContent} onClick={handleReplyComment}>
+                      Guardar
+                    </Button>
+                    <Button onClick={() => setIsReplying(false)}>Cancelar</Button>
+                  </div>
+                </>
+              )}
               {!!commentReplies.length && (
                 <Button onClick={() => setShowReplies(prevState => !prevState)}>
                   {showReplies ? 'Ocultar respuestas' : 'Ver respuestas'}
@@ -69,8 +101,12 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
               )}
             </p>
             <div className={styles.commentCardButtons}>
-              <Button onClick={() => setIsEditing(true)}>✏️</Button>
-              <Button onClick={handleDeleteComment}>❌</Button>
+              <Button disabled={isReplying} onClick={() => setIsEditing(true)}>
+                ✏️
+              </Button>
+              <Button disabled={isReplying} onClick={handleDeleteComment}>
+                ❌
+              </Button>
             </div>
           </>
         )}
