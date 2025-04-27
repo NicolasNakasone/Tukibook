@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import tukibookLogo from 'public/tuki.webp'
 import { Button } from 'src/components/common/Button'
@@ -11,6 +11,7 @@ import { Comment, Post } from 'tukibook-helper'
 export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
   const [newContent, setNewContent] = useState(comment.content)
+  const [showReplies, setShowReplies] = useState(false)
 
   const { deleteComment, editComment } = usePosts()
 
@@ -19,6 +20,12 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
       setNewContent(comment.content)
     }
   }, [comment.content, isEditing])
+
+  const commentReplies = useMemo(() => {
+    return post.comments.filter(postComments => postComments.parentCommentId === comment.id)
+  }, [post])
+
+  // console.table(commentReplies)
 
   const handleEditComment = async () => {
     const response = await editComment({ id: comment.id, content: newContent })
@@ -37,35 +44,52 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
     if (response.payload) emitDeleteComment(response.payload as Post)
   }
 
+  // if (comment.parentCommentId && showReplies) return <div />
+
   return (
-    <div key={comment.id} className={styles.commentCardContainer}>
-      <img
-        src={tukibookLogo}
-        alt={`${post.username}'s profile picture`}
-        className={styles.commentUsername}
-      />
-      {!isEditing && (
-        <>
-          <p className={styles.commentContent}>
-            <span>{comment.username}</span>
-            <span className={styles.commentContentSpan}>
-              <CommentCardContent {...{ comment }} />
-            </span>
-          </p>
-          <div className={styles.commentCardButtons}>
-            <Button onClick={() => setIsEditing(true)}>✏️</Button>
-            <Button onClick={handleDeleteComment}>❌</Button>
-          </div>
-        </>
-      )}
-      {isEditing && (
-        <>
-          <textarea value={newContent} onChange={e => setNewContent(e.target.value)} />
-          <Button disabled={newContent === comment.content} onClick={handleEditComment}>
-            Guardar
-          </Button>
-          <Button onClick={() => setIsEditing(false)}>Cancelar</Button>
-        </>
+    <div className={styles.commentCardMainContainer}>
+      <div key={comment.id} className={styles.commentCardContainer}>
+        <img
+          src={tukibookLogo}
+          alt={`${post.username}'s profile picture`}
+          className={styles.commentUsername}
+        />
+        {!isEditing && (
+          <>
+            <p className={styles.commentContent}>
+              <span>{comment.username}</span>
+              <span className={styles.commentContentSpan}>
+                <CommentCardContent {...{ comment }} />
+              </span>
+              <Button>Responder</Button>
+              {!!commentReplies.length && (
+                <Button onClick={() => setShowReplies(prevState => !prevState)}>
+                  {showReplies ? 'Ocultar respuestas' : 'Ver respuestas'}
+                </Button>
+              )}
+            </p>
+            <div className={styles.commentCardButtons}>
+              <Button onClick={() => setIsEditing(true)}>✏️</Button>
+              <Button onClick={handleDeleteComment}>❌</Button>
+            </div>
+          </>
+        )}
+        {isEditing && (
+          <>
+            <textarea value={newContent} onChange={e => setNewContent(e.target.value)} />
+            <Button disabled={newContent === comment.content} onClick={handleEditComment}>
+              Guardar
+            </Button>
+            <Button onClick={() => setIsEditing(false)}>Cancelar</Button>
+          </>
+        )}
+      </div>
+      {showReplies && (
+        <div className={styles.repliesContainer}>
+          {commentReplies.map(reply => (
+            <CommentCard key={reply.id} comment={reply} post={post} />
+          ))}
+        </div>
       )}
     </div>
   )
