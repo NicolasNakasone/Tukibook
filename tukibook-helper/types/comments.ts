@@ -6,6 +6,7 @@ export interface CommentInput {
 
 export interface Comment extends CommentInput {
   id: string
+  parentCommentId: string | null
   createdAt: Date
   updatedAt: Date
 }
