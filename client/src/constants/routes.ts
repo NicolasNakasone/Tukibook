@@ -4,6 +4,8 @@ enum Routes {
   comments = 'comments',
   likes = 'likes',
   postDetail = 'postDetail',
+  // auth = 'auth',
+  login = 'login',
 }
 
 export const routes: { [key in Routes]: string } = {
@@ -12,4 +14,5 @@ export const routes: { [key in Routes]: string } = {
   postDetail: '/posts/:id',
   comments: '/comments',
   likes: '/likes',
+  login: '/auth/login',
 }
