@@ -71,3 +71,8 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getMe: RequestHandler = async (req, res) => {
+  if (!req.user) return res.status(401).send({ message: 'No autorizado' })
+  res.send(req.user)
+}
