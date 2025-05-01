@@ -1,4 +1,4 @@
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
@@ -8,6 +8,7 @@ import { routes } from 'src/constants/routes'
 const { VITE_API_URL } = import.meta.env
 
 export const LoginPage = (): JSX.Element => {
+  const [error, setError] = useState('')
   const navigate = useNavigate()
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
@@ -26,19 +27,19 @@ export const LoginPage = (): JSX.Element => {
     const loginUser = await handleFetch(`${VITE_API_URL}${routes.login}`, {
       method: 'POST',
       body: JSON.stringify(loggedUser),
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
     })
 
     const response = await loginUser?.json()
 
-    console.log({ response })
-    if (response.message) return // setError o algo asi
+    if (response.message) {
+      setError(response.message)
+      return
+    }
 
     target.reset()
-    // Guardar token en localStorage
+    setError('')
+    localStorage.setItem('accessToken', response.token)
     navigate(routes.home)
   }
 
@@ -59,6 +60,7 @@ export const LoginPage = (): JSX.Element => {
         <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
         <input name="password" type="password" placeholder="🤫 Ingresa tu contraseña" />
         <Button style={{ margin: '0 0 0 auto' }}>Iniciar sesión</Button>
+        {error && <p>{error}</p>}
         <p style={{ margin: '2rem 0 0', textAlign: 'center' }}>
           No tenés cuenta? <Link to="#">Registrate</Link>
         </p>
