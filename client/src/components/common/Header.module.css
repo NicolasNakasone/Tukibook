@@ -23,3 +23,15 @@ header {
 .appDescription {
   margin: 0 0 2rem;
 }
+
+.profile {
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+p > span {
+  font-weight: 700;
+}
