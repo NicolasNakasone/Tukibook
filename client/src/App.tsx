@@ -1,4 +1,5 @@
 import { Routes, Route, Outlet } from 'react-router-dom'
+import { ProtectedRoutes } from 'src/components/auth/ProtectedRoutes'
 import { Footer } from 'src/components/common/Footer'
 import { Header } from 'src/components/common/Header'
 import { routes } from 'src/constants/routes'
@@ -10,11 +11,13 @@ export const App = () => {
       <Route
         path={routes.home}
         element={
-          <>
-            <Header />
-            <Outlet />
-            <Footer />
-          </>
+          <ProtectedRoutes>
+            <>
+              <Header />
+              <Outlet />
+              <Footer />
+            </>
+          </ProtectedRoutes>
         }
       >
         <Route path={routes.home} element={<HomePage />} />

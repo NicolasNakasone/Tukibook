@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { App } from 'src/App'
+import { AuthProvider } from 'src/contexts/AuthContext'
 import { SocketProvider } from 'src/providers/SocketProvider'
 import { store } from 'src/states/store'
 
@@ -11,7 +12,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Provider store={store}>
       <SocketProvider>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </SocketProvider>
     </Provider>
   </BrowserRouter>
