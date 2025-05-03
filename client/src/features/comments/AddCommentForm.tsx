@@ -1,12 +1,14 @@
 import { FormEvent } from 'react'
 
 import styles from 'src/features/comments/AddCommentForm.module.css'
+import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitCommentPost } from 'src/sockets'
 import { Post } from 'tukibook-helper'
 
 export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   const { commentPost } = usePosts()
+  const { user } = useAuth()
 
   const handleCommentPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -16,7 +18,7 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
 
     const response = await commentPost({
       postId: post.id,
-      username: 'otro user',
+      username: user?.username || 'otro user',
       content,
       parentCommentId: null,
     })

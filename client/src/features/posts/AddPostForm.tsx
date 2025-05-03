@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react'
 
 import styles from 'src/features/posts/AddPostForm.module.css'
+import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitNewPost } from 'src/sockets'
 import { Post } from 'tukibook-helper'
@@ -58,6 +59,8 @@ export const AddPostForm = (): JSX.Element => {
 }
 
 const AddPostFormHeader = ({ isLoading }: { isLoading: boolean }): JSX.Element => {
+  const { user } = useAuth()
+
   return (
     <div className={styles.addPostFormHeader}>
       <div className={styles.addPostFormImage} />
@@ -65,6 +68,7 @@ const AddPostFormHeader = ({ isLoading }: { isLoading: boolean }): JSX.Element =
         name="username"
         type="text"
         required
+        defaultValue={user?.username}
         disabled={isLoading}
         placeholder="📝 Tu nombre*"
         className={styles.addPostUsernameInput}
