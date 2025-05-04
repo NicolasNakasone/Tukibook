@@ -81,10 +81,10 @@ const PostCardHeader = ({
       <h2 className={styles.postCardUsername}>
         <img
           src={tukibookLogo}
-          alt={`${post.user.username}'s profile picture`}
+          alt={`${post.user?.username}'s profile picture`}
           className={styles.postCardAvatar}
         />
-        {post.user.username}
+        {post.user?.username}
       </h2>
       <div className={styles.postCardHeaderButtons}>
         <Button onClick={toggleEdit}>✏️</Button>
