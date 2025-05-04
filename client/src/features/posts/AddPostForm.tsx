@@ -30,10 +30,9 @@ export const AddPostForm = (): JSX.Element => {
     event.preventDefault()
 
     const target = event.target as HTMLFormElement
-    const username = (target[0] as HTMLInputElement).value
-    const content = (target[1] as HTMLInputElement).value
+    const content = (target[0] as HTMLInputElement).value
 
-    const response = await addPost({ username, content })
+    const response = await addPost({ content })
 
     if (response.payload) emitNewPost(response.payload as Post)
 
@@ -43,7 +42,7 @@ export const AddPostForm = (): JSX.Element => {
 
   return (
     <form className={styles.addPostForm} onSubmit={handleAddPost}>
-      <AddPostFormHeader {...{ isLoading }} />
+      <AddPostFormHeader />
       <textarea
         name="content"
         rows={4}
@@ -58,21 +57,13 @@ export const AddPostForm = (): JSX.Element => {
   )
 }
 
-const AddPostFormHeader = ({ isLoading }: { isLoading: boolean }): JSX.Element => {
+const AddPostFormHeader = (): JSX.Element => {
   const { user } = useAuth()
 
   return (
     <div className={styles.addPostFormHeader}>
       <div className={styles.addPostFormImage} />
-      <input
-        name="username"
-        type="text"
-        required
-        defaultValue={user?.username}
-        disabled={isLoading}
-        placeholder="📝 Tu nombre*"
-        className={styles.addPostUsernameInput}
-      />
+      <h2 /* className={styles.postCardUsername} */>{user?.username}</h2>
     </div>
   )
 }

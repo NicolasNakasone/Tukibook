@@ -18,6 +18,8 @@ const { VITE_API_URL } = import.meta.env
 
 const PAGE_LIMIT = 2
 
+const TOKEN = localStorage.getItem('accessToken')
+
 export const fetchPosts = createAsyncThunk(
   PostsActionTypes.GET_POSTS,
   async ({ page }: GetPage) => {
@@ -49,7 +51,7 @@ export const fetchPostById = createAsyncThunk(
 
 export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPost: PostInput) => {
   const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(newPost),
   }).then(res => res?.json())

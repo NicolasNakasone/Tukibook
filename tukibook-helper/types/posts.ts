@@ -1,7 +1,7 @@
 import { Comment } from './comments'
+import { UserPayload } from './users'
 
 export interface PostInput {
-  username: string
   content: string
 }
 
@@ -11,6 +11,7 @@ export interface UpdatePostInput extends Partial<PostInput> {
 
 export interface Post extends PostInput {
   id: string
+  user: UserPayload
   likes: number
   comments: Comment[]
   createdAt: Date

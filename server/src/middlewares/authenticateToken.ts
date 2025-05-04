@@ -31,7 +31,6 @@ export const authenticateToken: RequestHandler = (req, res, next) => {
       return res.status(401).json({ message: msg })
     }
 
-    // Guardamos el payload en req para futuras rutas protegidas
     req.user = decoded as UserPayload
     next()
   })

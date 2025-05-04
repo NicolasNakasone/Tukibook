@@ -12,6 +12,7 @@ export const getPosts: RequestHandler = async (req, res, next) => {
     // Con populate se puede hacer un get a los comentarios, con los ids guardados en comments
     const posts = await Post.find({})
       .populate('comments')
+      .populate('user', 'username')
       .sort({ createdAt: -1 })
       .limit(Number(limit))
       .skip(offset)
@@ -47,13 +48,11 @@ export const getPostById: RequestHandler = async (req, res, next) => {
 
 export const addPost: RequestHandler = async (req, res, next) => {
   try {
-    // No tiene sentido que un post antes de crearse ya tenga likes o comentarios
-    const { username, content } = req.body
-
-    if (!validateRequiredFields(username, content))
+    const { content } = req.body
+    if (!validateRequiredFields(req.user?.id, content))
       return res.status(400).send({ message: 'Faltan datos para crear el post' })
 
-    const newPost = new Post({ username, content })
+    const newPost = new Post({ user: req.user?.id, content })
     const savedPost = await newPost.save()
 
     res.status(201).send(savedPost)

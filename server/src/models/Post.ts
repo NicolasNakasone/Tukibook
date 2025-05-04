@@ -1,8 +1,9 @@
 import mongoose, { Document, Schema } from 'mongoose'
 import { IComment } from 'src/models/Comment'
+import { IUser } from 'src/models/User'
 
 export interface IPost extends Document {
-  username: string
+  user: IUser['_id']
   content: string
   likes: number
   comments: IComment[]
@@ -12,7 +13,7 @@ export interface IPost extends Document {
 
 const PostSchema: Schema = new Schema(
   {
-    username: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true },
     likes: { type: Number, default: 0 },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
@@ -24,6 +25,14 @@ const PostSchema: Schema = new Schema(
       returnedObject.id = returnedObject._id
       delete returnedObject._id
       delete returnedObject.__v
+      if (
+        returnedObject.user &&
+        typeof returnedObject.user === 'object' &&
+        '_id' in returnedObject.user
+      ) {
+        returnedObject.user.id = returnedObject.user._id
+        delete returnedObject.user._id
+      }
     },
   })
   .pre('find', function () {
