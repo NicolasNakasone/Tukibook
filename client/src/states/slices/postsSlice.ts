@@ -96,7 +96,7 @@ export const commentPost = createAsyncThunk(
   PostsActionTypes.COMMENT_POST,
   async (newComment: CommentInput) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.comments}`, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
       method: 'POST',
       body: JSON.stringify(newComment),
     }).then(res => res?.json())

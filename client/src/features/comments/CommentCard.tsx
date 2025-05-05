@@ -4,7 +4,6 @@ import tukibookLogo from 'public/tuki.webp'
 import { Button } from 'src/components/common/Button'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import styles from 'src/features/comments/CommentCard.module.css'
-import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitCommentPost, emitDeleteComment, emitEditComment } from 'src/sockets'
 import { Comment, Post } from 'tukibook-helper'
@@ -17,7 +16,6 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
   const [replyNewContent, setReplyNewContent] = useState('')
 
   const { deleteComment, editComment, commentPost } = usePosts()
-  const { user } = useAuth()
 
   useEffect(() => {
     if (!isEditing) {
@@ -51,7 +49,6 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
       content: replyNewContent,
       parentCommentId: comment.parentCommentId || comment.id,
       postId: post.id,
-      username: user?.username || 'otro user',
     })
 
     if (response.payload) {
@@ -72,7 +69,7 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
         {!isEditing && (
           <>
             <p className={styles.commentContent}>
-              <span>{comment.username}</span>
+              <span>{comment.user.username}</span>
               <span className={styles.commentContentSpan}>
                 <CommentCardContent {...{ comment }} />
               </span>
