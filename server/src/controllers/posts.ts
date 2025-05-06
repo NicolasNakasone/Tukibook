@@ -1,32 +1,26 @@
 import { RequestHandler } from 'express'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
+import { populateFullPost } from 'src/utils/populatePost'
 import { GetPostsResponse, PostList } from 'tukibook-helper'
 
-export const getPosts: RequestHandler = async (req, res, next) => {
+export const getPosts: RequestHandler = async (req, res) => {
   const { page = 1, limit = 10 } = req.query
 
   const offset = (Number(page) - 1) * Number(limit)
 
-  try {
-    // Con populate se puede hacer un get a los comentarios, con los ids guardados en comments
-    const posts = await Post.find({})
-      .populate('comments')
-      .populate('user', 'username')
-      .sort({ createdAt: -1 })
-      .limit(Number(limit))
-      .skip(offset)
+  const posts = await Post.find({})
+    .sort({ createdAt: -1 })
+    .limit(Number(limit))
+    .skip(Number(offset))
 
-    const totalItems = await Post.countDocuments()
+  const totalItems = await Post.countDocuments()
 
-    const response: GetPostsResponse = {
-      posts: posts as unknown as PostList,
-      totalItems,
-    }
-    res.send(response)
-  } catch (error) {
-    next(error)
+  const response: GetPostsResponse = {
+    posts: posts as unknown as PostList,
+    totalItems,
   }
+  res.status(200).json(response)
 }
 
 export const getPostById: RequestHandler = async (req, res, next) => {
@@ -37,7 +31,7 @@ export const getPostById: RequestHandler = async (req, res, next) => {
   }
 
   try {
-    const foundPost = await Post.findById(postId).populate('comments')
+    const foundPost = await Post.findById(postId)
     if (!foundPost) return res.status(404).send({ message: 'Post no encontrado' })
 
     res.send(foundPost)
@@ -55,7 +49,9 @@ export const addPost: RequestHandler = async (req, res, next) => {
     const newPost = new Post({ user: req.user?.id, content })
     const savedPost = await newPost.save()
 
-    res.status(201).send(savedPost)
+    const populatedPost = await savedPost.populate('user', 'username id')
+
+    res.status(201).send(populatedPost)
   } catch (error) {
     next(error)
   }
@@ -74,10 +70,9 @@ export const editPost: RequestHandler = async (req, res, next) => {
   // }
 
   try {
-    const updatedPost = await Post.findByIdAndUpdate(postId, { content }, { new: true }).populate({
-      path: 'comments',
-      options: { sort: { createdAt: -1 } },
-    })
+    const updatedPost = await populateFullPost(
+      Post.findByIdAndUpdate(postId, { content }, { new: true })
+    )
 
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado' })
