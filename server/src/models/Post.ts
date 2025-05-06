@@ -21,18 +21,12 @@ const PostSchema: Schema = new Schema(
   { timestamps: true }
 )
   .set('toJSON', {
-    transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id
-      delete returnedObject._id
-      delete returnedObject.__v
-      if (
-        returnedObject.user &&
-        typeof returnedObject.user === 'object' &&
-        '_id' in returnedObject.user
-      ) {
-        returnedObject.user.id = returnedObject.user._id
-        delete returnedObject.user._id
-      }
+    virtuals: true,
+    versionKey: false,
+    transform: (_, ret) => {
+      ret.id = ret._id
+      delete ret._id
+      return ret
     },
   })
   .pre('find', function () {

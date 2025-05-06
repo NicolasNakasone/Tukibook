@@ -16,11 +16,13 @@ const UserSchema = new Schema<IUser>(
   },
   { timestamps: true }
 ).set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id
-    delete returnedObject._id
-    delete returnedObject.__v
-    delete returnedObject.password // Nunca enviamos la password al cliente
+  virtuals: true,
+  versionKey: false,
+  transform: (_, ret) => {
+    ret.id = ret._id
+    delete ret._id
+    delete ret.password
+    return ret
   },
 })
 
