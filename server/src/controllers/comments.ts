@@ -2,13 +2,13 @@ import { RequestHandler } from 'express'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
-import { populateFullPost } from 'src/utils/populatePost'
+import { populatePost } from 'src/utils/populatePost'
 
 export const addCommentToPost: RequestHandler = async (req, res, next) => {
   try {
-    const { postId, username, content, parentCommentId } = req.body
+    const { postId, content, parentCommentId } = req.body
 
-    if (!validateRequiredFields(postId, username, content)) {
+    if (!validateRequiredFields(postId, req.user?.id, content)) {
       return res.status(400).send({ message: 'Faltan datos para crear el comentario' })
     }
 
@@ -27,7 +27,7 @@ export const addCommentToPost: RequestHandler = async (req, res, next) => {
 
     const newComment = new Comment({
       postId,
-      username,
+      user: req.user?.id,
       content,
       parentCommentId: parentCommentId ?? null,
     })
@@ -36,13 +36,9 @@ export const addCommentToPost: RequestHandler = async (req, res, next) => {
 
     foundPost.comments.unshift(savedComment)
     await foundPost.save()
+    await populatePost(foundPost)
 
-    const updatedPost = await populateFullPost(Post.findById(postId))
-    if (!updatedPost) {
-      return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
-    }
-
-    res.status(201).send(updatedPost)
+    res.status(201).send(foundPost)
   } catch (error) {
     next(error)
   }
@@ -62,7 +58,7 @@ export const editComment: RequestHandler = async (req, res, next) => {
       return res.status(404).send({ message: 'Comentario no encontrado' })
     }
 
-    const updatedPost = await populateFullPost(Post.findById(updatedComment.postId))
+    const updatedPost = await Post.findById(updatedComment.postId)
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }
@@ -85,7 +81,7 @@ export const deleteComment: RequestHandler = async (req, res, next) => {
       return res.status(404).send({ message: 'Comentario no encontrado' })
     }
 
-    const updatedPost = await populateFullPost(Post.findById(deletedComment.postId))
+    const updatedPost = await Post.findById(deletedComment.postId)
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }

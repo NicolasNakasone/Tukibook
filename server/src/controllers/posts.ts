@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
-import { populateFullPost } from 'src/utils/populatePost'
+import { populatePost, populatePostQuery } from 'src/utils/populatePost'
 import { GetPostsResponse, PostList } from 'tukibook-helper'
 
 export const getPosts: RequestHandler = async (req, res) => {
@@ -49,9 +49,9 @@ export const addPost: RequestHandler = async (req, res, next) => {
     const newPost = new Post({ user: req.user?.id, content })
     const savedPost = await newPost.save()
 
-    const populatedPost = await savedPost.populate('user', 'username id')
+    await populatePost(savedPost)
 
-    res.status(201).send(populatedPost)
+    res.status(201).send(savedPost)
   } catch (error) {
     next(error)
   }
@@ -70,7 +70,7 @@ export const editPost: RequestHandler = async (req, res, next) => {
   // }
 
   try {
-    const updatedPost = await populateFullPost(
+    const updatedPost = await populatePostQuery(
       Post.findByIdAndUpdate(postId, { content }, { new: true })
     )
 
