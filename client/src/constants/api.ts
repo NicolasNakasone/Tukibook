@@ -1,3 +1,5 @@
+import { routes } from 'src/constants/routes'
+
 export const handleFetch = async (
   url: RequestInfo,
   options: RequestInit = {}
@@ -14,6 +16,14 @@ export const handleFetch = async (
     ...options,
     headers: finalHeaders,
   })
+
+  if (response.status === 401) {
+    localStorage.removeItem('accessToken')
+
+    if (window.location.pathname !== routes.login) {
+      window.location.replace(routes.login)
+    }
+  }
 
   return response
 }
