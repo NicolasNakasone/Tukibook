@@ -7,7 +7,7 @@ export const SeeMoreButton = ({ content }: { content: string }): JSX.Element | s
 
   return (
     <span style={{ cursor: 'pointer' }} onClick={() => setShowMore(true)}>
-      {`${content.slice(0, 90)}... `}
+      {`${content?.slice(0, 90)}... `}
       <span style={{ fontWeight: 600 }}>Ver más</span>
     </span>
   )

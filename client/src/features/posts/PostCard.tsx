@@ -110,7 +110,7 @@ const PostCardContent = ({
   if (isEditing)
     return <textarea value={newContent} onChange={e => setNewContent(e.target.value)} />
 
-  return post.content.length <= 200 ? (
+  return post.content?.length <= 200 ? (
     <p className={styles.postContent}>{post.content}</p>
   ) : (
     <SeeMoreButton content={post.content} />
@@ -119,11 +119,11 @@ const PostCardContent = ({
 
 const PostCardComments = ({ post }: { post: Post }): JSX.Element | boolean => {
   const parentComments = useMemo(() => {
-    return post.comments.filter(comment => !comment.parentCommentId)
+    return post.comments?.filter(comment => !comment.parentCommentId)
   }, [post.comments])
 
   return (
-    Boolean(post.comments.length) && (
+    Boolean(post.comments?.length) && (
       <div className={styles.commentsContainer}>
         {parentComments.map(comment => {
           return <CommentCard key={comment.id} {...{ comment, post }} />
