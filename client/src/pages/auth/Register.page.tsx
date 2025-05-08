@@ -29,7 +29,6 @@ export const RegisterPage = (): JSX.Element => {
     const registerUser = await handleFetch(`${VITE_API_URL}${routes.register}`, {
       method: 'POST',
       body: JSON.stringify(newUser),
-      headers: { 'Content-Type': 'application/json' },
     })
 
     const response = await registerUser?.json()

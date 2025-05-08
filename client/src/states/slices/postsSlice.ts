@@ -18,17 +18,12 @@ const { VITE_API_URL } = import.meta.env
 
 const PAGE_LIMIT = 2
 
-const TOKEN = localStorage.getItem('accessToken')
-
 export const fetchPosts = createAsyncThunk(
   PostsActionTypes.GET_POSTS,
   async ({ page }: GetPage) => {
     const response: GetPostsResponse = await handleFetch(
       `${VITE_API_URL}${routes.posts}?page=${page}&limit=${PAGE_LIMIT}`,
-      {
-        headers: { 'Content-Type': 'application/json' },
-        method: 'GET',
-      }
+      { method: 'GET' }
     ).then(res => res?.json())
     return {
       posts: response.posts,
@@ -42,7 +37,6 @@ export const fetchPostById = createAsyncThunk(
   async (postId: Post['id']) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
     })
     const data = await response?.json()
     return data as Post
@@ -51,7 +45,6 @@ export const fetchPostById = createAsyncThunk(
 
 export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPost: PostInput) => {
   const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
-    headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(newPost),
   }).then(res => res?.json())
@@ -62,7 +55,6 @@ export const editPost = createAsyncThunk(
   PostsActionTypes.EDIT_POST,
   async ({ id, ...newPost }: UpdatePostInput) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${id}`, {
-      headers: { 'Content-Type': 'application/json' },
       method: 'PUT',
       body: JSON.stringify(newPost),
     }).then(res => res?.json())
@@ -74,7 +66,6 @@ export const deletePost = createAsyncThunk(
   PostsActionTypes.DELETE_POST,
   async (postId: Post['id']) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
-      headers: { 'Content-Type': 'application/json' },
       method: 'DELETE',
     }).then(res => res?.json())
     return response as Post
@@ -85,7 +76,6 @@ export const likePost = createAsyncThunk(
   PostsActionTypes.LIKE_POST,
   async (postId: Post['id']) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.likes}/${postId}`, {
-      headers: { 'Content-Type': 'application/json' },
       method: 'PATCH',
     }).then(res => res?.json())
     return response as Post
@@ -96,7 +86,6 @@ export const commentPost = createAsyncThunk(
   PostsActionTypes.COMMENT_POST,
   async (newComment: CommentInput) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.comments}`, {
-      headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
       method: 'POST',
       body: JSON.stringify(newComment),
     }).then(res => res?.json())
@@ -109,7 +98,6 @@ export const editComment = createAsyncThunk(
   async ({ id, ...newComment }: UpdateCommentInput) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.comments}/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newComment),
     }).then(res => res?.json())
     return response as Post
@@ -120,7 +108,6 @@ export const deleteComment = createAsyncThunk(
   PostsActionTypes.DELETE_COMMENT,
   async (commentId: Comment['id']) => {
     const response = await handleFetch(`${VITE_API_URL}${routes.comments}/${commentId}`, {
-      headers: { 'Content-Type': 'application/json' },
       method: 'DELETE',
     }).then(res => res?.json())
     return response as Post
@@ -150,12 +137,6 @@ const postsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    // const syncPostDetail = (state: PostsState, updated: Post) => {
-    //   if (updated.id === state.postDetail?.id) {
-    //     state.postDetail = { ...state.postDetail, ...updated }
-    //   }
-    // }
-
     const isPostRelatedAction = (action: any): action is { payload: Post; type: string } => {
       return action.type.endsWith('/fulfilled') && action.payload?.id
     }
