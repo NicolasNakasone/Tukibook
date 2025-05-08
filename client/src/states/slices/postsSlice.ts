@@ -175,7 +175,7 @@ const postsSlice = createSlice({
           cuando es la "primera vez"
         */
         const exists = state.posts.some(post => post.id === action.payload.id)
-        if (!exists) {
+        if (!exists && !!action.payload.id) {
           state.posts.unshift(action.payload)
         }
       })
