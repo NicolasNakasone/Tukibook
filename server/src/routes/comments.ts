@@ -4,8 +4,8 @@ import { authenticateToken } from 'src/middlewares/authenticateToken'
 
 export const commentsRouter = express.Router()
 
-commentsRouter.post('/', authenticateToken, addCommentToPost)
+commentsRouter.use(authenticateToken)
 
+commentsRouter.post('/', addCommentToPost)
 commentsRouter.put('/:id', editComment)
-
 commentsRouter.delete('/:id', deleteComment)

@@ -5,11 +5,10 @@ import { authenticateToken } from 'src/middlewares/authenticateToken'
 export const postsRouter = express.Router()
 
 postsRouter.get('/', getPosts)
-
 postsRouter.get('/:id', getPostById)
 
-postsRouter.post('/', authenticateToken, addPost)
+postsRouter.use(authenticateToken)
 
+postsRouter.post('/', addPost)
 postsRouter.put('/:id', editPost)
-
 postsRouter.delete('/:id', deletePost)
