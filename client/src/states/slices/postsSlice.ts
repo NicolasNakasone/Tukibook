@@ -187,10 +187,8 @@ const postsSlice = createSlice({
       .addCase(likePost.fulfilled, (state, action) => {
         const post = state.posts.find(post => post.id === action.payload.id)
         if (!post) return
-        // Para evitar que 'likee' de mas
-        if (post.likes + 1 === action.payload.likes) {
-          post.likes += 1
-        }
+
+        post.likes = action.payload.likes
       })
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.posts.findIndex(post => post.id === action.payload.id)
