@@ -1,11 +1,11 @@
-import mongoose, { Document, Schema } from 'mongoose'
+import mongoose, { Document, Schema, Types } from 'mongoose'
 import { IComment } from 'src/models/Comment'
 import { IUser } from 'src/models/User'
 
 export interface IPost extends Document {
   user: IUser['_id']
   content: string
-  likes: number
+  likes: Types.ObjectId[]
   comments: IComment[]
   createdAt: Date
   updatedAt: Date
@@ -15,7 +15,7 @@ const PostSchema: Schema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true },
-    likes: { type: Number, default: 0 },
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   },
   { timestamps: true }

@@ -12,7 +12,7 @@ export interface UpdatePostInput extends Partial<PostInput> {
 export interface Post extends PostInput {
   id: string
   user: UserPayload
-  likes: number
+  likes: string[]
   comments: Comment[]
   createdAt: Date
   updatedAt: Date
