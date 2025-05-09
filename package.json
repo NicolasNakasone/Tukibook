@@ -12,6 +12,8 @@
     "client": "npm --prefix client run dev",
     "server": "npm --prefix server run dev",
     "install": "npm install --workspaces",
-    "type-check": "npm run type-check --workspaces"
+    "type-check": "npm run type-check --workspaces",
+    "build": "npm run build --workspace tukibook-helper && npm run build --workspace server && npm run build --workspace client",
+    "deploy:server": "cd server && npm run build && npm start"
   }
 }
