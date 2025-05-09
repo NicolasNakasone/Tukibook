@@ -13,10 +13,10 @@
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true,
-    "jsx": "react-jsx",
     "lib": ["ESNext"],
-    "module": "ESNext",
+    "module": "CommonJS",
     "target": "es6",
+    "outDir": "./dist",
     "paths": {
       "@tukibook-helper/*": ["./src/*"]
     }
