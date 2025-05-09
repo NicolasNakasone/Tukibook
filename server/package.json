@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "mocha -w ./tests/**/*.spec.js",
-    "build": "npx tsc",
-    "start": "ts-node -r tsconfig-paths/register index.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/index.js",
     "dev": "ts-node-dev --pretty --transpile-only -r tsconfig-paths/register index.ts",
     "lint": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,md}\"",
@@ -48,6 +47,7 @@
     "prettier": "3.3.2",
     "ts-node": "10.9.2",
     "ts-node-dev": "2.0.0",
+    "tsc-alias": "^1.8.16",
     "tsconfig-paths": "4.2.0",
     "typescript": "5.4.5"
   }
