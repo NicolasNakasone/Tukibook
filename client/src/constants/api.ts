@@ -12,10 +12,7 @@ export const handleFetch = async (
     'Content-Type': 'application/json',
   }
 
-  const response = await fetch(url, {
-    ...options,
-    headers: finalHeaders,
-  })
+  const response = await fetch(url, { ...options, headers: finalHeaders })
 
   if (response.status === 401) {
     localStorage.removeItem('accessToken')
