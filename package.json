@@ -11,7 +11,7 @@
   "scripts": {
     "client": "npm --prefix client run dev",
     "server": "npm --prefix server run dev",
-    "install": "npm install --workspaces",
+    "install": "npm install --workspaces --ignore-scripts",
     "type-check": "npm run type-check --workspaces",
     "build": "npm run build --workspace tukibook-helper && npm run build --workspace server && npm run build --workspace client",
     "build:server": "npm run build --workspace tukibook-helper && npm run build --workspace server",
