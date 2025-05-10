@@ -2,12 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "incremental": true,
-    "target": "ES6",
+    "target": "ESNext",
     "lib": ["ESNext"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
-    "module": "CommonJS",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
 
