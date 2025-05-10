@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "composite": true, // <-- necesario si lo vas a usar en monorepo con build compartido
+    "composite": true,
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -12,8 +12,9 @@
     "lib": ["ESNext"],
     "module": "CommonJS",
     "target": "ES6",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": "src"
   },
-  "include": ["."],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
