@@ -9,6 +9,7 @@ export default defineConfig({
     alias: {
       src: path.resolve(__dirname, 'src'),
       public: path.resolve(__dirname, 'public'),
+      'tukibook-helper': path.resolve(__dirname, '../tukibook-helper/src'),
     },
   },
 })
