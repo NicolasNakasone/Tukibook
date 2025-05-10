@@ -19,7 +19,7 @@
     "react-router-dom": "6.24.0",
     "redux-thunk": "3.1.0",
     "socket.io-client": "4.7.5",
-    "tukibook-helper": "*"
+    "tukibook-helper": "file:../tukibook-helper"
   },
   "devDependencies": {
     "@types/node": "20.14.9",

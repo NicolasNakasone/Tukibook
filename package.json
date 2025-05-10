@@ -15,5 +15,8 @@
     "type-check": "npm run type-check --workspaces",
     "build": "npm run build --workspace tukibook-helper && npm run build --workspace server && npm run build --workspace client",
     "deploy:server": "cd server && npm run build && npm start"
+  },
+  "dependencies": {
+    "@swc/core-darwin-x64": "^1.11.25-nightly-20250505.1"
   }
 }

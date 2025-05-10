@@ -1,25 +1,18 @@
 {
   "compilerOptions": {
-    "composite": false,
+    "composite": true, // <-- necesario si lo vas a usar en monorepo con build compartido
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "inlineSources": false,
     "isolatedModules": true,
     "moduleResolution": "node",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true,
     "lib": ["ESNext"],
     "module": "CommonJS",
-    "target": "es6",
-    "outDir": "./dist",
-    "paths": {
-      "@tukibook-helper/*": ["./src/*"]
-    }
+    "target": "ES6",
+    "outDir": "./dist"
   },
   "include": ["."],
   "exclude": ["node_modules"]

@@ -16,7 +16,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "paths": {
+      "tukibook-helper/*": ["../tukibook-helper/*"]
+    }
   },
   "include": ["./src", "./.eslintrc.json", "./vite.config.ts"],
   "exclude": ["node_modules"]
