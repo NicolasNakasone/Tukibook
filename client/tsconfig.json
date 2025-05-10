@@ -18,7 +18,8 @@
     "noEmit": true,
     "types": ["vite/client"],
     "paths": {
-      "tukibook-helper/*": ["../tukibook-helper/src/"]
+      "tukibook-helper": ["../tukibook-helper"],
+      "tukibook-helper/*": ["../tukibook-helper/dist/*"]
     }
   },
   "include": ["./src", "./.eslintrc.json", "./vite.config.ts"],

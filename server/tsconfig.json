@@ -35,7 +35,8 @@
 
     "paths": {
       "src/*": ["src/*"],
-      "tukibook-helper/*": ["../tukibook-helper/src/"]
+      "tukibook-helper": ["../tukibook-helper"],
+      "tukibook-helper/*": ["../tukibook-helper/dist/*"]
     }
   },
   "include": ["src/**/**.ts", "index.ts"],
