@@ -23,7 +23,7 @@ server.use(
     credentials: true,
   })
 )
-
+console.log({ CLIENT_URL })
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', CLIENT_URL || '*')
   res.header('Access-Control-Allow-Credentials', 'true')
