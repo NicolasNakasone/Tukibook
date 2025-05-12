@@ -13,6 +13,7 @@ import styles from 'src/features/posts/PostCard.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitEditPost } from 'src/sockets'
 import { Post } from 'tukibook-helper'
+import { useAuth } from 'src/hooks/useAuth.hook'
 
 interface PostCardProps {
   post: Post
@@ -76,6 +77,8 @@ const PostCardHeader = ({
   isEditing: boolean
   toggleEdit: () => void
 }): JSX.Element => {
+  const { user } = useAuth()
+
   return (
     <div className={styles.postCardHeaderContainer}>
       <h2 className={styles.postCardUsername}>
@@ -86,10 +89,12 @@ const PostCardHeader = ({
         />
         {post.user?.username}
       </h2>
-      <div className={styles.postCardHeaderButtons}>
-        <Button onClick={toggleEdit}>✏️</Button>
-        <DeletePostButton {...{ post }} disabled={isEditing} />
-      </div>
+      {user?.id === post.user.id && (
+        <div className={styles.postCardHeaderButtons}>
+          <Button onClick={toggleEdit}>✏️</Button>
+          <DeletePostButton {...{ post }} disabled={isEditing} />
+        </div>
+      )}
     </div>
   )
 }

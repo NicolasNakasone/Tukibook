@@ -7,6 +7,7 @@ import styles from 'src/features/comments/CommentCard.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitCommentPost, emitDeleteComment, emitEditComment } from 'src/sockets'
 import { Comment, Post } from 'tukibook-helper'
+import { useAuth } from 'src/hooks/useAuth.hook'
 
 export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
@@ -16,6 +17,8 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
   const [replyNewContent, setReplyNewContent] = useState('')
 
   const { deleteComment, editComment, commentPost } = usePosts()
+
+  const { user } = useAuth()
 
   useEffect(() => {
     if (!isEditing) {
@@ -97,14 +100,16 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
                 </Button>
               )}
             </p>
-            <div className={styles.commentCardButtons}>
-              <Button disabled={isReplying} onClick={() => setIsEditing(true)}>
-                ✏️
-              </Button>
-              <Button disabled={isReplying} onClick={handleDeleteComment}>
-                ❌
-              </Button>
-            </div>
+            {user?.id === comment.user.id && (
+              <div className={styles.commentCardButtons}>
+                <Button disabled={isReplying} onClick={() => setIsEditing(true)}>
+                  ✏️
+                </Button>
+                <Button disabled={isReplying} onClick={handleDeleteComment}>
+                  ❌
+                </Button>
+              </div>
+            )}
           </>
         )}
         {isEditing && (
