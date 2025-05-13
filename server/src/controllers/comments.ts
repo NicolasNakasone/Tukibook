@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { Comment } from 'src/models/Comment'
+import { Comment, IComment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
 import { populatePost } from 'src/utils/populatePost'
@@ -34,7 +34,8 @@ export const addCommentToPost: RequestHandler = async (req, res, next) => {
 
     const savedComment = await newComment.save()
 
-    foundPost.comments.unshift(savedComment)
+    foundPost.comments.unshift(savedComment._id as IComment)
+
     await foundPost.save()
     await populatePost(foundPost)
 
