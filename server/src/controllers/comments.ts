@@ -34,7 +34,7 @@ export const addCommentToPost: RequestHandler = async (req, res, next) => {
 
     const savedComment = await newComment.save()
 
-    foundPost.comments.unshift(savedComment._id as IComment)
+    foundPost.comments.unshift(savedComment.id)
 
     await foundPost.save()
     await populatePost(foundPost)
