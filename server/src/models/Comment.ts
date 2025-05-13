@@ -28,6 +28,10 @@ const CommentSchema = new Schema<IComment>(
     ret.id = ret._id
     delete ret._id
     delete ret.postId
+
+    if (ret.user && ret.user._id) {
+      ret.user.id = ret.user._id
+    }
     return ret
   },
 })
