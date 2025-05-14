@@ -1,0 +1,15 @@
+.homeMainContainer {
+  padding: 4rem 8vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+}
+
+@media (max-width: 1024px) {
+  .homeMainContainer {
+    width: 100%;
+    padding-inline: 0;
+    margin: 0;
+  }
+}

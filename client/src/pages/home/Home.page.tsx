@@ -4,6 +4,7 @@ import { HomeContainer } from 'src/features/home/HomeContainer'
 import { AddPostForm } from 'src/features/posts/AddPostForm'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
 import { usePosts } from 'src/hooks/usePosts.hook'
+import styles from 'src/pages/home/Home.module.css'
 
 const observerOptions: IntersectionObserverInit = {
   root: null,
@@ -43,15 +44,7 @@ export const HomePage = (): JSX.Element => {
   }, [loader, getMorePosts])
 
   return (
-    <main
-      style={{
-        padding: '4rem 8vw',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '4rem',
-      }}
-    >
+    <main className={styles.homeMainContainer}>
       {status !== 'succeeded' ? (
         <>
           <PostSkeleton />

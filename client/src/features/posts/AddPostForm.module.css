@@ -32,3 +32,9 @@
   width: 40%;
   margin: 0;
 }
+
+@media (max-width: 1024px) {
+  .addPostForm {
+    width: 100%;
+  }
+}

@@ -68,3 +68,14 @@ button {
     outline-color: CanvasText;
   }
 }
+
+@media (max-width: 1024px) {
+  main {
+    margin: 0 2rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    text-align: center;
+  }
+}

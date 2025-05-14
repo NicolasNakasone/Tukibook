@@ -1,0 +1,13 @@
+.mainContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .mainContainer {
+    width: 100%;
+    padding-inline: 2rem;
+  }
+}

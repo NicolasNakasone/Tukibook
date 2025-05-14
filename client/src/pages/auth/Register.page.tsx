@@ -5,6 +5,7 @@ import { Button } from 'src/components/common/Button'
 import { PasswordInput } from 'src/components/form/PasswordInput'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
+import styles from 'src/pages/auth/Auth.module.css'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -45,14 +46,7 @@ export const RegisterPage = (): JSX.Element => {
   }
 
   return (
-    <main
-      style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
+    <main className={styles.mainContainer}>
       <h1 style={{ margin: '0 0 2rem' }}>Registrate en Tukibook 👍!</h1>
       <form
         style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}

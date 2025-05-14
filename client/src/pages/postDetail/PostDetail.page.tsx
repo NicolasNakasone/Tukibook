@@ -10,8 +10,6 @@ export const PostDetailPage = (): JSX.Element => {
   const navigate = useNavigate()
   const { postDetail, status, getPostById } = usePosts()
 
-  // console.log(!postDetail || postDetail.id !== id)
-
   useEffect(() => {
     if (id && (!postDetail || postDetail.id !== id)) {
       getPostById(id)
@@ -23,8 +21,18 @@ export const PostDetailPage = (): JSX.Element => {
   if (!postDetail) return <p>Post no encontrado</p>
 
   return (
-    <main>
-      <Button onClick={() => navigate(-1)}>⬅️ Atrás</Button>
+    <main
+      style={{
+        margin: '2rem 0',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '2rem',
+      }}
+    >
+      <Button style={{ margin: '0 auto 0 0' }} onClick={() => navigate(-1)}>
+        ⬅️ Atrás
+      </Button>
       <PostCard post={postDetail} />
     </main>
   )
