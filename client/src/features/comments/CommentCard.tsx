@@ -100,16 +100,16 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
                 </Button>
               )}
             </p>
-            {/* {user?.id === comment.user.id && (
-            )} */}
-            <div className={styles.commentCardButtons}>
-              <Button disabled={isReplying} onClick={() => setIsEditing(true)}>
-                ✏️
-              </Button>
-              <Button disabled={isReplying} onClick={handleDeleteComment}>
-                ❌
-              </Button>
-            </div>
+            {user?.id === comment.user.id && (
+              <div className={styles.commentCardButtons}>
+                <Button disabled={isReplying} onClick={() => setIsEditing(true)}>
+                  ✏️
+                </Button>
+                <Button disabled={isReplying} onClick={handleDeleteComment}>
+                  ❌
+                </Button>
+              </div>
+            )}
           </>
         )}
         {isEditing && (
