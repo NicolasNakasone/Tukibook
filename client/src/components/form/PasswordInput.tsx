@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from 'src/components/common/Button'
 
 export const PasswordInput = (): JSX.Element => {
-  const [isPassword, setIsPassword] = useState(false)
+  const [isPassword, setIsPassword] = useState(true)
 
   const togglePassword = () => {
     setIsPassword(prevPassword => !prevPassword)
