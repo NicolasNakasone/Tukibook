@@ -20,7 +20,6 @@ const UserSchema = new Schema<IUser>(
   versionKey: false,
   transform: (_, ret) => {
     ret.id = ret._id
-    delete ret._id
     delete ret.password
     return ret
   },
