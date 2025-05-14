@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
+import { PasswordInput } from 'src/components/form/PasswordInput'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 
@@ -59,7 +60,7 @@ export const RegisterPage = (): JSX.Element => {
       >
         <input name="username" type="text" placeholder="👤 Ingresa tu nombre de usuario" />
         <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
-        <input name="password" type="password" placeholder="🤫 Ingresa tu contraseña" />
+        <PasswordInput />
         <Button style={{ margin: '0 0 0 auto' }}>Registrate</Button>
         {error && <p>{error}</p>}
         <p style={{ margin: '2rem 0 0', textAlign: 'center' }}>
