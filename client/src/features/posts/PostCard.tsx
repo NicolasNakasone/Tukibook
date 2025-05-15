@@ -1,7 +1,7 @@
 import { SetStateAction, useEffect, useMemo, useState } from 'react'
 
 import tukibookLogo from 'public/tuki.webp'
-import { Link } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import { routes } from 'src/constants/routes'
@@ -10,10 +10,10 @@ import { CommentCard } from 'src/features/comments/CommentCard'
 import { DeletePostButton } from 'src/features/posts/DeletePostButton'
 import { LikePostButton } from 'src/features/posts/LikePostButton'
 import styles from 'src/features/posts/PostCard.module.css'
+import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitEditPost } from 'src/sockets'
 import { Post } from 'tukibook-helper'
-import { useAuth } from 'src/hooks/useAuth.hook'
 
 interface PostCardProps {
   post: Post
@@ -23,6 +23,8 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
   const [newContent, setNewContent] = useState(post.content)
 
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
   const { editPost } = usePosts()
 
   useEffect(() => {
@@ -30,6 +32,16 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
       setNewContent(post.content)
     }
   }, [post.content, isEditing])
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (pathname === routes.postDetail.replace(':id', post.id)) return
+
+    const target = e.target as HTMLElement
+
+    if (target.closest('button') || target.closest('input')) return
+
+    navigate(routes.postDetail.replace(':id', post.id))
+  }
 
   const handleEditPost = async () => {
     const response = await editPost({ id: post.id, content: newContent })
@@ -42,11 +54,10 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   }
 
   return (
-    <div key={post.id} className={styles.postCardContainer}>
+    <div key={post.id} className={styles.postCardContainer} onClick={handleCardClick}>
       {/* Cambiar mas adelante a un menu tipo tooltip con tres puntos
         para mostrar opciones como borrar el post o cosas asi
       */}
-      <Link to={routes.postDetail.replace(':id', post.id)}>Detalle</Link>
       <PostCardHeader
         {...{ post, isEditing }}
         toggleEdit={() => setIsEditing(prevState => !prevState)}

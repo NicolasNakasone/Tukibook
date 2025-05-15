@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { PostCard } from 'src/features/posts/PostCard'
 import { usePosts } from 'src/hooks/usePosts.hook'
+import styles from 'src/pages/postDetail/PostDetail.module.css'
 
 export const PostDetailPage = (): JSX.Element => {
   const { id } = useParams()
@@ -21,16 +22,8 @@ export const PostDetailPage = (): JSX.Element => {
   if (!postDetail) return <p>Post no encontrado</p>
 
   return (
-    <main
-      style={{
-        margin: '2rem 0',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '2rem',
-      }}
-    >
-      <Button style={{ margin: '0 auto 0 0' }} onClick={() => navigate(-1)}>
+    <main className={styles.postDetailMainContainer}>
+      <Button className={styles.goBackButton} onClick={() => navigate(-1)}>
         ⬅️ Atrás
       </Button>
       <PostCard post={postDetail} />

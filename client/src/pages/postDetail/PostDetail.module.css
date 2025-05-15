@@ -1,0 +1,12 @@
+.postDetailMainContainer {
+  width: 100%;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.goBackButton {
+  margin: 0 auto 0 2rem;
+}
