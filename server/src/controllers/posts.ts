@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
 import { populatePost, populatePostQuery } from 'src/utils/populatePost'
@@ -96,6 +97,8 @@ export const deletePost: RequestHandler = async (req, res, next) => {
     if (!deletedPost) {
       return res.status(404).send({ message: 'Post no encontrado' })
     }
+
+    await Comment.deleteMany({ postId: deletedPost._id })
 
     res.send(deletedPost)
   } catch (error) {
