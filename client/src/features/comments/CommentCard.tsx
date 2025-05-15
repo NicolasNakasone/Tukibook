@@ -82,11 +82,12 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
               {isReplying && (
                 <>
                   <input
-                    style={{ width: '100%' }}
                     value={replyNewContent}
+                    className={styles.replyInput}
+                    placeholder="Escribi tu respuesta..."
                     onChange={e => setReplyNewContent(e.target.value)}
                   />
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                  <div className={styles.replyButtons}>
                     <Button disabled={!replyNewContent} onClick={handleReplyComment}>
                       Guardar
                     </Button>
@@ -114,7 +115,11 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
         )}
         {isEditing && (
           <>
-            <textarea value={newContent} onChange={e => setNewContent(e.target.value)} />
+            <textarea
+              className={styles.editCommentInput}
+              value={newContent}
+              onChange={e => setNewContent(e.target.value)}
+            />
             <Button disabled={newContent === comment.content} onClick={handleEditComment}>
               Guardar
             </Button>
