@@ -48,7 +48,7 @@ export const AddPostForm = (): JSX.Element => {
         rows={4}
         required
         disabled={isLoading}
-        placeholder="Escribe un post...*"
+        placeholder="Escribi un post..."
       />
       <button type="submit" disabled={isLoading} className={styles.addPostButton}>
         Crear
