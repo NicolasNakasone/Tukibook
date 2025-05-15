@@ -1,4 +1,5 @@
 import { FormEvent } from 'react'
+import { Button } from 'src/components/common/Button'
 
 import styles from 'src/features/comments/AddCommentForm.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
@@ -24,6 +25,7 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   return (
     <form className={styles.commentForm} onSubmit={handleCommentPost}>
       <input type="text" placeholder="Comentar..." className={styles.commentInput} />
+      <Button type="submit">💬</Button>
     </form>
   )
 }
