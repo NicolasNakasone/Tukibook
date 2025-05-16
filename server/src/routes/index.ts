@@ -2,14 +2,12 @@ import express from 'express'
 import { routes } from 'src/constants/routes'
 import { authRouter } from 'src/routes/auth'
 import { commentsRouter } from 'src/routes/comments'
-import { likesRouter } from 'src/routes/likes'
 import { postsRouter } from 'src/routes/posts'
 
 export const router = express.Router()
 
 router.use(routes.posts, postsRouter)
 router.use(routes.comments, commentsRouter)
-router.use(routes.likes, likesRouter)
 router.use(routes.auth, authRouter)
 
 router.get(routes.home, (req, res, next) => {

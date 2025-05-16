@@ -1,5 +1,12 @@
 import express from 'express'
-import { addPost, deletePost, editPost, getPostById, getPosts } from 'src/controllers/posts'
+import {
+  addLikeToPost,
+  addPost,
+  deletePost,
+  editPost,
+  getPostById,
+  getPosts,
+} from 'src/controllers/posts'
 import { authenticateToken } from 'src/middlewares/authenticateToken'
 
 export const postsRouter = express.Router()
@@ -12,3 +19,4 @@ postsRouter.use(authenticateToken)
 postsRouter.post('/', addPost)
 postsRouter.put('/:id', editPost)
 postsRouter.delete('/:id', deletePost)
+postsRouter.patch('/:id/like', addLikeToPost)

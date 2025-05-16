@@ -75,7 +75,7 @@ export const deletePost = createAsyncThunk(
 export const likePost = createAsyncThunk(
   PostsActionTypes.LIKE_POST,
   async (postId: Post['id']) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.likes}/${postId}`, {
+    const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}/like`, {
       method: 'PATCH',
     }).then(res => res?.json())
     return response as Post
