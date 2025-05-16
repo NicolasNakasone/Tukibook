@@ -4,10 +4,10 @@ import tukibookLogo from 'public/tuki.webp'
 import { Button } from 'src/components/common/Button'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import styles from 'src/features/comments/CommentCard.module.css'
+import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitCommentPost, emitDeleteComment, emitEditComment } from 'src/sockets'
 import { Comment, Post } from 'tukibook-helper'
-import { useAuth } from 'src/hooks/useAuth.hook'
 
 export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
@@ -16,7 +16,7 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
   const [isReplying, setIsReplying] = useState(false)
   const [replyNewContent, setReplyNewContent] = useState('')
 
-  const { deleteComment, editComment, commentPost } = usePosts()
+  const { deleteComment, editComment, commentPost, likeComment } = usePosts()
 
   const { user } = useAuth()
 
@@ -28,7 +28,14 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
 
   const commentReplies = useMemo(() => {
     return post.comments.filter(postComments => postComments.parentCommentId === comment.id)
-  }, [post])
+  }, [post.comments, comment.id])
+
+  const hasLiked = comment.likes.includes(user?.id || '')
+
+  const handleLikeComment = async () => {
+    await likeComment(comment.id)
+    // Agregar evento socket
+  }
 
   const handleEditComment = async () => {
     const response = await editComment({ id: comment.id, content: newContent })
@@ -101,16 +108,23 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
                 </Button>
               )}
             </p>
-            {user?.id === comment.user.id && (
-              <div className={styles.commentCardButtons}>
-                <Button disabled={isReplying} onClick={() => setIsEditing(true)}>
-                  ✏️
-                </Button>
-                <Button disabled={isReplying} onClick={handleDeleteComment}>
-                  ❌
-                </Button>
-              </div>
-            )}
+            <div className={styles.commentCardButtons}>
+              <Button
+                disabled={isReplying}
+                style={{ fontWeight: hasLiked ? '700' : '400' }}
+                onClick={handleLikeComment}
+              >{`👍 ${comment.likes.length || ''}`}</Button>
+              {user?.id === comment.user.id && (
+                <>
+                  <Button disabled={isReplying} onClick={() => setIsEditing(true)}>
+                    ✏️
+                  </Button>
+                  <Button disabled={isReplying} onClick={handleDeleteComment}>
+                    ❌
+                  </Button>
+                </>
+              )}
+            </div>
           </>
         )}
         {isEditing && (

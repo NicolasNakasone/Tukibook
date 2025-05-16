@@ -10,6 +10,7 @@ import {
   editPost,
   fetchPostById,
   fetchPosts,
+  likeComment,
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
@@ -56,6 +57,8 @@ export const usePosts = () => {
 
   const handleDeleteComment = (commentId: Comment['id']) => dispatch(deleteComment(commentId))
 
+  const handleLikeComment = (commentId: Comment['id']) => dispatch(likeComment(commentId))
+
   return {
     posts,
     postDetail,
@@ -73,5 +76,6 @@ export const usePosts = () => {
     commentPost: handleCommentPost,
     editComment: handleEditComment,
     deleteComment: handleDeleteComment,
+    likeComment: handleLikeComment,
   }
 }

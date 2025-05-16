@@ -9,6 +9,7 @@ export interface CommentInput {
 export interface Comment extends CommentInput {
   id: string
   user: UserPayload
+  likes: string[]
   createdAt: Date
   updatedAt: Date
 }

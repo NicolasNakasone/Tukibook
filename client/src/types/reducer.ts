@@ -8,4 +8,5 @@ export enum PostsActionTypes {
   COMMENT_POST = 'posts/commentPost',
   EDIT_COMMENT = 'posts/editComment',
   DELETE_COMMENT = 'posts/deleteComment',
+  LIKE_COMMENT = 'posts/likeComment',
 }

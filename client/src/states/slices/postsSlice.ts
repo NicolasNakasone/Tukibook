@@ -114,6 +114,16 @@ export const deleteComment = createAsyncThunk(
   }
 )
 
+export const likeComment = createAsyncThunk(
+  PostsActionTypes.LIKE_COMMENT,
+  async (commentId: Comment['id']) => {
+    const response = await handleFetch(`${VITE_API_URL}${routes.comments}/${commentId}/like`, {
+      method: 'PATCH',
+    }).then(res => res?.json())
+    return response as Post
+  }
+)
+
 interface PostsState {
   posts: PostList
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -209,6 +219,7 @@ const postsSlice = createSlice({
       .addCase(commentPost.fulfilled, () => {})
       .addCase(editComment.fulfilled, () => {})
       .addCase(deleteComment.fulfilled, () => {})
+      .addCase(likeComment.fulfilled, () => {})
       .addMatcher(isPostRelatedAction, (state, action) => {
         const updatedPost = action.payload
 
