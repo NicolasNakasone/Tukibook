@@ -4,6 +4,11 @@ enum Routes {
   comments = 'comments',
   likes = 'likes',
   auth = 'auth',
+  login = 'login',
+  register = 'register',
+  me = 'me',
+  refreshToken = 'refreshToken',
+  logout = 'logout',
 }
 
 export const routes: { [key in Routes]: string } = {
@@ -12,4 +17,9 @@ export const routes: { [key in Routes]: string } = {
   comments: '/comments',
   likes: '/likes',
   auth: '/auth',
+  login: '/auth/login',
+  register: '/auth/register',
+  me: '/auth/me',
+  refreshToken: '/auth/refreshToken',
+  logout: '/auth/logout',
 }
