@@ -37,7 +37,7 @@ export const handleFetch = async (
     } else {
       localStorage.removeItem('accessToken')
       if (window.location.pathname !== routes.login) {
-        // window.location.replace(routes.login)
+        window.location.replace(routes.login)
       }
     }
   }

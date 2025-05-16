@@ -13,10 +13,10 @@ if (!JWT_REFRESH_SECRET) {
 
 type TimeSpan = number | `${number}${'s' | 'm' | 'h' | 'd' | 'w' | 'y'}`
 
-export const generateToken = (payload: UserPayload, expiresIn: TimeSpan = '5s') => {
+export const generateToken = (payload: UserPayload, expiresIn: TimeSpan = '15m') => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn })
 }
 
-export const generateRefreshToken = (payload: UserPayload, expiresIn: TimeSpan = '30s') => {
+export const generateRefreshToken = (payload: UserPayload, expiresIn: TimeSpan = '1d') => {
   return jwt.sign(payload, JWT_REFRESH_SECRET, { expiresIn })
 }
