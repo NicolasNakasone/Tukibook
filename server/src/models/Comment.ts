@@ -1,10 +1,11 @@
-import mongoose, { Document, Schema } from 'mongoose'
+import mongoose, { Document, Schema, Types } from 'mongoose'
 
 export interface IComment extends Document {
   postId: mongoose.Types.ObjectId
   user: mongoose.Types.ObjectId
   content: string
   parentCommentId?: mongoose.Types.ObjectId | null
+  likes: Types.ObjectId[]
   createdAt: Date
   updatedAt: Date
 }
@@ -19,6 +20,7 @@ const CommentSchema = new Schema<IComment>(
       ref: 'Comment',
       default: null,
     },
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true }
 ).set('toJSON', {

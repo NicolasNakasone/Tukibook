@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import mongoose from 'mongoose'
 import { Comment, IComment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
@@ -86,6 +87,41 @@ export const deleteComment: RequestHandler = async (req, res, next) => {
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }
+    res.send(updatedPost)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const addLikeToComment: RequestHandler = async (req, res, next) => {
+  const { id: commentId } = req.params
+  const userId = req.user?.id || ''
+
+  if (!isValidObjectId(commentId) || !isValidObjectId(userId)) {
+    return res.status(400).send({ message: 'Datos inválidos' })
+  }
+
+  try {
+    const foundComment = await Comment.findById(commentId)
+    if (!foundComment) return res.status(404).send({ message: 'Comentario no encontrado' })
+
+    const userObjectId = new mongoose.Types.ObjectId(userId)
+
+    const alreadyLiked = foundComment.likes.some(like => like.equals(userObjectId))
+
+    if (alreadyLiked) {
+      foundComment.likes = foundComment.likes.filter(like => !like.equals(userObjectId))
+    } else {
+      foundComment.likes.push(userObjectId)
+    }
+
+    await foundComment.save()
+
+    const updatedPost = await Post.findById(foundComment.postId)
+    if (!updatedPost) {
+      return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
+    }
+
     res.send(updatedPost)
   } catch (error) {
     next(error)
