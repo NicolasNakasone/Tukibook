@@ -1,5 +1,7 @@
 import { routes } from 'src/constants/routes'
 
+const { VITE_API_URL } = import.meta.env
+
 export const handleFetch = async (
   url: RequestInfo,
   options: RequestInit = {}
@@ -12,13 +14,31 @@ export const handleFetch = async (
     'Content-Type': 'application/json',
   }
 
-  const response = await fetch(url, { ...options, headers: finalHeaders })
+  let response = await fetch(url, { ...options, headers: finalHeaders })
 
   if (response.status === 401) {
-    localStorage.removeItem('accessToken')
+    const refreshRes = await fetch(`${VITE_API_URL}${routes.refreshToken}`, {
+      method: 'POST',
+      credentials: 'include',
+    })
 
-    if (window.location.pathname !== routes.login) {
-      window.location.replace(routes.login)
+    if (refreshRes.ok) {
+      const data = await refreshRes.json()
+      const newAccessToken = data.token
+      localStorage.setItem('accessToken', newAccessToken)
+
+      const retryHeaders = {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${newAccessToken}`,
+        'Content-Type': 'application/json',
+      }
+
+      response = await fetch(url, { ...options, headers: retryHeaders })
+    } else {
+      localStorage.removeItem('accessToken')
+      if (window.location.pathname !== routes.login) {
+        // window.location.replace(routes.login)
+      }
     }
   }
 

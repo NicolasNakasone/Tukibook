@@ -32,6 +32,7 @@ export const LoginPage = (): JSX.Element => {
     const loginUser = await handleFetch(`${VITE_API_URL}${routes.login}`, {
       method: 'POST',
       body: JSON.stringify(loggedUser),
+      credentials: 'include',
     })
 
     const response = await loginUser?.json()
