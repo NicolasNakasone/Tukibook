@@ -1,5 +1,6 @@
 import { createServer } from 'http'
 
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { configDotenv } from 'dotenv'
 import express, { NextFunction, Request, Response } from 'express'
@@ -39,6 +40,7 @@ server.set('port', API_PORT || 4000)
 
 server.use(logger('dev'))
 server.use(express.json({ limit: '50mb' }))
+server.use(cookieParser())
 
 server.use('/', router)
 
