@@ -116,7 +116,7 @@ export const deleteComment = createAsyncThunk(
 
 interface PostsState {
   posts: PostList
-  status: 'loading' | 'succeeded' | 'failed'
+  status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
   page: number
   hasMore: boolean
@@ -126,7 +126,7 @@ interface PostsState {
 const initialState: PostsState = {
   posts: [],
   postDetail: null,
-  status: 'loading',
+  status: 'idle',
   error: null,
   page: 1,
   hasMore: true,
@@ -146,10 +146,13 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, { payload }) => {
-        if (state.posts.some(post => post.id === payload.posts[0].id)) return
-
         state.status = 'succeeded'
-        state.posts = [...state.posts, ...payload.posts]
+
+        const newPosts = payload.posts.filter(
+          post => !state.posts.some(existing => existing.id === post.id)
+        )
+
+        state.posts = [...state.posts, ...newPosts]
         state.page += 1
         state.hasMore = payload.totalItems > state.posts.length
       })

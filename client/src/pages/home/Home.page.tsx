@@ -13,12 +13,12 @@ const observerOptions: IntersectionObserverInit = {
 }
 
 export const HomePage = (): JSX.Element => {
-  const { posts, status, page, getPosts, getMorePosts } = usePosts()
+  const { posts, status, page, getPosts, getMorePosts, hasMore } = usePosts()
   const loader = useRef(null)
 
   // Carga inicial
   useEffect(() => {
-    if (status === 'loading') {
+    if (posts.length === 0 && status === 'idle') {
       getPosts({ page })
     }
   }, [])
@@ -31,7 +31,7 @@ export const HomePage = (): JSX.Element => {
     const observer = new IntersectionObserver(entities => {
       const isVisible = entities[0].isIntersecting
 
-      if (isVisible) {
+      if (isVisible && status !== 'loading' && hasMore) {
         getMorePosts()
       }
     }, observerOptions)
@@ -41,11 +41,11 @@ export const HomePage = (): JSX.Element => {
     return () => {
       if (currentLoader) observer.unobserve(currentLoader)
     }
-  }, [loader, getMorePosts])
+  }, [loader, getMorePosts, status, hasMore])
 
   return (
     <main className={styles.homeMainContainer}>
-      {status !== 'succeeded' ? (
+      {status === 'loading' && posts.length === 0 ? (
         <>
           <PostSkeleton />
           <PostSkeleton />
