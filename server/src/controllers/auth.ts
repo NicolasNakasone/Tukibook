@@ -104,7 +104,7 @@ export const refreshToken: RequestHandler = async (req, res) => {
       email: user.email,
     })
 
-    res.send({ accessToken: newAccessToken })
+    res.send({ token: newAccessToken })
   } catch (error) {
     return res.status(403).send({ message: 'Token inválido o expirado' })
   }

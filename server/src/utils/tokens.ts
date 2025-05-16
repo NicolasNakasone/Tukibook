@@ -17,6 +17,6 @@ export const generateToken = (payload: UserPayload, expiresIn: TimeSpan = '5s') 
   return jwt.sign(payload, JWT_SECRET, { expiresIn })
 }
 
-export const generateRefreshToken = (payload: UserPayload, expiresIn: TimeSpan = '20s') => {
+export const generateRefreshToken = (payload: UserPayload, expiresIn: TimeSpan = '30s') => {
   return jwt.sign(payload, JWT_REFRESH_SECRET, { expiresIn })
 }
