@@ -4,8 +4,8 @@ import { Server as HttpServer } from 'http'
 import { Server } from 'socket.io'
 import { handleSocketEvents } from 'src/sockets/events'
 
-const { CLIENT_URL, VITE_API_URL } = process.env
-console.log({ CLIENT_URL, VITE_API_URL })
+const { CLIENT_URL } = process.env
+
 export const initializeSocket = (server: HttpServer): void => {
   const io = new Server(server, {
     cors: { credentials: true, origin: CLIENT_URL, methods: ['GET', 'POST'] },

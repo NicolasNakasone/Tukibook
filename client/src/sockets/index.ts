@@ -3,7 +3,7 @@ import { Post, SocketEvents } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
-export const socket = io(VITE_API_URL, { withCredentials: true })
+export const socket = io(VITE_API_URL, { withCredentials: true, transports: ['websocket'] })
 
 export const emitNewPost = (newPost: Post) => {
   socket.emit(SocketEvents.NEW_POST, newPost)

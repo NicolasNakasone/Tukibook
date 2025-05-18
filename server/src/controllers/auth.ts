@@ -69,7 +69,7 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: routes.refreshToken,
       maxAge: 1000 * 60 * 60 * 24,
     })
@@ -115,7 +115,7 @@ export const logoutUser: RequestHandler = (req, res, next) => {
     res.clearCookie('refreshToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       path: routes.refreshToken,
     })
     res.send({ message: 'Sesión cerrada correctamente' })
