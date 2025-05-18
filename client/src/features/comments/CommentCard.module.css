@@ -38,6 +38,17 @@
   gap: 0.5rem;
 }
 
+.likeCommentButton {
+  width: max-content;
+  padding: 0.25rem 0.5rem;
+}
+
+.likeCommentButton.liked {
+  background-color: var(--pressed-bg);
+  border-radius: 0.25rem;
+  font-weight: 700;
+}
+
 .repliesContainer {
   margin-block: 2rem;
   margin-inline: 2rem 0;
