@@ -31,4 +31,8 @@ export const registerPostListeners = (dispatch: AppDispatch) => {
   socket.on(SocketEvents.DELETE_COMMENT, (updatedPost: Post) => {
     dispatch({ type: `${PostsActionTypes.DELETE_COMMENT}/fulfilled`, payload: updatedPost })
   })
+
+  socket.on(SocketEvents.LIKE_COMMENT, (updatedPost: Post) => {
+    dispatch({ type: `${PostsActionTypes.LIKE_COMMENT}/fulfilled`, payload: updatedPost })
+  })
 }

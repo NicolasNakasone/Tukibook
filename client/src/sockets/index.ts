@@ -32,3 +32,7 @@ export const emitEditComment = (updatedPost: Post) => {
 export const emitDeleteComment = (updatedPost: Post) => {
   socket.emit(SocketEvents.DELETE_COMMENT, updatedPost)
 }
+
+export const emitLikeComment = (updatedPost: Post) => {
+  socket.emit(SocketEvents.LIKE_COMMENT, updatedPost)
+}

@@ -29,4 +29,8 @@ export const handleSocketEvents = (io: Server, socket: Socket): void => {
   socket.on(SocketEvents.DELETE_COMMENT, (post: Post) => {
     socket.broadcast.emit(SocketEvents.DELETE_COMMENT, post)
   })
+
+  socket.on(SocketEvents.LIKE_COMMENT, (post: Post) => {
+    socket.broadcast.emit(SocketEvents.LIKE_COMMENT, post)
+  })
 }

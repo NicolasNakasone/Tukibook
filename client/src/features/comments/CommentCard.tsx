@@ -6,7 +6,7 @@ import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import styles from 'src/features/comments/CommentCard.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitCommentPost, emitDeleteComment, emitEditComment } from 'src/sockets'
+import { emitCommentPost, emitDeleteComment, emitEditComment, emitLikeComment } from 'src/sockets'
 import { Comment, Post } from 'tukibook-helper'
 
 export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
@@ -33,8 +33,9 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
   const hasLiked = comment.likes.includes(user?.id || '')
 
   const handleLikeComment = async () => {
-    await likeComment(comment.id)
-    // Agregar evento socket
+    const response = await likeComment(comment.id)
+
+    if (response.payload) emitLikeComment(response.payload as Post)
   }
 
   const handleEditComment = async () => {
