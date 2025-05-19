@@ -8,10 +8,12 @@ export const handleFetch = async (
 ): Promise<Response> => {
   const token = localStorage.getItem('accessToken')
 
+  const isFormData = options.body instanceof FormData
+
   const finalHeaders = {
     ...(options.headers || {}),
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    'Content-Type': 'application/json',
+    ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
   }
 
   let response = await fetch(url, { ...options, headers: finalHeaders })
@@ -30,7 +32,7 @@ export const handleFetch = async (
       const retryHeaders = {
         ...(options.headers || {}),
         Authorization: `Bearer ${newAccessToken}`,
-        'Content-Type': 'application/json',
+        ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
       }
 
       response = await fetch(url, { ...options, headers: retryHeaders })

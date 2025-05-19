@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react'
 
+import { FileInput } from 'src/components/form/FileInput'
 import styles from 'src/features/posts/AddPostForm.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
@@ -28,15 +29,14 @@ export const AddPostForm = (): JSX.Element => {
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {
     setIsLoading(true)
     event.preventDefault()
+    const form = event.currentTarget
+    const formData = new FormData(event.currentTarget)
 
-    const target = event.target as HTMLFormElement
-    const content = (target[0] as HTMLInputElement).value
-
-    const response = await addPost({ content })
+    const response = await addPost(formData)
 
     if (response.payload) emitNewPost(response.payload as Post)
 
-    target.reset()
+    form.reset()
     setIsLoading(false)
   }
 
@@ -50,6 +50,7 @@ export const AddPostForm = (): JSX.Element => {
         disabled={isLoading}
         placeholder="Escribi un post..."
       />
+      <FileInput showOptional />
       <button type="submit" disabled={isLoading} className={styles.addPostButton}>
         Crear
       </button>

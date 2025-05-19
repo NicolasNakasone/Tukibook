@@ -5,7 +5,6 @@ import { PostsActionTypes } from 'src/types/reducer'
 import {
   GetPage,
   PostList,
-  PostInput,
   Post,
   CommentInput,
   Comment,
@@ -43,10 +42,10 @@ export const fetchPostById = createAsyncThunk(
   }
 )
 
-export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPost: PostInput) => {
+export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPost: FormData) => {
   const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
     method: 'POST',
-    body: JSON.stringify(newPost),
+    body: newPost,
   }).then(res => res?.json())
   return response as Post
 })

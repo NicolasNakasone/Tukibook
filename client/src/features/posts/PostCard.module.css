@@ -46,6 +46,12 @@
   white-space: pre-line;
 }
 
+.postImage {
+  width: 50%;
+  height: 50%;
+  margin: 0 auto;
+}
+
 .commentsContainer {
   display: flex;
   flex-direction: column;
@@ -55,5 +61,11 @@
 @media (max-width: 1024px) {
   .postCardContainer {
     width: 90%;
+  }
+
+  .postImage {
+    width: 90%;
+    height: 90%;
+    margin: 0 auto;
   }
 }

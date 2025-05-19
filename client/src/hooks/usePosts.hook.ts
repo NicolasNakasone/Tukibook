@@ -16,7 +16,6 @@ import {
 import { AppDispatch, RootState } from 'src/states/store'
 import {
   GetPage,
-  PostInput,
   Post,
   CommentInput,
   UpdatePostInput,
@@ -42,7 +41,7 @@ export const usePosts = () => {
 
   const handleGetPostById = (postId: Post['id']) => dispatch(fetchPostById(postId))
 
-  const handleAddPost = (newPost: PostInput) => dispatch(addPost(newPost))
+  const handleAddPost = (newPost: FormData) => dispatch(addPost(newPost))
 
   const handleDeletePost = (postId: Post['id']) => dispatch(deletePost(postId))
 
