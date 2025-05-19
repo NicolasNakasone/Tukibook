@@ -40,6 +40,7 @@ server.set('port', API_PORT || 4000)
 
 server.use(logger('dev'))
 server.use(express.json({ limit: '50mb' }))
+server.use(express.urlencoded({ extended: true }))
 server.use(cookieParser())
 
 server.use('/', router)

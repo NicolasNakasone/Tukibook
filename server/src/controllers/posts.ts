@@ -1,5 +1,7 @@
+import { UploadApiResponse } from 'cloudinary'
 import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
+import { cloudinary } from 'src/cloudinary'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
@@ -48,7 +50,27 @@ export const addPost: RequestHandler = async (req, res, next) => {
     if (!validateRequiredFields(req.user?.id, content))
       return res.status(400).send({ message: 'Faltan datos para crear el post' })
 
-    const newPost = new Post({ user: req.user?.id, content })
+    let imageUrl = ''
+
+    if (req.file) {
+      const buffer = req.file.buffer
+
+      const uploadResult: UploadApiResponse | undefined = await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            { folder: 'Tukibook/posts', resource_type: 'image', format: 'webp' },
+            (err, result) => {
+              if (err) reject(err)
+              else resolve(result)
+            }
+          )
+          .end(buffer)
+      })
+
+      imageUrl = uploadResult?.secure_url || ''
+    }
+
+    const newPost = new Post({ user: req.user?.id, content, image: imageUrl })
     const savedPost = await newPost.save()
 
     await populatePost(savedPost)
