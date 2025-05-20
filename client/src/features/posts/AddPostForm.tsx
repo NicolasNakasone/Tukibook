@@ -1,6 +1,6 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 
-import { FileInput } from 'src/components/form/FileInput'
+import { FileInput, FileInputHandle } from 'src/components/form/FileInput'
 import styles from 'src/features/posts/AddPostForm.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
@@ -23,6 +23,7 @@ import { Post } from 'tukibook-helper'
 */
 export const AddPostForm = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
+  const formRef = useRef<FileInputHandle>(null)
 
   const { addPost } = usePosts()
 
@@ -37,6 +38,7 @@ export const AddPostForm = (): JSX.Element => {
     if (response.payload) emitNewPost(response.payload as Post)
 
     form.reset()
+    formRef.current?.resetFileInput()
     setIsLoading(false)
   }
 
@@ -50,7 +52,7 @@ export const AddPostForm = (): JSX.Element => {
         disabled={isLoading}
         placeholder="Escribi un post..."
       />
-      <FileInput showOptional />
+      <FileInput ref={formRef} showOptional />
       <button type="submit" disabled={isLoading} className={styles.addPostButton}>
         Crear
       </button>
