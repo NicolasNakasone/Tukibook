@@ -47,8 +47,8 @@
 }
 
 .postImage {
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
 }
 
@@ -64,8 +64,8 @@
   }
 
   .postImage {
-    width: 90%;
-    height: 90%;
+    width: 80%;
+    height: 80%;
     margin: 0 auto;
   }
 }
