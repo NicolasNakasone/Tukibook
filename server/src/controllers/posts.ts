@@ -6,7 +6,7 @@ import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
 import { populatePost, populatePostQuery } from 'src/utils/populatePost'
-import { GetPostsResponse, PostList } from 'tukibook-helper'
+import { GetPostsResponse, Post as IPost, PostList } from 'tukibook-helper'
 
 export const getPosts: RequestHandler = async (req, res) => {
   const { page = 1, limit = 10 } = req.query
@@ -50,7 +50,7 @@ export const addPost: RequestHandler = async (req, res, next) => {
     if (!validateRequiredFields(req.user?.id, content))
       return res.status(400).send({ message: 'Faltan datos para crear el post' })
 
-    let imageUrl = ''
+    let newImage: IPost['image'] = { url: '', publicId: '' }
 
     if (req.file) {
       const buffer = req.file.buffer
@@ -67,10 +67,10 @@ export const addPost: RequestHandler = async (req, res, next) => {
           .end(buffer)
       })
 
-      imageUrl = uploadResult?.secure_url || ''
+      newImage = { url: uploadResult?.secure_url || '', publicId: uploadResult?.public_id || '' }
     }
 
-    const newPost = new Post({ user: req.user?.id, content, image: imageUrl })
+    const newPost = new Post({ user: req.user?.id, content, image: newImage })
     const savedPost = await newPost.save()
 
     await populatePost(savedPost)
@@ -122,6 +122,10 @@ export const deletePost: RequestHandler = async (req, res, next) => {
     }
 
     await Comment.deleteMany({ postId: deletedPost._id })
+
+    if (deletedPost.image?.publicId) {
+      await cloudinary.uploader.destroy(deletedPost.image.publicId)
+    }
 
     res.send(deletedPost)
   } catch (error) {

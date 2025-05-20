@@ -63,9 +63,9 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
         toggleEdit={() => setIsEditing(prevState => !prevState)}
       />
       <PostCardContent {...{ post, isEditing, newContent, setNewContent }} />
-      {post.image && (
+      {!!post.image?.publicId && (
         <img
-          src={post.image}
+          src={post.image.url}
           alt={`Imagen del post de ${post.user.username}`}
           className={styles.postImage}
         />

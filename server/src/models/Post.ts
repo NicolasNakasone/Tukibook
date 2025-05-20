@@ -7,7 +7,10 @@ export interface IPost extends Document {
   content: string
   likes: Types.ObjectId[]
   comments: IComment[]
-  image: string
+  image: {
+    url: string
+    publicId: string
+  }
   createdAt: Date
   updatedAt: Date
 }
@@ -18,7 +21,10 @@ const PostSchema: Schema = new Schema(
     content: { type: String, required: true },
     likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
-    image: { type: String, default: '' },
+    image: {
+      url: { type: String, default: '' },
+      publicId: { type: String, default: '' },
+    },
   },
   { timestamps: true }
 )

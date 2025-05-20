@@ -14,7 +14,10 @@ export interface Post extends PostInput {
   user: UserPayload
   likes: string[]
   comments: Comment[]
-  image: string
+  image: {
+    url: string
+    publicId: string
+  }
   createdAt: Date
   updatedAt: Date
 }
