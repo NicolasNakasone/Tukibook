@@ -1,5 +1,5 @@
 import tukibookLogo from 'public/tuki.webp'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import styles from 'src/components/common/Header.module.css'
 import { handleFetch } from 'src/constants/api'
@@ -35,7 +35,15 @@ export const Header = (): JSX.Element => {
             Hola <span>{user.username}</span>, disfruta de Tukibook!
           </p>
         )}
-        <Button onClick={handleLogout}>Cerrar sesión</Button>
+        <nav className={styles.navLinks}>
+          <Link to={routes.home}>
+            <Button>Inicio</Button>
+          </Link>
+          <Link to={routes.profile}>
+            <Button>Perfil</Button>
+          </Link>
+          <Button onClick={handleLogout}>Cerrar sesión</Button>
+        </nav>
       </div>
     </header>
   )

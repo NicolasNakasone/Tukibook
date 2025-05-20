@@ -35,3 +35,15 @@ header {
 p > span {
   font-weight: 700;
 }
+
+.navLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  & > a {
+    & > button {
+      width: 100%;
+      text-align: left;
+    }
+  }
+}
