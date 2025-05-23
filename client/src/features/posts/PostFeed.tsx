@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react'
 
+import { HomeContainer } from 'src/features/home/HomeContainer'
+import { PostSkeleton } from 'src/features/posts/PostSkeleton'
 import { usePosts } from 'src/hooks/usePosts.hook'
 
 const observerOptions: IntersectionObserverInit = {
@@ -39,5 +41,18 @@ export const PostFeed = (): JSX.Element => {
     }
   }, [loader, getMorePosts, status, hasMore])
 
-  return <div ref={loader} />
+  if (status === 'loading' && posts.length === 0)
+    return (
+      <>
+        <PostSkeleton />
+        <PostSkeleton />
+      </>
+    )
+
+  return (
+    <>
+      <HomeContainer {...{ posts }} />
+      <div ref={loader} />
+    </>
+  )
 }
