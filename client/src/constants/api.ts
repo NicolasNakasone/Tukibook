@@ -4,7 +4,8 @@ const { VITE_API_URL } = import.meta.env
 
 export const handleFetch = async (
   url: RequestInfo,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  filters?: Record<string, any>
 ): Promise<Response> => {
   const token = localStorage.getItem('accessToken')
 
@@ -16,7 +17,9 @@ export const handleFetch = async (
     ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
   }
 
-  let response = await fetch(url, { ...options, headers: finalHeaders })
+  const fullURL = filters ? `${url}${buildQueryString({}, filters)}` : url
+
+  let response = await fetch(fullURL, { ...options, headers: finalHeaders })
 
   if (response.status === 401) {
     const refreshRes = await fetch(`${VITE_API_URL}${routes.refreshToken}`, {
@@ -29,13 +32,9 @@ export const handleFetch = async (
       const newAccessToken = data.token
       localStorage.setItem('accessToken', newAccessToken)
 
-      const retryHeaders = {
-        ...(options.headers || {}),
-        Authorization: `Bearer ${newAccessToken}`,
-        ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
-      }
+      finalHeaders.Authorization = `Bearer ${newAccessToken}`
 
-      response = await fetch(url, { ...options, headers: retryHeaders })
+      response = await fetch(fullURL, { ...options, headers: finalHeaders })
     } else {
       localStorage.removeItem('accessToken')
       if (window.location.pathname !== routes.login) {
@@ -45,4 +44,31 @@ export const handleFetch = async (
   }
 
   return response
+}
+
+type QueryParams = {
+  page?: number
+  limit?: number
+  [key: string]: any // Para permitir filtros como userId, search, etc.
+}
+
+export const buildQueryString = (params: QueryParams = {}, filters?: Record<string, any>) => {
+  const query = new URLSearchParams()
+
+  // Agregar params simples (como page, limit)
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      query.append(key, String(value))
+    }
+  })
+
+  // Agregar filtros como stringificado si existen
+  if (filters && Object.keys(filters).length > 0) {
+    query.append('filters', JSON.stringify(filters))
+  }
+
+  const queryString = query.toString()
+  // No retorno el string comenzando con ? porque ya forman parte de filtros
+  // return queryString ? `?${queryString}` : ''
+  return queryString ? `&${queryString}` : ''
 }
