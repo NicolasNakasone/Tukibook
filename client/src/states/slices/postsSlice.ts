@@ -162,6 +162,12 @@ const postsSlice = createSlice({
           post => !state.posts.some(existing => existing.id === post.id)
         )
 
+        // Por si la request esta mal armada, asi se evitan requests infinitas
+        if (newPosts.length === 0) {
+          state.hasMore = false
+          return
+        }
+
         state.posts = [...state.posts, ...newPosts]
         state.page += 1
         state.hasMore = payload.totalItems > state.posts.length
