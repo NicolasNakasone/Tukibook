@@ -3,7 +3,6 @@ import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { PostsActionTypes } from 'src/types/reducer'
 import {
-  GetPage,
   PostList,
   Post,
   CommentInput,
@@ -11,6 +10,7 @@ import {
   GetPostsResponse,
   UpdatePostInput,
   UpdateCommentInput,
+  GetPostsParams,
 } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -19,10 +19,11 @@ const PAGE_LIMIT = 2
 
 export const fetchPosts = createAsyncThunk(
   PostsActionTypes.GET_POSTS,
-  async ({ page }: GetPage) => {
+  async ({ page, filters }: GetPostsParams) => {
     const response: GetPostsResponse = await handleFetch(
       `${VITE_API_URL}${routes.posts}?page=${page}&limit=${PAGE_LIMIT}`,
-      { method: 'GET' }
+      { method: 'GET' },
+      filters
     ).then(res => res?.json())
     return {
       posts: response.posts,

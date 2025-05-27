@@ -15,12 +15,12 @@ import {
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
 import {
-  GetPage,
   Post,
   CommentInput,
   UpdatePostInput,
   Comment,
   UpdateCommentInput,
+  GetPostsParams,
 } from 'tukibook-helper'
 
 export const usePosts = () => {
@@ -29,15 +29,18 @@ export const usePosts = () => {
     ({ posts }: RootState) => posts
   )
 
-  const handleGetPosts = useCallback(({ page }: GetPage) => {
-    return dispatch(fetchPosts({ page }))
+  const handleGetPosts = useCallback(({ page, filters }: GetPostsParams) => {
+    return dispatch(fetchPosts({ page, filters }))
   }, [])
 
-  const handleGetMorePosts = useCallback(() => {
-    if (status !== 'loading' && hasMore) {
-      dispatch(fetchPosts({ page }))
-    }
-  }, [page, hasMore, status, dispatch])
+  const handleGetMorePosts = useCallback(
+    (filters: GetPostsParams['filters']) => {
+      if (status !== 'loading' && hasMore) {
+        dispatch(fetchPosts({ page, filters }))
+      }
+    },
+    [page, hasMore, status, dispatch]
+  )
 
   const handleGetPostById = (postId: Post['id']) => dispatch(fetchPostById(postId))
 

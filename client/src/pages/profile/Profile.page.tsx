@@ -16,7 +16,7 @@ export const ProfilePage = (): JSX.Element => {
         <ProfileUserInfo {...{ user, postCount: posts.length }} />
         <div className={styles.profileUserPosts}>
           <h2>Tus posts</h2>
-          <PostFeed />
+          <PostFeed filters={{ user: { id: user?.id } }} />
         </div>
       </div>
     </main>
