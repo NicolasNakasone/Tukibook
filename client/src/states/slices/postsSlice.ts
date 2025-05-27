@@ -145,7 +145,7 @@ const initialState: PostsState = {
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
-  reducers: {},
+  reducers: { resetState: () => initialState },
   extraReducers: builder => {
     const isPostRelatedAction = (action: any): action is { payload: Post; type: string } => {
       return action.type.endsWith('/fulfilled') && action.payload?.id

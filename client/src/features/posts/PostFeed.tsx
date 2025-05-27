@@ -16,13 +16,23 @@ interface PostFeedProps {
 }
 
 export const PostFeed = ({ filters }: PostFeedProps): JSX.Element => {
-  const { posts, status, page, getPosts, getMorePosts, hasMore } = usePosts()
+  const { posts, status, page, getPosts, getMorePosts, hasMore, resetPostsState } = usePosts()
   const loader = useRef(null)
+
+  // useEffect(() => {
+  //   return () => {
+  //     resetPostsState()
+  //   }
+  // }, [])
 
   // Carga inicial
   useEffect(() => {
     if (posts.length === 0 && status === 'idle') {
       getPosts({ page, filters })
+    }
+
+    return () => {
+      resetPostsState()
     }
   }, [])
 

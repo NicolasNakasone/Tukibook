@@ -14,6 +14,7 @@ import {
   likePost,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
+import { PostsActionTypes } from 'src/types/reducer'
 import {
   Post,
   CommentInput,
@@ -61,6 +62,8 @@ export const usePosts = () => {
 
   const handleLikeComment = (commentId: Comment['id']) => dispatch(likeComment(commentId))
 
+  const handleResetState = () => dispatch({ type: PostsActionTypes.RESET_STATE })
+
   return {
     posts,
     postDetail,
@@ -79,5 +82,6 @@ export const usePosts = () => {
     editComment: handleEditComment,
     deleteComment: handleDeleteComment,
     likeComment: handleLikeComment,
+    resetPostsState: handleResetState,
   }
 }
