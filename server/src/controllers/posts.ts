@@ -6,19 +6,29 @@ import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
 import { populatePost, populatePostQuery } from 'src/utils/populatePost'
-import { GetPostsResponse, Post as IPost, PostList } from 'tukibook-helper'
+import { GetPostsParams, GetPostsResponse, Post as IPost, PostList } from 'tukibook-helper'
 
 export const getPosts: RequestHandler = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query
+  const { page = 1, limit = 10, filters } = req.query
 
   const offset = (Number(page) - 1) * Number(limit)
 
-  const posts = await Post.find({})
+  let queryFilters: Record<string, string> = {}
+
+  if (typeof filters === 'string') {
+    try {
+      queryFilters = (JSON.parse(filters) as GetPostsParams['filters'])?.user || {}
+    } catch (error) {
+      return res.status(400).json({ error: 'Parámetros de filtro inválidos' })
+    }
+  }
+
+  const posts = await Post.find({ user: queryFilters.id })
     .sort({ createdAt: -1 })
     .limit(Number(limit))
     .skip(Number(offset))
 
-  const totalItems = await Post.countDocuments()
+  const totalItems = await Post.countDocuments({ user: queryFilters.id })
 
   const response: GetPostsResponse = {
     posts: posts as unknown as PostList,
