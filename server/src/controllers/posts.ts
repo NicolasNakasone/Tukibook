@@ -17,18 +17,18 @@ export const getPosts: RequestHandler = async (req, res) => {
 
   if (typeof filters === 'string') {
     try {
-      queryFilters = (JSON.parse(filters) as GetPostsParams['filters'])?.user || {}
+      queryFilters = (JSON.parse(filters) as GetPostsParams['filters']) || {}
     } catch (error) {
-      return res.status(400).json({ error: 'Parámetros de filtro inválidos' })
+      return res.status(400).send({ message: 'Parámetros de filtro inválidos' })
     }
   }
 
-  const posts = await Post.find({ user: queryFilters.id })
+  const posts = await Post.find(queryFilters)
     .sort({ createdAt: -1 })
     .limit(Number(limit))
     .skip(Number(offset))
 
-  const totalItems = await Post.countDocuments({ user: queryFilters.id })
+  const totalItems = await Post.countDocuments(queryFilters)
 
   const response: GetPostsResponse = {
     posts: posts as unknown as PostList,

@@ -27,8 +27,8 @@ export type PostList = Post[]
 
 export interface GetPostsParams extends GetPage {
   filters?: {
-    user?: Partial<UserPayload>
-    // [key: string]: any
+    user?: string
+    // [key: string]: string | undefined
   }
 }
 
