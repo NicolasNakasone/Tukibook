@@ -1,4 +1,5 @@
 import { Comment } from './comments'
+import { GetPage } from './common'
 import { UserPayload } from './users'
 
 export interface PostInput {
@@ -23,6 +24,13 @@ export interface Post extends PostInput {
 }
 
 export type PostList = Post[]
+
+export interface GetPostsParams extends GetPage {
+  filters?: {
+    user?: Partial<UserPayload>
+    // [key: string]: any
+  }
+}
 
 export interface GetPostsResponse {
   posts: PostList
