@@ -26,7 +26,7 @@ import {
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { posts, status, error, page, hasMore, postDetail } = useSelector(
+  const { posts, status, error, page, hasMore, postDetail, filters } = useSelector(
     ({ posts }: RootState) => posts
   )
 
@@ -64,6 +64,9 @@ export const usePosts = () => {
 
   const handleResetState = () => dispatch({ type: PostsActionTypes.RESET_STATE })
 
+  const handleSetFilters = (payload: GetPostsParams['filters']) =>
+    dispatch({ type: PostsActionTypes.SET_FILTERS, payload })
+
   return {
     posts,
     postDetail,
@@ -71,6 +74,7 @@ export const usePosts = () => {
     error,
     page,
     hasMore,
+    filters,
     getPosts: handleGetPosts,
     getMorePosts: handleGetMorePosts,
     getPostById: handleGetPostById,
@@ -83,5 +87,6 @@ export const usePosts = () => {
     deleteComment: handleDeleteComment,
     likeComment: handleLikeComment,
     resetPostsState: handleResetState,
+    setFilters: handleSetFilters,
   }
 }

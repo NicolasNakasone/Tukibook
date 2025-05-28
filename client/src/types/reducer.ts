@@ -10,4 +10,5 @@ export enum PostsActionTypes {
   DELETE_COMMENT = 'posts/deleteComment',
   LIKE_COMMENT = 'posts/likeComment',
   RESET_STATE = 'posts/resetState',
+  SET_FILTERS = 'posts/setFilters',
 }

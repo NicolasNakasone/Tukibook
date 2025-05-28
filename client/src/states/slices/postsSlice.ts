@@ -131,6 +131,7 @@ interface PostsState {
   page: number
   hasMore: boolean
   postDetail: Post | null
+  filters: GetPostsParams['filters']
 }
 
 const initialState: PostsState = {
@@ -140,12 +141,18 @@ const initialState: PostsState = {
   error: null,
   page: 1,
   hasMore: true,
+  filters: {},
 }
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
-  reducers: { resetState: () => initialState },
+  reducers: {
+    resetState: () => initialState,
+    setFilters: (state, { payload }: { payload: GetPostsParams['filters'] }) => {
+      state.filters = payload
+    },
+  },
   extraReducers: builder => {
     const isPostRelatedAction = (action: any): action is { payload: Post; type: string } => {
       return action.type.endsWith('/fulfilled') && action.payload?.id

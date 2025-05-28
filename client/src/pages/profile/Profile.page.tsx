@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { GoBackButton } from 'src/components/common/GoBackButton'
 import { PostFeed } from 'src/features/posts/PostFeed'
 import { ProfileUserInfo } from 'src/features/profile/ProfileUserInfo'
@@ -7,7 +9,14 @@ import styles from 'src/pages/profile/Profile.module.css'
 
 export const ProfilePage = (): JSX.Element => {
   const { user } = useAuth()
-  const { posts } = usePosts()
+  const { posts, setFilters } = usePosts()
+
+  useEffect(() => {
+    setFilters({ user: user?.id })
+    return () => {
+      setFilters({})
+    }
+  }, [])
 
   return (
     <main className={styles.profileMainContainer}>
@@ -16,7 +25,7 @@ export const ProfilePage = (): JSX.Element => {
         <ProfileUserInfo {...{ user, postCount: posts.length }} />
         <div className={styles.profileUserPosts}>
           <h2>Tus posts</h2>
-          <PostFeed filters={{ user: user?.id }} />
+          <PostFeed />
         </div>
       </div>
     </main>

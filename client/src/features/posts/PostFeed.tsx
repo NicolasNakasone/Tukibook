@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react'
 import { HomeContainer } from 'src/features/home/HomeContainer'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
 import { usePosts } from 'src/hooks/usePosts.hook'
-import { GetPostsParams } from 'tukibook-helper'
 
 const observerOptions: IntersectionObserverInit = {
   root: null,
@@ -11,19 +10,10 @@ const observerOptions: IntersectionObserverInit = {
   threshold: 0.25,
 }
 
-interface PostFeedProps {
-  filters?: GetPostsParams['filters']
-}
-
-export const PostFeed = ({ filters }: PostFeedProps): JSX.Element => {
-  const { posts, status, page, getPosts, getMorePosts, hasMore, resetPostsState } = usePosts()
+export const PostFeed = (): JSX.Element => {
+  const { posts, status, page, getPosts, getMorePosts, hasMore, resetPostsState, filters } =
+    usePosts()
   const loader = useRef(null)
-
-  // useEffect(() => {
-  //   return () => {
-  //     resetPostsState()
-  //   }
-  // }, [])
 
   // Carga inicial
   useEffect(() => {
