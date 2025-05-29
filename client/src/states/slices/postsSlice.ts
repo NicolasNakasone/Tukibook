@@ -124,7 +124,7 @@ export const likeComment = createAsyncThunk(
   }
 )
 
-interface PostsState {
+export interface PostsState {
   posts: PostList
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
@@ -132,6 +132,7 @@ interface PostsState {
   hasMore: boolean
   postDetail: Post | null
   filters: GetPostsParams['filters']
+  currentPage: '' | '/' | '/profile'
 }
 
 const initialState: PostsState = {
@@ -142,6 +143,7 @@ const initialState: PostsState = {
   page: 1,
   hasMore: true,
   filters: {},
+  currentPage: '',
 }
 
 const postsSlice = createSlice({
@@ -151,6 +153,12 @@ const postsSlice = createSlice({
     resetState: () => initialState,
     setFilters: (state, { payload }: { payload: GetPostsParams['filters'] }) => {
       state.filters = payload
+    },
+    setPartialState: (state, { payload }: { payload: Partial<PostsState> }) => {
+      return {
+        ...state,
+        ...payload,
+      }
     },
   },
   extraReducers: builder => {

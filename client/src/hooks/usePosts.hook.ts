@@ -12,6 +12,7 @@ import {
   fetchPosts,
   likeComment,
   likePost,
+  PostsState,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
 import { PostsActionTypes } from 'src/types/reducer'
@@ -26,7 +27,7 @@ import {
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { posts, status, error, page, hasMore, postDetail, filters } = useSelector(
+  const { posts, status, error, page, hasMore, postDetail, filters, currentPage } = useSelector(
     ({ posts }: RootState) => posts
   )
 
@@ -67,6 +68,9 @@ export const usePosts = () => {
   const handleSetFilters = (payload: GetPostsParams['filters']) =>
     dispatch({ type: PostsActionTypes.SET_FILTERS, payload })
 
+  const handleSetPartialState = (payload: Partial<PostsState>) =>
+    dispatch({ type: PostsActionTypes.SET_PARTIAL_STATE, payload })
+
   return {
     posts,
     postDetail,
@@ -75,6 +79,7 @@ export const usePosts = () => {
     page,
     hasMore,
     filters,
+    currentPage,
     getPosts: handleGetPosts,
     getMorePosts: handleGetMorePosts,
     getPostById: handleGetPostById,
@@ -88,5 +93,6 @@ export const usePosts = () => {
     likeComment: handleLikeComment,
     resetPostsState: handleResetState,
     setFilters: handleSetFilters,
+    setPartialState: handleSetPartialState,
   }
 }

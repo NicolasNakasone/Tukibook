@@ -11,20 +11,8 @@ const observerOptions: IntersectionObserverInit = {
 }
 
 export const PostFeed = (): JSX.Element => {
-  const { posts, status, page, getPosts, getMorePosts, hasMore, resetPostsState, filters } =
-    usePosts()
+  const { posts, status, getMorePosts, hasMore, filters } = usePosts()
   const loader = useRef(null)
-
-  // Carga inicial
-  useEffect(() => {
-    if (posts.length === 0 && status === 'idle') {
-      getPosts({ page, filters })
-    }
-
-    return () => {
-      resetPostsState()
-    }
-  }, [])
 
   // Scroll infinito controlado
   useEffect(() => {
