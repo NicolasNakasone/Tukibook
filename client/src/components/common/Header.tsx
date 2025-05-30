@@ -2,25 +2,13 @@ import tukibookLogo from 'public/tuki.webp'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import styles from 'src/components/common/Header.module.css'
-import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
-
-const { VITE_API_URL } = import.meta.env
+import { handleLogout } from 'src/utils'
 
 export const Header = (): JSX.Element => {
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
-
-  const handleLogout = async () => {
-    await handleFetch(`${VITE_API_URL}${routes.logout}`, {
-      method: 'POST',
-      credentials: 'include',
-    })
-    localStorage.removeItem('accessToken')
-    setUser(null)
-    navigate(routes.login)
-  }
 
   return (
     <header>
@@ -42,7 +30,7 @@ export const Header = (): JSX.Element => {
           <Link to={routes.profile}>
             <Button>Perfil</Button>
           </Link>
-          <Button onClick={handleLogout}>Cerrar sesión</Button>
+          <Button onClick={() => handleLogout(setUser, navigate)}>Cerrar sesión</Button>
         </nav>
       </div>
     </header>
