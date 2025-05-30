@@ -1,4 +1,5 @@
 import tukibookLogo from 'public/tuki.webp'
+import { DeleteUserForm } from 'src/features/users/DeleteUserForm'
 import styles from 'src/pages/profile/Profile.module.css'
 import { User } from 'tukibook-helper'
 
@@ -18,6 +19,7 @@ export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
       <p>Posts mas relevantes</p>
       <p>Primer post</p>
       <p>Fecha de registro</p> */}
+      <DeleteUserForm />
     </div>
   )
 }

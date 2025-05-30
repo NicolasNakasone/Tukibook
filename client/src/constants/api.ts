@@ -2,6 +2,9 @@ import { routes } from 'src/constants/routes'
 
 const { VITE_API_URL } = import.meta.env
 
+// Usar para evitar hacer un refetch en cualquier status 401
+// const responseErrors = ['Usuario no encontrado', 'No autorizado']
+
 export const handleFetch = async (
   url: RequestInfo,
   options: RequestInit = {},
