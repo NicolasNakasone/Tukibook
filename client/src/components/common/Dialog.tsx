@@ -1,64 +1,69 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { createPortal } from 'react-dom'
 
 const DIALOG_ROOT_ID = 'dialog-root'
 
-interface INewDialog {
+interface DialogProps {
   children?: JSX.Element | JSX.Element[]
   open: boolean
   onClose: () => void
 }
 
-export const Dialog = ({ children, open, onClose }: INewDialog) => {
+export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | null => {
+  const [mounted, setMounted] = useState(false)
   const dialogRootRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const dialogRoot = document.getElementById(DIALOG_ROOT_ID)
+    let dialogRoot = document.getElementById(DIALOG_ROOT_ID) as HTMLDivElement | null
 
     if (!dialogRoot) {
-      const newDialogRoot = document.createElement('div')
-      newDialogRoot.setAttribute('id', DIALOG_ROOT_ID)
-      newDialogRoot.style.position = 'fixed'
-      newDialogRoot.style.top = '0'
-      newDialogRoot.style.width = '100%'
-      newDialogRoot.style.height = '100%'
-      newDialogRoot.style.display = 'flex'
-      newDialogRoot.style.justifyContent = 'center'
-      newDialogRoot.style.alignItems = 'center'
-      newDialogRoot.style.backgroundColor = '#00000080'
-      document.body.appendChild(newDialogRoot)
+      dialogRoot = document.createElement('div')
+      dialogRoot.setAttribute('id', DIALOG_ROOT_ID)
+      document.body.appendChild(dialogRoot)
     }
 
+    dialogRootRef.current = dialogRoot
+    setMounted(true)
+
     return () => {
-      dialogRootRef.current = null
+      setMounted(false)
     }
   }, [])
 
-  useEffect(() => {
-    if (dialogRootRef.current) {
-      dialogRootRef.current.style.display = open ? 'flex' : 'none'
-    }
-  }, [open])
-
-  const handleClose = () => {
-    onClose()
-  }
+  if (!mounted || !dialogRootRef.current || !open) return null
 
   return createPortal(
-    <div ref={dialogRootRef}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        zIndex: 999,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#00000080',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      onClick={onClose}
+    >
       <div
         style={{
           backgroundColor: '#fff',
-          width: '30vw',
-          minHeight: '20vh',
+          padding: '1rem',
+          minWidth: '300px',
+          borderRadius: '8px',
         }}
+        onClick={e => e.stopPropagation()}
       >
         {children}
-        <button onClick={handleClose}>Cerrar</button>
+        <button style={{ marginTop: '1rem' }} onClick={onClose}>
+          Cerrar
+        </button>
       </div>
     </div>,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    dialogRootRef.current!
+    dialogRootRef.current
   )
 }
