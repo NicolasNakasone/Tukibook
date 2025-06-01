@@ -12,10 +12,10 @@ interface DialogProps {
 
 export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | null => {
   const [isMounted, setIsMounted] = useState(false)
-  const dialogRootRef = useRef<HTMLDivElement | null>(null)
+  const dialogRootRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
-    let dialogRoot = document.getElementById(DIALOG_ROOT_ID) as HTMLDivElement | null
+    let dialogRoot = document.getElementById(DIALOG_ROOT_ID)
 
     if (!dialogRoot) {
       dialogRoot = document.createElement('div')
@@ -26,34 +26,32 @@ export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | 
     dialogRootRef.current = dialogRoot
     setIsMounted(true)
 
-    return () => {
-      setIsMounted(false)
-    }
+    return () => setIsMounted(false)
   }, [])
 
-  if (!isMounted || !dialogRootRef.current || !open) return null
+  if (!isMounted || !open || !dialogRootRef.current) return null
 
   return createPortal(
     <div
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        zIndex: 999,
         width: '100vw',
         height: '100vh',
-        backgroundColor: '#00000080',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        backgroundColor: '#00000080',
+        zIndex: 1000,
       }}
       onClick={onClose}
     >
       <div
         style={{
-          backgroundColor: '#fff',
-          padding: '1rem',
           minWidth: '300px',
+          padding: '1rem',
+          backgroundColor: '#fff',
           borderRadius: '8px',
         }}
         onClick={e => e.stopPropagation()}
