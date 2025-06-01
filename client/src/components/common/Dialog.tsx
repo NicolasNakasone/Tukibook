@@ -11,7 +11,7 @@ interface DialogProps {
 }
 
 export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | null => {
-  const [mounted, setMounted] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const dialogRootRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -24,14 +24,14 @@ export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | 
     }
 
     dialogRootRef.current = dialogRoot
-    setMounted(true)
+    setIsMounted(true)
 
     return () => {
-      setMounted(false)
+      setIsMounted(false)
     }
   }, [])
 
-  if (!mounted || !dialogRootRef.current || !open) return null
+  if (!isMounted || !dialogRootRef.current || !open) return null
 
   return createPortal(
     <div
