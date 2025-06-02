@@ -64,7 +64,6 @@ button {
   width: max-content;
   border: 1px solid;
   border-radius: 0.125rem;
-  border-color: transparent;
   cursor: pointer;
   font-family: inherit;
   font-size: 0.875rem;

@@ -31,6 +31,7 @@ export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
       <Button
         size="md"
         color="error"
+        variant="normal"
         className={styles.deleteUserButton}
         onClick={() => setOpenDeleteUser(true)}
       >

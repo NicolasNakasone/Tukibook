@@ -47,11 +47,11 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
     >
       <p>Ingresá tu contraseña para confirmar que eliminas tu cuenta</p>
       <PasswordInput inputProps={{ placeholder: '🤫 Confirmá con tu contraseña' }} />
-      <div style={{ margin: '1rem 0 0 auto', display: 'flex', gap: '0.5rem' }}>
-        <Button color="error" type="submit">
+      <div style={{ margin: '1rem 0 0 auto', display: 'flex', gap: '0.75rem' }}>
+        <Button variant="normal" color="error" type="submit">
           Confirmar
         </Button>
-        <Button type="button" onClick={onClose}>
+        <Button variant="normal" type="button" onClick={onClose}>
           Cancelar
         </Button>
       </div>

@@ -1,4 +1,12 @@
 /* Mover a estilos generales desde aca */
+.normal {
+  border-color: transparent;
+}
+
+.outline {
+  border-color: currentcolor;
+}
+
 .sm {
   padding: 0.25rem;
   font-size: 0.875rem;
@@ -19,7 +27,6 @@
 .primary {
   color: CanvasText;
   background-color: buttonface;
-  border-color: buttonborder;
 }
 
 .success {
