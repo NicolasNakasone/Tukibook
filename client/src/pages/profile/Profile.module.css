@@ -53,7 +53,7 @@
     height: auto;
     flex-direction: row;
     align-items: normal;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     border: none;
     border-bottom: 1px solid CanvasText;
   }

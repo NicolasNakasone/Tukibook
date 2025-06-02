@@ -1,0 +1,31 @@
+.dialogBackdrop {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #00000080;
+  z-index: 1000;
+}
+
+.dialogContainer {
+  min-width: 18.75rem;
+  padding: 1.5rem;
+  background-color: Canvas;
+  border: 1px solid CanvasText;
+  border-radius: 0.25rem;
+}
+
+.dialogCloseButton {
+  margin: 1rem 0 1rem auto;
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .dialogContainer {
+    max-width: 90%;
+  }
+}
