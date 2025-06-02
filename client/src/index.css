@@ -30,7 +30,7 @@ ul {
 
 input {
   padding: 0.5rem 0.25rem;
-  margin: 0 0 0.5rem;
+  margin: 0;
   border: none;
   border-bottom: 1px solid CanvasText;
   font-family: inherit;
