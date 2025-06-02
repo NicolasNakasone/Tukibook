@@ -1,11 +1,4 @@
-.button {
-  width: max-content;
-
-  &:hover {
-    filter: brightness(0.9);
-  }
-}
-
+/* Mover a estilos generales desde aca */
 .sm {
   padding: 0.25rem;
   font-size: 0.875rem;
@@ -13,18 +6,53 @@
 
 .md {
   padding: 0.5rem;
+  border-radius: 0.25rem;
   font-size: 1rem;
 }
 
 .lg {
   padding: 0.75rem;
+  border-radius: 0.25rem;
   font-size: 1.125rem;
 }
 
+.primary {
+  color: CanvasText;
+  background-color: buttonface;
+  border-color: buttonborder;
+}
+
+.success {
+  background-color: limegreen;
+}
+
+.error {
+  background-color: tomato;
+}
+
+.warning {
+  background-color: orange;
+}
+
+.info {
+  background-color: dodgerblue;
+}
+
 @media (prefers-color-scheme: dark) {
-  .button {
-    &:hover {
-      filter: brightness(1.1);
-    }
+  .success {
+    background-color: forestgreen;
+  }
+
+  .error {
+    background-color: brown;
+  }
+
+  .warning {
+    background-color: chocolate;
+  }
+
+  .info {
+    background-color: steelblue;
   }
 }
+/* Mover a estilos generales hasta aca */

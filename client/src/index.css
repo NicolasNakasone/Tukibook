@@ -61,12 +61,28 @@ textarea {
 }
 
 button {
+  width: max-content;
+  border: 1px solid;
+  border-radius: 0.125rem;
+  border-color: transparent;
   cursor: pointer;
   font-family: inherit;
   font-size: 0.875rem;
+  transition: filter 0.125s;
 
-  &:focus-visible {
+  &:hover {
+    filter: brightness(0.875);
+  }
+  &:active {
+    filter: brightness(1.125);
+  }
+  &:focus {
     outline-color: CanvasText;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: none;
   }
 }
 
@@ -78,5 +94,19 @@ button {
   h1 {
     font-size: 1.75rem;
     text-align: center;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    &:hover {
+      filter: brightness(1.125);
+    }
+    &:active {
+      filter: brightness(0.875);
+    }
+    &:disabled {
+      filter: none;
+    }
   }
 }
