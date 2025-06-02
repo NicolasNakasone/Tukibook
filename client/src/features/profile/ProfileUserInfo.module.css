@@ -1,0 +1,33 @@
+.profileUserInfo {
+  width: 32%;
+  height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  border: 1px solid CanvasText;
+}
+
+.profileUserAvatar {
+  width: 16rem;
+  height: 16rem;
+  border: 1px solid CanvasText;
+  border-radius: 10%;
+}
+
+@media (max-width: 1024px) {
+  .profileUserInfo {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: normal;
+    flex-wrap: wrap;
+    border: none;
+    border-bottom: 1px solid CanvasText;
+  }
+
+  .profileUserAvatar {
+    width: 8rem;
+    height: 8rem;
+  }
+}

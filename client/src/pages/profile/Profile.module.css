@@ -19,22 +19,6 @@
   gap: 2rem;
 }
 
-.profileUserInfo {
-  width: 32%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid CanvasText;
-}
-
-.profileUserAvatar {
-  width: 16rem;
-  height: 16rem;
-  border: 1px solid CanvasText;
-  border-radius: 10%;
-}
-
 .profileUserPosts {
   margin: 0 auto;
   display: flex;
@@ -46,21 +30,6 @@
 @media (max-width: 1024px) {
   .profileMainContent {
     flex-direction: column;
-  }
-
-  .profileUserInfo {
-    width: 100%;
-    height: auto;
-    flex-direction: row;
-    align-items: normal;
-    flex-wrap: wrap;
-    border: none;
-    border-bottom: 1px solid CanvasText;
-  }
-
-  .profileUserAvatar {
-    width: 8rem;
-    height: 8rem;
   }
 
   .profileUserPosts {
