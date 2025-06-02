@@ -1,5 +1,6 @@
 .profileUserInfo {
   width: 32%;
+  /* height: max-content; */
   height: 100vh;
   padding: 2rem;
   display: flex;
@@ -21,6 +22,7 @@
 
 .deleteUserButton {
   width: 100%;
+  /* margin: 10rem auto 0 auto; */
   margin: auto auto 0 auto;
 }
 

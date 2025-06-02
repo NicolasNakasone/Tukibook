@@ -15,6 +15,8 @@ interface ProfileUserInfoProps {
 export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
   const [openDeleteUser, setOpenDeleteUser] = useState(false)
 
+  const closeOpenDeleteUser = () => setOpenDeleteUser(false)
+
   return (
     <div className={styles.profileUserInfo}>
       <img src={tukibookLogo} alt="Foto de perfil" className={styles.profileUserAvatar} />
@@ -28,17 +30,14 @@ export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
       <p>Fecha de registro</p> */}
       <Button
         size="md"
+        color="error"
         className={styles.deleteUserButton}
         onClick={() => setOpenDeleteUser(true)}
       >
         Borrar cuenta
       </Button>
-      <Dialog
-        open={openDeleteUser}
-        allowBackdropClose={false}
-        onClose={() => setOpenDeleteUser(false)}
-      >
-        <DeleteUserForm />
+      <Dialog open={openDeleteUser} allowBackdropClose={false} onClose={closeOpenDeleteUser}>
+        <DeleteUserForm onClose={closeOpenDeleteUser} />
       </Dialog>
     </div>
   )

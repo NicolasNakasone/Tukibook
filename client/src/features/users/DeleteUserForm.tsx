@@ -10,7 +10,11 @@ import { handleLogout } from 'src/utils'
 
 const { VITE_API_URL } = import.meta.env
 
-export const DeleteUserForm = (): JSX.Element => {
+interface DeleteUserFormProps {
+  onClose?: () => void
+}
+
+export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element => {
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
 
@@ -38,12 +42,19 @@ export const DeleteUserForm = (): JSX.Element => {
 
   return (
     <form
-      style={{ margin: '1rem 0', display: 'flex', flexDirection: 'column', gap: '1rem' }}
+      style={{ margin: '1rem 0', display: 'flex', flexDirection: 'column', gap: '2rem' }}
       onSubmit={handleDeleteUser}
     >
       <p>Ingresá tu contraseña para confirmar que eliminas tu cuenta</p>
       <PasswordInput inputProps={{ placeholder: '🤫 Confirmá con tu contraseña' }} />
-      <Button>Confirmar</Button>
+      <div style={{ margin: '1rem 0 0 auto', display: 'flex', gap: '0.5rem' }}>
+        <Button color="error" type="submit">
+          Confirmar
+        </Button>
+        <Button type="button" onClick={onClose}>
+          Cancelar
+        </Button>
+      </div>
     </form>
   )
 }
