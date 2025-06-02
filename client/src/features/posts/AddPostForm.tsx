@@ -1,5 +1,6 @@
 import { FormEvent, useRef, useState } from 'react'
 
+import { Button } from 'src/components/common/Button'
 import { FileInput, FileInputHandle } from 'src/components/form/FileInput'
 import styles from 'src/features/posts/AddPostForm.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
@@ -53,9 +54,9 @@ export const AddPostForm = (): JSX.Element => {
         placeholder="Escribi un post..."
       />
       <FileInput ref={formRef} showOptional />
-      <button type="submit" disabled={isLoading} className={styles.addPostButton}>
+      <Button size="lg" type="submit" disabled={isLoading} className={styles.addPostButton}>
         Crear
-      </button>
+      </Button>
     </form>
   )
 }
