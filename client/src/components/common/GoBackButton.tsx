@@ -10,7 +10,7 @@ export const GoBackButton = ({ title = '⬅️ Atrás' }: GoBackButtonProps): JS
   const navigate = useNavigate()
 
   return (
-    <Button className={styles.goBackButton} onClick={() => navigate(-1)}>
+    <Button size="md" className={styles.goBackButton} onClick={() => navigate(-1)}>
       {title}
     </Button>
   )

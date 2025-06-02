@@ -25,12 +25,14 @@ export const Header = (): JSX.Element => {
         )}
         <nav className={styles.navLinks}>
           <Link to={routes.home}>
-            <Button>Inicio</Button>
+            <Button size="md">Inicio</Button>
           </Link>
           <Link to={routes.profile}>
-            <Button>Perfil</Button>
+            <Button size="md">Perfil</Button>
           </Link>
-          <Button onClick={() => handleLogout(setUser, navigate)}>Cerrar sesión</Button>
+          <Button size="md" onClick={() => handleLogout(setUser, navigate)}>
+            Cerrar sesión
+          </Button>
         </nav>
       </div>
     </header>

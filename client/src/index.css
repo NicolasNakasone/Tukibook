@@ -63,6 +63,7 @@ textarea {
 button {
   cursor: pointer;
   font-family: inherit;
+  font-size: 0.875rem;
 
   &:focus-visible {
     outline-color: CanvasText;

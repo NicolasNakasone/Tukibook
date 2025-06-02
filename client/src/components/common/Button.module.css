@@ -1,4 +1,22 @@
 .button {
   width: max-content;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.sm {
   padding: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.md {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.lg {
+  padding: 0.75rem;
+  font-size: 1.125rem;
 }
