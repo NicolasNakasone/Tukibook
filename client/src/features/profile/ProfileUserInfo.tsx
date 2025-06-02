@@ -26,7 +26,11 @@ export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
       <p>Primer post</p>
       <p>Fecha de registro</p> */}
       <Button onClick={() => setOpenDeleteUser(true)}>Borrar cuenta</Button>
-      <Dialog open={openDeleteUser} onClose={() => setOpenDeleteUser(false)}>
+      <Dialog
+        open={openDeleteUser}
+        allowBackdropClose={false}
+        onClose={() => setOpenDeleteUser(false)}
+      >
         <DeleteUserForm />
       </Dialog>
     </div>

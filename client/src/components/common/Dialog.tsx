@@ -10,9 +10,15 @@ interface DialogProps {
   children?: JSX.Element | JSX.Element[]
   open: boolean
   onClose: () => void
+  allowBackdropClose?: boolean
 }
 
-export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | null => {
+export const Dialog = ({
+  children,
+  open,
+  onClose,
+  allowBackdropClose = true,
+}: DialogProps): JSX.Element | null => {
   const [isMounted, setIsMounted] = useState(false)
   const dialogRootRef = useRef<HTMLElement | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
@@ -49,9 +55,9 @@ export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | 
         top: 0,
         left: 0,
         backgroundColor: '#00000080',
-        zIndex: 9999,
+        zIndex: 1000,
       }}
-      onClick={onClose}
+      {...(allowBackdropClose && { onClick: onClose })}
     >
       <div
         ref={containerRef}
