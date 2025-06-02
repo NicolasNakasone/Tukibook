@@ -4,7 +4,7 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+  gap: 1rem;
   border: 1px solid CanvasText;
 }
 
@@ -13,6 +13,21 @@
   height: 16rem;
   border: 1px solid CanvasText;
   border-radius: 10%;
+}
+
+.deleteUserButton {
+  padding: 0.5rem;
+  margin: auto auto 0 auto;
+  background-color: red;
+  border-color: transparent;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .deleteUserButton {
+    background-color: darkred;
+  }
 }
 
 @media (max-width: 1024px) {
