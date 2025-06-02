@@ -6,9 +6,10 @@ import { Post } from 'tukibook-helper'
 
 interface DeletePostButtonProps {
   post: Post
+  isDisabled: boolean
 }
 
-export const DeletePostButton = ({ post }: DeletePostButtonProps): JSX.Element => {
+export const DeletePostButton = ({ post, isDisabled }: DeletePostButtonProps): JSX.Element => {
   const { deletePost } = usePosts()
 
   const handleDeletePost = async () => {
@@ -18,7 +19,7 @@ export const DeletePostButton = ({ post }: DeletePostButtonProps): JSX.Element =
   }
 
   return (
-    <Button className={styles.deletePostButton} onClick={handleDeletePost}>
+    <Button disabled={isDisabled} className={styles.deletePostButton} onClick={handleDeletePost}>
       ❌
     </Button>
   )

@@ -110,7 +110,7 @@ const PostCardHeader = ({
       {user?.id === post.user.id && (
         <div className={styles.postCardHeaderButtons}>
           <Button onClick={toggleEdit}>✏️</Button>
-          <DeletePostButton {...{ post }} disabled={isEditing} />
+          <DeletePostButton {...{ post }} isDisabled={isEditing} />
         </div>
       )}
     </div>
