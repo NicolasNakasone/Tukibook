@@ -51,7 +51,7 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
         <Button variant="normal" color="error" type="submit">
           Confirmar
         </Button>
-        <Button variant="normal" type="button" onClick={onClose}>
+        <Button variant="normal" onClick={onClose}>
           Cancelar
         </Button>
       </div>

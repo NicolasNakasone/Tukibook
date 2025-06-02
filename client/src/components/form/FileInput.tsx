@@ -41,9 +41,7 @@ export const FileInput = forwardRef<FileInputHandle, CustomFileInputProps>(
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
-        <Button type="button" onClick={triggerFileSelect}>
-          {buttonLabel}
-        </Button>
+        <Button onClick={triggerFileSelect}>{buttonLabel}</Button>
         {showOptional && <span>{isFileSelected ? '✅ Imagen subida' : '(Opcional)'}</span>}
       </div>
     )

@@ -32,7 +32,7 @@ export const PasswordInput = ({
         placeholder={inputProps.placeholder}
         style={{ paddingRight: `${buttonWidth + 24}px` }}
       />
-      <Button ref={buttonRef} type="button" onClick={togglePassword}>
+      <Button ref={buttonRef} onClick={togglePassword}>
         {isPassword ? `Mostrar 🧐` : `Ocultar 😴`}
       </Button>
     </div>
