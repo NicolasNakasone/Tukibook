@@ -64,7 +64,9 @@ export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | 
         }}
         onClick={e => e.stopPropagation()}
       >
-        <Button onClick={onClose}>Cerrar ❌</Button>
+        <Button style={{ margin: '1rem 0 1rem auto', display: 'flex' }} onClick={onClose}>
+          {/* Cerrar  */}❌
+        </Button>
         {children}
       </div>
     </div>,

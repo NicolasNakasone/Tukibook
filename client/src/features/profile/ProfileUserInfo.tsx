@@ -1,4 +1,8 @@
+import { useState } from 'react'
+
 import tukibookLogo from 'public/tuki.webp'
+import { Button } from 'src/components/common/Button'
+import { Dialog } from 'src/components/common/Dialog'
 import { DeleteUserForm } from 'src/features/users/DeleteUserForm'
 import styles from 'src/pages/profile/Profile.module.css'
 import { User } from 'tukibook-helper'
@@ -9,6 +13,8 @@ interface ProfileUserInfoProps {
 }
 
 export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
+  const [openDeleteUser, setOpenDeleteUser] = useState(false)
+
   return (
     <div className={styles.profileUserInfo}>
       <img src={tukibookLogo} alt="Foto de perfil" className={styles.profileUserAvatar} />
@@ -19,7 +25,10 @@ export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
       <p>Posts mas relevantes</p>
       <p>Primer post</p>
       <p>Fecha de registro</p> */}
-      <DeleteUserForm />
+      <Button onClick={() => setOpenDeleteUser(true)}>Borrar cuenta</Button>
+      <Dialog open={openDeleteUser} onClose={() => setOpenDeleteUser(false)}>
+        <DeleteUserForm />
+      </Dialog>
     </div>
   )
 }

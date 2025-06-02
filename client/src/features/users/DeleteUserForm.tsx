@@ -41,8 +41,9 @@ export const DeleteUserForm = (): JSX.Element => {
       style={{ margin: '1rem 0', display: 'flex', flexDirection: 'column', gap: '1rem' }}
       onSubmit={handleDeleteUser}
     >
-      <PasswordInput inputProps={{ placeholder: 'Confirmá tu contraseña' }} />
-      <Button>Borrar cuenta</Button>
+      <p>Ingresá tu contraseña para confirmar que eliminas tu cuenta</p>
+      <PasswordInput inputProps={{ placeholder: '🤫 Confirmá con tu contraseña' }} />
+      <Button>Confirmar</Button>
     </form>
   )
 }

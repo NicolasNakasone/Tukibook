@@ -7,7 +7,12 @@ interface UseFocusTrapProps {
   avoidScroll?: boolean
 }
 
-export const useFocusTrap = ({ open, containerRef, onClose, avoidScroll }: UseFocusTrapProps) => {
+export const useFocusTrap = ({
+  open,
+  containerRef,
+  onClose,
+  avoidScroll = true,
+}: UseFocusTrapProps) => {
   useEffect(() => {
     if (!open || !containerRef.current) return
 
