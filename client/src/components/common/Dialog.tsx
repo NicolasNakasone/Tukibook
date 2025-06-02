@@ -35,6 +35,8 @@ export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | 
   useEffect(() => {
     if (!open || !containerRef.current) return
 
+    document.body.style.overflow = 'hidden'
+
     const focusableSelectors =
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 
@@ -67,6 +69,7 @@ export const Dialog = ({ children, open, onClose }: DialogProps): JSX.Element | 
     document.addEventListener('keydown', handleKeyDown)
 
     return () => {
+      document.body.style.overflow = ''
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [open, onClose])
