@@ -10,7 +10,7 @@ import styles from 'src/pages/profile/Profile.module.css'
 
 export const ProfilePage = (): JSX.Element => {
   const { user } = useAuth()
-  const { posts, setPartialState, currentPage, getPosts, resetPostsState } = usePosts()
+  const { setPartialState, currentPage, getPosts, resetPostsState } = usePosts()
 
   const { pathname } = useLocation()
 
@@ -30,7 +30,7 @@ export const ProfilePage = (): JSX.Element => {
     <main className={styles.profileMainContainer}>
       <GoBackButton />
       <div className={styles.profileMainContent}>
-        <ProfileUserInfo {...{ user, postCount: posts.length }} />
+        <ProfileUserInfo />
         <div className={styles.profileUserPosts}>
           <h2>Tus posts</h2>
           <PostFeed />

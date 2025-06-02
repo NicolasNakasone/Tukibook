@@ -5,14 +5,13 @@ import { Button } from 'src/components/common/Button'
 import { Dialog } from 'src/components/common/Dialog'
 import styles from 'src/features/profile/ProfileUserInfo.module.css'
 import { DeleteUserForm } from 'src/features/users/DeleteUserForm'
-import { User } from 'tukibook-helper'
+import { useAuth } from 'src/hooks/useAuth.hook'
+import { usePosts } from 'src/hooks/usePosts.hook'
 
-interface ProfileUserInfoProps {
-  user: User | null
-  postCount: number
-}
+export const ProfileUserInfo = () => {
+  const { user } = useAuth()
+  const { totalItems } = usePosts()
 
-export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
   const [openDeleteUser, setOpenDeleteUser] = useState(false)
 
   const closeOpenDeleteUser = () => setOpenDeleteUser(false)
@@ -22,7 +21,7 @@ export const ProfileUserInfo = ({ user, postCount }: ProfileUserInfoProps) => {
       <img src={tukibookLogo} alt="Foto de perfil" className={styles.profileUserAvatar} />
       <h2>{user?.username}</h2>
       <h2>{user?.email}</h2>
-      <p>Posts realizados: {postCount}</p>
+      <p>Posts realizados: {totalItems}</p>
       <p>Seguidores: 0</p>
       {/* <p>Total de likes recibidos: 0</p>
       <p>Posts mas relevantes</p>

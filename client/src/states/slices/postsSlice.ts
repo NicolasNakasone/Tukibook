@@ -132,6 +132,7 @@ export interface PostsState {
   hasMore: boolean
   postDetail: Post | null
   filters: GetPostsParams['filters']
+  totalItems: number
   currentPage: '' | '/' | '/profile'
 }
 
@@ -143,6 +144,7 @@ const initialState: PostsState = {
   page: 1,
   hasMore: true,
   filters: {},
+  totalItems: 0,
   currentPage: '',
 }
 
@@ -183,6 +185,7 @@ const postsSlice = createSlice({
           return
         }
 
+        state.totalItems = payload.totalItems
         state.posts = [...state.posts, ...newPosts]
         state.page += 1
         state.hasMore = payload.totalItems > state.posts.length

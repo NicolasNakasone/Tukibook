@@ -27,9 +27,8 @@ import {
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { posts, status, error, page, hasMore, postDetail, filters, currentPage } = useSelector(
-    ({ posts }: RootState) => posts
-  )
+  const { posts, status, error, page, hasMore, postDetail, filters, currentPage, totalItems } =
+    useSelector(({ posts }: RootState) => posts)
 
   const handleGetPosts = useCallback(({ page, filters }: GetPostsParams) => {
     return dispatch(fetchPosts({ page, filters }))
@@ -80,6 +79,7 @@ export const usePosts = () => {
     hasMore,
     filters,
     currentPage,
+    totalItems,
     getPosts: handleGetPosts,
     getMorePosts: handleGetMorePosts,
     getPostById: handleGetPostById,
