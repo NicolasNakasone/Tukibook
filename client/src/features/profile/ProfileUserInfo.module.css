@@ -27,12 +27,6 @@
   border-radius: 0.25rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  .deleteUserButton {
-    background-color: darkred;
-  }
-}
-
 @media (max-width: 1024px) {
   .profileUserInfo {
     width: 100%;
@@ -47,5 +41,11 @@
   .profileUserAvatar {
     width: 8rem;
     height: 8rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .deleteUserButton {
+    background-color: darkred;
   }
 }
