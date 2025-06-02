@@ -55,7 +55,9 @@ export const RegisterPage = (): JSX.Element => {
         <input name="username" type="text" placeholder="👤 Ingresa tu nombre de usuario" />
         <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
         <PasswordInput />
-        <Button style={{ margin: '0 0 0 auto' }}>Registrate</Button>
+        <Button type="submit" style={{ margin: '0 0 0 auto' }}>
+          Registrate
+        </Button>
         {error && <p>{error}</p>}
         <p style={{ margin: '2rem 0 0', textAlign: 'center' }}>
           Ya tenés cuenta? <Link to={routes.login}>Inicia sesión</Link>

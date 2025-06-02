@@ -58,7 +58,9 @@ export const LoginPage = (): JSX.Element => {
       >
         <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
         <PasswordInput />
-        <Button style={{ margin: '0 0 0 auto' }}>Inicia sesión</Button>
+        <Button type="submit" style={{ margin: '0 0 0 auto' }}>
+          Inicia sesión
+        </Button>
         {error && <p>{error}</p>}
         <p style={{ margin: '2rem 0 0', textAlign: 'center' }}>
           No tenés cuenta? <Link to={routes.register}>Registrate</Link>
