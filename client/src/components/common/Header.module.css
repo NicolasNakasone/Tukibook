@@ -47,3 +47,37 @@ p > span {
     }
   }
 }
+
+.navLink {
+  padding: 0.5rem;
+  background-color: buttonface;
+  border: 1px solid currentcolor;
+  border-radius: 0.25rem;
+  color: CanvasText;
+  text-decoration: none;
+  transition: filter 0.125s;
+
+  &:hover {
+    filter: brightness(0.875);
+  }
+  &:active {
+    filter: brightness(1.125);
+  }
+  &:focus {
+    outline-color: CanvasText;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .navLink {
+    &:hover {
+      filter: brightness(1.125);
+    }
+    &:active {
+      filter: brightness(0.875);
+    }
+    &:disabled {
+      filter: none;
+    }
+  }
+}
