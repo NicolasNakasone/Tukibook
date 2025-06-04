@@ -48,9 +48,10 @@ p > span {
   }
 }
 
+/* Podrian pasar a ser estilos default de un a */
 .navLink {
   padding: 0.5rem;
-  background-color: buttonface;
+  background-color: buttonface !important;
   border: 1px solid currentcolor;
   border-radius: 0.25rem;
   color: CanvasText;

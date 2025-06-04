@@ -7,6 +7,20 @@
   border-color: currentcolor;
 }
 
+.link {
+  transition: filter 0.125s;
+
+  &:hover {
+    filter: brightness(0.875);
+  }
+  &:active {
+    filter: brightness(1.125);
+  }
+  &:focus {
+    outline-color: CanvasText;
+  }
+}
+
 .sm {
   padding: 0.25rem;
   font-size: 0.875rem;
@@ -45,6 +59,30 @@
   background-color: dodgerblue;
 }
 
+.primary.link {
+  background-color: transparent;
+}
+
+.success.link {
+  color: limegreen;
+  background-color: transparent;
+}
+
+.error.link {
+  color: tomato;
+  background-color: transparent;
+}
+
+.warning.link {
+  color: orange;
+  background-color: transparent;
+}
+
+.info.link {
+  color: dodgerblue;
+  background-color: transparent;
+}
+
 @media (prefers-color-scheme: dark) {
   .success {
     background-color: forestgreen;
@@ -60,6 +98,26 @@
 
   .info {
     background-color: steelblue;
+  }
+
+  .success.link {
+    color: forestgreen;
+    background-color: transparent;
+  }
+
+  .error.link {
+    color: brown;
+    background-color: transparent;
+  }
+
+  .warning.link {
+    color: chocolate;
+    background-color: transparent;
+  }
+
+  .info.link {
+    color: steelblue;
+    background-color: transparent;
   }
 }
 /* Mover a estilos generales hasta aca */
