@@ -6,10 +6,12 @@ import styles from 'src/components/common/Button.module.css'
 type ButtonVariant = 'normal' | 'outline' | 'link'
 type ButtonSize = 'sm' | 'md' | 'lg'
 type ButtonColor = 'primary' | 'success' | 'error' | 'warning' | 'info'
+type ButtonWidth = 'mxcontent' | 'large' | 'xlarge' | 'full'
 
 interface ButtonCommonProps {
   size?: ButtonSize
   color?: ButtonColor
+  width?: ButtonWidth
 }
 
 interface ButtonAsButton extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -24,10 +26,18 @@ type ButtonProps = (ButtonAsButton | ButtonAsLink) & ButtonCommonProps
 
 export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   (
-    { children, className = '', variant = 'outline', size = 'sm', color = 'primary', ...rest },
+    {
+      children,
+      className = '',
+      variant = 'outline',
+      size = 'sm',
+      color = 'primary',
+      width = 'mxcontent',
+      ...rest
+    },
     ref
   ) => {
-    const classes = `${styles[variant]} ${styles[size]} ${styles[color]} ${className}`
+    const classes = `${styles[variant]} ${styles[size]} ${styles[width]} ${styles[color]} ${className}`
 
     if (variant === 'link') {
       const linkProps = rest as LinkProps
