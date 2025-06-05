@@ -54,7 +54,13 @@ export const AddPostForm = (): JSX.Element => {
         placeholder="Escribi un post..."
       />
       <FileInput ref={formRef} showOptional />
-      <Button size="lg" type="submit" disabled={isLoading} className={styles.addPostButton}>
+      <Button
+        size="lg"
+        width="large"
+        type="submit"
+        disabled={isLoading}
+        className={styles.addPostButton}
+      >
         Crear
       </Button>
     </form>

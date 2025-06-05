@@ -1,5 +1,4 @@
 .deletePostButton {
-  width: max-content;
-  padding: 0.25rem;
+  /* No afecta el margin aplicado */
   margin: 0 0 0 auto;
 }

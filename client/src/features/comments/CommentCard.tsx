@@ -112,7 +112,7 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
             <div className={styles.commentCardButtons}>
               <Button
                 disabled={isReplying}
-                className={`${styles.likeCommentButton} ${hasLiked ? styles.liked : ''}`}
+                className={hasLiked ? styles.liked : ''}
                 onClick={handleLikeComment}
               >{`👍 ${comment.likes.length || ''}`}</Button>
               {user?.id === comment.user.id && (

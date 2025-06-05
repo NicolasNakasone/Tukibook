@@ -58,7 +58,7 @@ export const LoginPage = (): JSX.Element => {
       >
         <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
         <PasswordInput />
-        <Button size="md" type="submit" className={styles.submitButton}>
+        <Button size="md" width="xlarge" type="submit" className={styles.submitButton}>
           Inicia sesión
         </Button>
         {error && <p>{error}</p>}

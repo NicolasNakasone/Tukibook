@@ -29,6 +29,7 @@ export const ProfileUserInfo = () => {
       <p>Fecha de registro</p> */}
       <Button
         size="md"
+        width="full"
         color="error"
         variant="normal"
         className={styles.deleteUserButton}
