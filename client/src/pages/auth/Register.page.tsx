@@ -55,7 +55,7 @@ export const RegisterPage = (): JSX.Element => {
         <input name="username" type="text" placeholder="👤 Ingresa tu nombre de usuario" />
         <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
         <PasswordInput />
-        <Button type="submit" style={{ margin: '0 0 0 auto' }}>
+        <Button size="md" type="submit" className={styles.submitButton}>
           Registrate
         </Button>
         {error && <p>{error}</p>}

@@ -5,6 +5,11 @@
   justify-content: center;
 }
 
+.submitButton {
+  width: 40%;
+  margin: 2rem auto;
+}
+
 @media (max-width: 1024px) {
   .mainContainer {
     width: 100%;
