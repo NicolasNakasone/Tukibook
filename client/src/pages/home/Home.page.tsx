@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
+import { routes } from 'src/constants/routes'
 import { AddPostForm } from 'src/features/posts/AddPostForm'
 import { PostFeed } from 'src/features/posts/PostFeed'
 import { usePosts } from 'src/hooks/usePosts.hook'
@@ -11,6 +12,7 @@ export const HomePage = (): JSX.Element => {
   const { posts, status, setPartialState, currentPage, getPosts, resetPostsState } = usePosts()
 
   const { pathname } = useLocation()
+  const navigate = useNavigate()
 
   // Carga inicial
   useEffect(() => {
@@ -32,14 +34,7 @@ export const HomePage = (): JSX.Element => {
 
           const search = target[0] as HTMLInputElement
 
-          console.log({ search: search.value })
-
-          const filteredPosts = posts.filter(post =>
-            post.content.toLowerCase().includes(search.value.toLowerCase())
-          )
-          // console.log(filteredPosts.map(post => ({ id: post.id, content: post.content })))
-          console.log(filteredPosts)
-          setPartialState({ posts: filteredPosts })
+          navigate(`${routes.search}?q=${search.value}`)
           target.reset()
         }}
       >
