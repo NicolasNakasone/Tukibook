@@ -22,7 +22,7 @@ export const searchAll: RequestHandler = async (req, res, next) => {
             { email: { $regex: query, $options: 'i' } },
           ],
         })
-          .select('id username')
+          .select('id username email')
           .limit(limit)
           .skip(skip),
         User.countDocuments({
