@@ -10,6 +10,7 @@ enum Routes {
   logout = 'logout',
   profile = 'profile',
   deleteUser = 'deleteUser',
+  search = 'search',
 }
 
 export const routes: { [key in Routes]: string } = {
@@ -24,4 +25,5 @@ export const routes: { [key in Routes]: string } = {
   logout: '/auth/logout',
   profile: '/profile',
   deleteUser: '/user/:id/delete',
+  search: '/search',
 }
