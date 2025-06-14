@@ -2,8 +2,10 @@ import { GetPage } from './common'
 import { PostList } from './posts'
 import { UserList } from './users'
 
+export type SearchType = 'all' | 'posts' | 'users'
+
 export interface SearchAllParams extends GetPage {
-  type: 'all' | 'posts' | 'users'
+  type: SearchType
   query: string
 }
 

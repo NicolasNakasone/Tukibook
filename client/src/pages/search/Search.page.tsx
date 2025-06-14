@@ -5,14 +5,14 @@ import { Button } from 'src/components/common/Button'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { PostCard } from 'src/features/posts/PostCard'
-import { Post, User } from 'tukibook-helper'
+import { Post, SearchType, User } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
 export const SearchPage = (): JSX.Element => {
   const [params] = useSearchParams()
 
-  const [type, setType] = useState<'all' | 'posts' | 'users'>('all')
+  const [type, setType] = useState<SearchType>('all')
   const [results, setResults] = useState<{ posts: Post[]; users: User[] }>({
     posts: [],
     users: [],
@@ -24,7 +24,7 @@ export const SearchPage = (): JSX.Element => {
     handleSearchAll(type)
   }, [type])
 
-  const handleSearchAll = async (type: 'all' | 'posts' | 'users') => {
+  const handleSearchAll = async (type: SearchType) => {
     const response = await handleFetch(
       `${VITE_API_URL}${routes.search}?q=${query}&type=${type}&page=1&limit=2`
     ).then(r => r.json())
