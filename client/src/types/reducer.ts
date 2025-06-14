@@ -13,3 +13,7 @@ export enum PostsActionTypes {
   SET_FILTERS = 'posts/setFilters',
   SET_PARTIAL_STATE = 'posts/setPartialState',
 }
+
+export enum SearchActionTypes {
+  SEARCH_ALL = 'search/searchAll',
+}
