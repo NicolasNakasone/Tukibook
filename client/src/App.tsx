@@ -30,7 +30,10 @@ export const App = () => {
         <Route path={routes.home} element={<HomePage />} />
         <Route path={routes.postDetail} element={<PostDetailPage />} />
         <Route path={routes.profile} element={<ProfilePage />} />
-        <Route path={routes.search} element={<SearchPage />} />
+        <Route path={routes.search} element={<SearchPage />}>
+          <Route path={routes.searchPosts} element={<SearchPage />} />
+          <Route path={routes.searchUsers} element={<SearchPage />} />
+        </Route>
       </Route>
       <Route path={routes.login} element={<LoginPage />} />
       <Route path={routes.register} element={<RegisterPage />} />

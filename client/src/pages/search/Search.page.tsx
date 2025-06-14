@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
@@ -17,6 +17,7 @@ export const SearchPage = (): JSX.Element => {
     posts: [],
     users: [],
   })
+  const navigate = useNavigate()
 
   const query = params.get('q') || ''
 
@@ -34,15 +35,24 @@ export const SearchPage = (): JSX.Element => {
     }
   }
 
+  const handleChangeType = (type: SearchType) => {
+    setType(type)
+    if (type === 'all') {
+      navigate(`${routes.search}?q=${query}`)
+      return
+    }
+    navigate(`${routes.search}/${type}?q=${query}`)
+  }
+
   results
   return (
     <main>
       <h1>Resultados de busqueda: {query}</h1>
       <div style={{ display: 'flex', gap: '4rem', flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          <Button onClick={() => setType('all')}>Todo</Button>
-          <Button onClick={() => setType('posts')}>Posts</Button>
-          <Button onClick={() => setType('users')}>Usuarios</Button>
+          <Button onClick={() => handleChangeType('all')}>Todo</Button>
+          <Button onClick={() => handleChangeType('posts')}>Posts</Button>
+          <Button onClick={() => handleChangeType('users')}>Usuarios</Button>
         </div>
         <div>
           <div>

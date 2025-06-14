@@ -11,6 +11,8 @@ enum Routes {
   profile = 'profile',
   deleteUser = 'deleteUser',
   search = 'search',
+  searchPosts = 'searchPosts',
+  searchUsers = 'searchUsers',
 }
 
 export const routes: { [key in Routes]: string } = {
@@ -26,4 +28,6 @@ export const routes: { [key in Routes]: string } = {
   profile: '/profile',
   deleteUser: '/user/:id/delete',
   search: '/search',
+  searchPosts: '/search/posts',
+  searchUsers: '/search/users',
 }
