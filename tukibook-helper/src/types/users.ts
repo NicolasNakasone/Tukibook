@@ -10,8 +10,15 @@ export interface User extends Omit<UserInput, 'password'> {
   updatedAt: Date
 }
 
+/* TODO: Quitar esta interfaz, reemplazarla por User,
+  y comentar createdAt y updatedAt del type User
+  para tener coherencia con lo que realmente
+  se trabaja de un user
+*/
 export interface UserPayload {
   id: string
   username: string
   email: string
 }
+
+export type UserList = UserPayload[]
