@@ -4,8 +4,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
-import { PostCard } from 'src/features/posts/PostCard'
-import { Post, SearchType, User } from 'tukibook-helper'
+import { FirstResults } from 'src/features/search/FirstResults'
+import { SearchAllResponse, SearchType } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -13,17 +13,17 @@ export const SearchPage = (): JSX.Element => {
   const [params] = useSearchParams()
 
   const [type, setType] = useState<SearchType>('all')
-  const [results, setResults] = useState<{ posts: Post[]; users: User[] }>({
+  const [results, setResults] = useState<Omit<SearchAllResponse, 'totalItems'>>({
     posts: [],
     users: [],
   })
   const navigate = useNavigate()
 
-  const query = params.get('q') || ''
-
   useEffect(() => {
     handleSearchAll(type)
   }, [type])
+
+  const query = params.get('q') || ''
 
   const handleSearchAll = async (type: SearchType) => {
     const response = await handleFetch(
@@ -44,7 +44,6 @@ export const SearchPage = (): JSX.Element => {
     navigate(`${routes.search}/${type}?q=${query}`)
   }
 
-  results
   return (
     <main>
       <h1>Resultados de busqueda: {query}</h1>
@@ -54,23 +53,7 @@ export const SearchPage = (): JSX.Element => {
           <Button onClick={() => handleChangeType('posts')}>Posts</Button>
           <Button onClick={() => handleChangeType('users')}>Usuarios</Button>
         </div>
-        <div>
-          <div>
-            {results.posts?.map(post => {
-              return <PostCard key={post.id} {...{ post }} />
-            })}
-          </div>
-          <div>
-            {results.users?.map(user => {
-              return (
-                <div key={user.id}>
-                  <p>{user.username}</p>
-                  <p>{user.email}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
+        <FirstResults {...{ results }} />
       </div>
     </main>
   )
