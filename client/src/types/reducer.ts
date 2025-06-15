@@ -16,4 +16,5 @@ export enum PostsActionTypes {
 
 export enum SearchActionTypes {
   SEARCH_ALL = 'search/searchAll',
+  RESET_STATE = 'search/resetState',
 }

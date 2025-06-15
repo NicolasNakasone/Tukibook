@@ -19,7 +19,7 @@ export const searchAll = createAsyncThunk(
   }
 )
 
-interface SearchState {
+export interface SearchState {
   results: SearchResults
   page: number
   hasMore: boolean
@@ -40,7 +40,9 @@ const initialState: SearchState = {
 const searchSlice = createSlice({
   name: 'search',
   initialState,
-  reducers: {},
+  reducers: {
+    resetState: () => initialState,
+  },
   extraReducers: builder => {
     builder
       .addCase(searchAll.pending, state => {

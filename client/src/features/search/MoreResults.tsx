@@ -11,7 +11,7 @@ interface MoreResultsProps {
 }
 
 export const MoreResults = ({ type: currentType }: MoreResultsProps): JSX.Element => {
-  const { getResults, results, hasMore, status, getMoreResults } = useSearch()
+  const { getResults, results, hasMore, status, getMoreResults, resetSearchState } = useSearch()
   const [params] = useSearchParams()
 
   const query = params.get('q') || ''
@@ -19,7 +19,11 @@ export const MoreResults = ({ type: currentType }: MoreResultsProps): JSX.Elemen
   // Carga inicial
   useEffect(() => {
     getResults({ page: 1, query, type: currentType })
-  }, [])
+
+    return () => {
+      resetSearchState()
+    }
+  }, [currentType])
 
   const { loaderRef } = useInfiniteScroll({
     hasMore,

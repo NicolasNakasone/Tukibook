@@ -3,6 +3,7 @@ import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { searchAll } from 'src/states/slices/searchSlice'
 import { AppDispatch, RootState } from 'src/states/store'
+import { SearchActionTypes } from 'src/types/reducer'
 import { SearchAllParams } from 'tukibook-helper'
 
 export const useSearch = () => {
@@ -24,6 +25,8 @@ export const useSearch = () => {
     [page, hasMore, status, dispatch]
   )
 
+  const handleResetState = () => dispatch({ type: SearchActionTypes.RESET_STATE })
+
   return {
     error,
     hasMore,
@@ -33,5 +36,6 @@ export const useSearch = () => {
     totalItems,
     getResults: handleGetResults,
     getMoreResults: handleGetMoreResults,
+    resetSearchState: handleResetState,
   }
 }
