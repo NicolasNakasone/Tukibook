@@ -4,7 +4,7 @@ import { Footer } from 'src/components/common/Footer'
 import { Header } from 'src/components/common/Header'
 import { routes } from 'src/constants/routes'
 import { FirstResults } from 'src/features/search/FirstResults'
-import { SearchPostsResults } from 'src/features/search/SearchPostsResults'
+import { MoreResults } from 'src/features/search/MoreResults'
 import {
   HomePage,
   LoginPage,
@@ -13,6 +13,7 @@ import {
   RegisterPage,
   SearchPage,
 } from 'src/pages'
+import { SearchType } from 'tukibook-helper'
 
 export const App = () => {
   return (
@@ -34,8 +35,8 @@ export const App = () => {
         <Route path={routes.profile} element={<ProfilePage />} />
         <Route path={routes.search} element={<SearchPage />}>
           <Route index element={<FirstResults />} />
-          <Route path={routes.searchPosts} element={<SearchPostsResults />} />
-          <Route path={routes.searchUsers} element={<div>SearchUsers</div>} />
+          <Route path={routes.searchPosts} element={<MoreResults type={SearchType.POSTS} />} />
+          <Route path={routes.searchUsers} element={<MoreResults type={SearchType.USERS} />} />
         </Route>
       </Route>
       <Route path={routes.login} element={<LoginPage />} />

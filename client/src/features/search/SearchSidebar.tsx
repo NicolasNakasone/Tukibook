@@ -19,9 +19,9 @@ export const SearchSidebar = (): JSX.Element => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <Button onClick={() => handleChangeType('all')}>Todo</Button>
-      <Button onClick={() => handleChangeType('posts')}>Posts</Button>
-      <Button onClick={() => handleChangeType('users')}>Usuarios</Button>
+      <Button onClick={() => handleChangeType(SearchType.ALL)}>Todo</Button>
+      <Button onClick={() => handleChangeType(SearchType.POSTS)}>Posts</Button>
+      <Button onClick={() => handleChangeType(SearchType.USERS)}>Usuarios</Button>
     </div>
   )
 }
