@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
-import { PostCard } from 'src/features/posts/PostCard'
+import { ListPostResults } from 'src/features/search/ListPostResults'
 import { SearchAllResponse } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -34,11 +34,7 @@ export const FirstResults = (): JSX.Element => {
 
   return (
     <div>
-      <div>
-        {results.posts?.map(post => {
-          return <PostCard key={post.id} {...{ post }} />
-        })}
-      </div>
+      <ListPostResults results={results.posts} />
       <div>
         {results.users?.map(user => {
           return (

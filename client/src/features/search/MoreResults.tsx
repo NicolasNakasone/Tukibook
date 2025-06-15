@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
-import { PostCard } from 'src/features/posts/PostCard'
+import { ListPostResults } from 'src/features/search/ListPostResults'
 import { useInfiniteScroll } from 'src/hooks/useInfiniteScroll.hook'
 import { useSearch } from 'src/hooks/useSearch.hook'
 import { FilterableSearchType } from 'tukibook-helper'
@@ -34,11 +34,7 @@ export const MoreResults = ({ type: currentType }: MoreResultsProps): JSX.Elemen
   const returnComponent: { [t in typeof currentType]: JSX.Element } = {
     posts: (
       <div>
-        <div>
-          {results.posts?.map(post => {
-            return <PostCard key={post.id} {...{ post }} />
-          })}
-        </div>
+        <ListPostResults results={results.posts} />
         <div ref={loaderRef} />
       </div>
     ),
