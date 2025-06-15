@@ -1,11 +1,37 @@
+import { useEffect, useState } from 'react'
+
+import { useSearchParams } from 'react-router-dom'
+import { handleFetch } from 'src/constants/api'
+import { routes } from 'src/constants/routes'
 import { PostCard } from 'src/features/posts/PostCard'
 import { SearchAllResponse } from 'tukibook-helper'
 
-export const FirstResults = ({
-  results,
-}: {
-  results: Omit<SearchAllResponse, 'totalItems'>
-}): JSX.Element => {
+const { VITE_API_URL } = import.meta.env
+
+export const FirstResults = (): JSX.Element => {
+  const [params] = useSearchParams()
+
+  const [results, setResults] = useState<Omit<SearchAllResponse, 'totalItems'>>({
+    posts: [],
+    users: [],
+  })
+
+  useEffect(() => {
+    handleSearchAll()
+  }, [])
+
+  const query = params.get('q') || ''
+
+  const handleSearchAll = async () => {
+    const response = await handleFetch(
+      `${VITE_API_URL}${routes.search}?q=${query}&type=all&page=1&limit=2`
+    ).then(r => r.json())
+
+    if (!response.message) {
+      setResults(response)
+    }
+  }
+
   return (
     <div>
       <div>

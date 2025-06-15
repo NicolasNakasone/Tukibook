@@ -3,6 +3,7 @@ import { ProtectedRoutes } from 'src/components/auth/ProtectedRoutes'
 import { Footer } from 'src/components/common/Footer'
 import { Header } from 'src/components/common/Header'
 import { routes } from 'src/constants/routes'
+import { FirstResults } from 'src/features/search/FirstResults'
 import {
   HomePage,
   LoginPage,
@@ -31,8 +32,9 @@ export const App = () => {
         <Route path={routes.postDetail} element={<PostDetailPage />} />
         <Route path={routes.profile} element={<ProfilePage />} />
         <Route path={routes.search} element={<SearchPage />}>
-          <Route path={routes.searchPosts} element={<SearchPage />} />
-          <Route path={routes.searchUsers} element={<SearchPage />} />
+          <Route index element={<FirstResults />} />
+          <Route path={routes.searchPosts} element={<div>SearchPosts</div>} />
+          <Route path={routes.searchUsers} element={<div>SearchUsers</div>} />
         </Route>
       </Route>
       <Route path={routes.login} element={<LoginPage />} />
