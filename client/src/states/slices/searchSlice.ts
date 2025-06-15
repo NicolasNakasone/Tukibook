@@ -61,14 +61,14 @@ const searchSlice = createSlice({
         // )
 
         if (payload.posts) {
-          state.results = { posts: [...payload.posts] }
-          state.hasMore = payload.totalItems > payload.posts.length
+          state.results = { posts: [...(state.results.posts || []), ...payload.posts] }
+          state.hasMore = payload.totalItems > (state.results.posts?.length || 0)
           return
         }
 
         if (payload.users) {
-          state.results = { users: [...payload.users] }
-          state.hasMore = payload.totalItems > payload.users.length
+          state.results = { users: [...(state.results.users || []), ...payload.users] }
+          state.hasMore = payload.totalItems > (state.results.users?.length || 0)
           return
         }
       })
