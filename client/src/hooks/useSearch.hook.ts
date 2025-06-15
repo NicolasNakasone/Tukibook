@@ -11,23 +11,14 @@ export const useSearch = () => {
     ({ search }: RootState) => search
   )
 
-  const handleGetResults = useCallback((searchAllParams: SearchAllParams) => {
-    return dispatch(searchAll(searchAllParams))
+  const handleGetResults = useCallback(({ page, query, type }: SearchAllParams) => {
+    return dispatch(searchAll({ page, query, type }))
   }, [])
 
-  // const handleGetMorePosts = useCallback(
-  //   (filters: GetPostsParams['filters']) => {
-  //     if (status !== 'loading' && hasMore) {
-  //       dispatch(fetchPosts({ page, filters }))
-  //     }
-  //   },
-  //   [page, hasMore, status, dispatch]
-  // )
-
   const handleGetMoreResults = useCallback(
-    (searchAllParams: SearchAllParams) => {
+    ({ query, type }: Omit<SearchAllParams, 'page'>) => {
       if (status !== 'loading' && hasMore) {
-        dispatch(searchAll(searchAllParams))
+        dispatch(searchAll({ page, query, type }))
       }
     },
     [page, hasMore, status, dispatch]
