@@ -61,13 +61,13 @@ const searchSlice = createSlice({
         // )
 
         if (payload.posts) {
-          state.results = { posts: { ...payload.posts } }
+          state.results = { posts: [...payload.posts] }
           state.hasMore = payload.totalItems > payload.posts.length
           return
         }
 
         if (payload.users) {
-          state.results = { users: { ...payload.users } }
+          state.results = { users: [...payload.users] }
           state.hasMore = payload.totalItems > payload.users.length
           return
         }
