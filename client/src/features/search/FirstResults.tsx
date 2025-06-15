@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { ListPostResults } from 'src/features/search/ListPostResults'
+import { ListUserResults } from 'src/features/search/ListUserResults'
 import { SearchAllResponse } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -35,16 +36,7 @@ export const FirstResults = (): JSX.Element => {
   return (
     <div>
       <ListPostResults results={results.posts} />
-      <div>
-        {results.users?.map(user => {
-          return (
-            <div key={user.id}>
-              <p>{user.username}</p>
-              <p>{user.email}</p>
-            </div>
-          )
-        })}
-      </div>
+      <ListUserResults results={results.users} />
     </div>
   )
 }

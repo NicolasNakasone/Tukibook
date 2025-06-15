@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
 import { ListPostResults } from 'src/features/search/ListPostResults'
+import { ListUserResults } from 'src/features/search/ListUserResults'
 import { useInfiniteScroll } from 'src/hooks/useInfiniteScroll.hook'
 import { useSearch } from 'src/hooks/useSearch.hook'
 import { FilterableSearchType } from 'tukibook-helper'
@@ -32,28 +33,14 @@ export const MoreResults = ({ type: currentType }: MoreResultsProps): JSX.Elemen
   })
 
   const returnComponent: { [t in typeof currentType]: JSX.Element } = {
-    posts: (
-      <div>
-        <ListPostResults results={results.posts} />
-        <div ref={loaderRef} />
-      </div>
-    ),
-    users: (
-      <div>
-        <div>
-          {results.users?.map(user => {
-            return (
-              <div key={user.id} style={{ height: '20rem', border: '1px solid CanvasText' }}>
-                <p>Nombre: {user.username}</p>
-                <p>Correo: {user.email}</p>
-              </div>
-            )
-          })}
-        </div>
-        <div ref={loaderRef} />
-      </div>
-    ),
+    posts: <ListPostResults results={results.posts} />,
+    users: <ListUserResults results={results.users} />,
   }
 
-  return returnComponent[currentType]
+  return (
+    <div>
+      {returnComponent[currentType]}
+      <div ref={loaderRef} />
+    </div>
+  )
 }
