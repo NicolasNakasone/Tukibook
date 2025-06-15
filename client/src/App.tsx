@@ -4,6 +4,7 @@ import { Footer } from 'src/components/common/Footer'
 import { Header } from 'src/components/common/Header'
 import { routes } from 'src/constants/routes'
 import { FirstResults } from 'src/features/search/FirstResults'
+import { SearchPostsResults } from 'src/features/search/SearchPostsResults'
 import {
   HomePage,
   LoginPage,
@@ -33,7 +34,7 @@ export const App = () => {
         <Route path={routes.profile} element={<ProfilePage />} />
         <Route path={routes.search} element={<SearchPage />}>
           <Route index element={<FirstResults />} />
-          <Route path={routes.searchPosts} element={<div>SearchPosts</div>} />
+          <Route path={routes.searchPosts} element={<SearchPostsResults />} />
           <Route path={routes.searchUsers} element={<div>SearchUsers</div>} />
         </Route>
       </Route>
