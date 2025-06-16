@@ -1,7 +1,10 @@
-// TODO: Crear monorepo para reutilizar tipos
-
 export interface ResponseError {
   message: string
+}
+
+export interface ApiResponse<T> {
+  data?: T
+  error?: ResponseError
 }
 
 export interface GetPage {
