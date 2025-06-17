@@ -12,7 +12,10 @@ export const searchAll = createAsyncThunk(
   SearchActionTypes.SEARCH_ALL,
   async ({ page, query, type }: SearchAllParams) =>
     await handleFetch<SearchAllResponse>(
-      `${VITE_API_URL}${routes.search}?q=${query}&type=${type}&page=${page}&limit=${PAGE_LIMIT}`
+      `${VITE_API_URL}${routes.search}?q=${query}&type=${type}&page=${page}&limit=${PAGE_LIMIT}`,
+      { method: 'GET' },
+      null,
+      true
     )
 )
 

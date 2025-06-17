@@ -10,7 +10,7 @@ interface HandleFetchProps {
   <T = any>(
     url: RequestInfo,
     options?: RequestInit,
-    filters?: Record<string, any>,
+    filters?: Record<string, any> | null,
     throwOnError?: boolean
   ): Promise<ApiResponse<T>>
 }
@@ -18,7 +18,7 @@ interface HandleFetchProps {
 export const handleFetch: HandleFetchProps = async (
   url,
   options = {},
-  filters = {},
+  filters = null,
   throwOnError = false
 ) => {
   const token = localStorage.getItem('accessToken')

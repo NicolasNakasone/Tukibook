@@ -23,7 +23,8 @@ export const fetchPosts = createAsyncThunk(
     await handleFetch<GetPostsResponse>(
       `${VITE_API_URL}${routes.posts}?page=${page}&limit=${PAGE_LIMIT}`,
       { method: 'GET' },
-      filters
+      filters,
+      true
     )
 )
 
