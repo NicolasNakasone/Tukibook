@@ -6,10 +6,16 @@ import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
 import { populatePost, populatePostQuery } from 'src/utils/populatePost'
-import { GetPostsParams, GetPostsResponse, Post as IPost, PostList } from 'tukibook-helper'
+import {
+  GetPostsParams,
+  GetPostsResponse,
+  Post as IPost,
+  PAGE_LIMIT,
+  PostList,
+} from 'tukibook-helper'
 
 export const getPosts: RequestHandler = async (req, res) => {
-  const { page = 1, limit = 10, filters } = req.query
+  const { page = 1, limit = PAGE_LIMIT, filters } = req.query
 
   const offset = (Number(page) - 1) * Number(limit)
 

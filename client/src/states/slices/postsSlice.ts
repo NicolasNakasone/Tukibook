@@ -11,11 +11,10 @@ import {
   UpdatePostInput,
   UpdateCommentInput,
   GetPostsParams,
+  PAGE_LIMIT,
 } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
-
-const PAGE_LIMIT = 2
 
 export const fetchPosts = createAsyncThunk(
   PostsActionTypes.GET_POSTS,

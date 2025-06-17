@@ -5,7 +5,7 @@ import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { ListPostResults } from 'src/features/search/ListPostResults'
 import { ListUserResults } from 'src/features/search/ListUserResults'
-import { SearchAllResponse } from 'tukibook-helper'
+import { PAGE_LIMIT, SearchAllResponse } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -25,7 +25,7 @@ export const FirstResults = (): JSX.Element => {
 
   const handleSearchAll = async () => {
     const { data } = await handleFetch<SearchAllResponse>(
-      `${VITE_API_URL}${routes.search}?q=${query}&type=all&page=1&limit=2`
+      `${VITE_API_URL}${routes.search}?q=${query}&type=all&page=1&limit=${PAGE_LIMIT}`
     )
 
     if (data) setResults(data)

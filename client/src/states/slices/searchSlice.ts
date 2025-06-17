@@ -2,11 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { SearchActionTypes } from 'src/types/reducer'
-import { SearchAllParams, SearchAllResponse, SearchResults } from 'tukibook-helper'
+import { PAGE_LIMIT, SearchAllParams, SearchAllResponse, SearchResults } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
-
-const PAGE_LIMIT = 2
 
 export const searchAll = createAsyncThunk(
   SearchActionTypes.SEARCH_ALL,
