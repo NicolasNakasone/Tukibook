@@ -10,6 +10,16 @@ export interface User extends Omit<UserInput, 'password'> {
   updatedAt: Date
 }
 
+export interface DeleteUserParams {
+  userId: string
+  password: string
+}
+
+export interface DeleteUserResponse {
+  user: UserPayload
+  message: string
+}
+
 /* TODO: Quitar esta interfaz, reemplazarla por User,
   y comentar createdAt y updatedAt del type User
   para tener coherencia con lo que realmente
