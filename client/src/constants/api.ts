@@ -5,11 +5,11 @@ const { VITE_API_URL } = import.meta.env
 // Usar para evitar hacer un refetch en cualquier status 401
 // const responseErrors = ['Usuario no encontrado', 'No autorizado']
 
-export const handleFetch = async (
-  url: RequestInfo,
-  options: RequestInit = {},
-  filters?: Record<string, any>
-): Promise<Response> => {
+interface HandleFetchProps {
+  <T = any>(url: RequestInfo, options?: RequestInit, filters?: Record<string, any>): Promise<T>
+}
+
+export const handleFetch: HandleFetchProps = async (url, options = {}, filters = {}) => {
   const token = localStorage.getItem('accessToken')
 
   const isFormData = options.body instanceof FormData
@@ -46,7 +46,13 @@ export const handleFetch = async (
     }
   }
 
-  return response
+  const parsedResponse = await response.json()
+
+  // if (!response.ok) {
+  //   throw new Error(parsedResponse.message || 'Error en la solicitud')
+  // }
+
+  return parsedResponse
 }
 
 type QueryParams = {

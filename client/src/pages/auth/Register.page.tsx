@@ -28,12 +28,10 @@ export const RegisterPage = (): JSX.Element => {
       password: password.value,
     }
 
-    const registerUser = await handleFetch(`${VITE_API_URL}${routes.register}`, {
+    const response = await handleFetch(`${VITE_API_URL}${routes.register}`, {
       method: 'POST',
       body: JSON.stringify(newUser),
     })
-
-    const response = await registerUser?.json()
 
     if (response.message) {
       setError(response.message)

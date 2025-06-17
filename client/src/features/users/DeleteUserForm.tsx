@@ -24,7 +24,7 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
     const target = e.target as HTMLFormElement
     const password = target[0] as HTMLInputElement
 
-    const deleteUser = await handleFetch(
+    const response = await handleFetch(
       `${VITE_API_URL}${routes.deleteUser.replace(':id', user?.id || '')}`,
       {
         method: 'POST',
@@ -32,8 +32,6 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
         credentials: 'include',
       }
     )
-
-    const response = await deleteUser.json()
 
     if (response.user.id) {
       await handleLogout(setUser, navigate)

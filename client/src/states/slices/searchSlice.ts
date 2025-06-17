@@ -10,13 +10,10 @@ const PAGE_LIMIT = 2
 
 export const searchAll = createAsyncThunk(
   SearchActionTypes.SEARCH_ALL,
-  async ({ page, query, type }: SearchAllParams) => {
-    const response: SearchAllResponse = await handleFetch(
+  async ({ page, query, type }: SearchAllParams) =>
+    await handleFetch<SearchAllResponse>(
       `${VITE_API_URL}${routes.search}?q=${query}&type=${type}&page=${page}&limit=${PAGE_LIMIT}`
-    ).then(r => r.json())
-
-    return response
-  }
+    )
 )
 
 export interface SearchState {
@@ -32,7 +29,7 @@ const initialState: SearchState = {
   results: {},
   page: 1,
   error: null,
-  hasMore: true,
+  hasMore: false,
   totalItems: 0,
   status: 'idle',
 }

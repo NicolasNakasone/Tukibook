@@ -29,13 +29,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const res = await handleFetch(`${VITE_API_URL}${routes.me}`)
 
-        const data = await res?.json()
-
-        if (!data.id) {
+        if (!res?.id) {
           localStorage.removeItem('accessToken')
           setUser(null)
         } else {
-          setUser(data)
+          setUser(res)
         }
       } catch {
         localStorage.removeItem('accessToken')

@@ -24,7 +24,7 @@ export const fetchPosts = createAsyncThunk(
       `${VITE_API_URL}${routes.posts}?page=${page}&limit=${PAGE_LIMIT}`,
       { method: 'GET' },
       filters
-    ).then(res => res?.json())
+    )
     return {
       posts: response.posts,
       totalItems: response.totalItems,
@@ -34,94 +34,78 @@ export const fetchPosts = createAsyncThunk(
 
 export const fetchPostById = createAsyncThunk(
   PostsActionTypes.GET_POST_DETAIL,
-  async (postId: Post['id']) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
+  async (postId: Post['id']) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.posts}/${postId}`, {
       method: 'GET',
     })
-    const data = await response?.json()
-    return data as Post
-  }
 )
 
-export const addPost = createAsyncThunk(PostsActionTypes.ADD_POST, async (newPost: FormData) => {
-  const response = await handleFetch(`${VITE_API_URL}${routes.posts}`, {
-    method: 'POST',
-    body: newPost,
-  }).then(res => res?.json())
-  return response as Post
-})
+export const addPost = createAsyncThunk(
+  PostsActionTypes.ADD_POST,
+  async (newPost: FormData) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.posts}`, {
+      method: 'POST',
+      body: newPost,
+    })
+)
 
 export const editPost = createAsyncThunk(
   PostsActionTypes.EDIT_POST,
-  async ({ id, ...newPost }: UpdatePostInput) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${id}`, {
+  async ({ id, ...newPost }: UpdatePostInput) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.posts}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(newPost),
-    }).then(res => res?.json())
-    return response as Post
-  }
+    })
 )
 
 export const deletePost = createAsyncThunk(
   PostsActionTypes.DELETE_POST,
-  async (postId: Post['id']) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}`, {
+  async (postId: Post['id']) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.posts}/${postId}`, {
       method: 'DELETE',
-    }).then(res => res?.json())
-    return response as Post
-  }
+    })
 )
 
 export const likePost = createAsyncThunk(
   PostsActionTypes.LIKE_POST,
-  async (postId: Post['id']) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.posts}/${postId}/like`, {
+  async (postId: Post['id']) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.posts}/${postId}/like`, {
       method: 'PATCH',
-    }).then(res => res?.json())
-    return response as Post
-  }
+    })
 )
 
 export const commentPost = createAsyncThunk(
   PostsActionTypes.COMMENT_POST,
-  async (newComment: CommentInput) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.comments}`, {
+  async (newComment: CommentInput) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.comments}`, {
       method: 'POST',
       body: JSON.stringify(newComment),
-    }).then(res => res?.json())
-    return response as Post
-  }
+    })
 )
 
 export const editComment = createAsyncThunk(
   PostsActionTypes.EDIT_COMMENT,
-  async ({ id, ...newComment }: UpdateCommentInput) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.comments}/${id}`, {
+  async ({ id, ...newComment }: UpdateCommentInput) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.comments}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(newComment),
-    }).then(res => res?.json())
-    return response as Post
-  }
+    })
 )
 
 export const deleteComment = createAsyncThunk(
   PostsActionTypes.DELETE_COMMENT,
-  async (commentId: Comment['id']) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.comments}/${commentId}`, {
+  async (commentId: Comment['id']) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.comments}/${commentId}`, {
       method: 'DELETE',
-    }).then(res => res?.json())
-    return response as Post
-  }
+    })
 )
 
 export const likeComment = createAsyncThunk(
   PostsActionTypes.LIKE_COMMENT,
-  async (commentId: Comment['id']) => {
-    const response = await handleFetch(`${VITE_API_URL}${routes.comments}/${commentId}/like`, {
+  async (commentId: Comment['id']) =>
+    await handleFetch<Post>(`${VITE_API_URL}${routes.comments}/${commentId}/like`, {
       method: 'PATCH',
-    }).then(res => res?.json())
-    return response as Post
-  }
+    })
 )
 
 export interface PostsState {
@@ -142,7 +126,7 @@ const initialState: PostsState = {
   status: 'idle',
   error: null,
   page: 1,
-  hasMore: true,
+  hasMore: false,
   filters: {},
   totalItems: 0,
   currentPage: '',

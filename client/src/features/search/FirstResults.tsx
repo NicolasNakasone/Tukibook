@@ -26,7 +26,7 @@ export const FirstResults = (): JSX.Element => {
   const handleSearchAll = async () => {
     const response = await handleFetch(
       `${VITE_API_URL}${routes.search}?q=${query}&type=all&page=1&limit=2`
-    ).then(r => r.json())
+    )
 
     if (!response.message) {
       setResults(response)

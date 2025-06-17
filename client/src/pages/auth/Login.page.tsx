@@ -29,13 +29,11 @@ export const LoginPage = (): JSX.Element => {
       password: password.value,
     }
 
-    const loginUser = await handleFetch(`${VITE_API_URL}${routes.login}`, {
+    const response = await handleFetch(`${VITE_API_URL}${routes.login}`, {
       method: 'POST',
       body: JSON.stringify(loggedUser),
       credentials: 'include',
     })
-
-    const response = await loginUser?.json()
 
     if (response.message) {
       setError(response.message)
