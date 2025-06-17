@@ -27,9 +27,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const fetchUser = async () => {
       try {
-        const { data } = await handleFetch<User>(`${VITE_API_URL}${routes.me}`)
+        const { data, error } = await handleFetch<User>(`${VITE_API_URL}${routes.me}`)
 
-        if (!data) {
+        if (error) {
           localStorage.removeItem('accessToken')
           setUser(null)
           return

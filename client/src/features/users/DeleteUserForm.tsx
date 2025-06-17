@@ -35,9 +35,9 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
     const target = e.target as HTMLFormElement
     const password = target[0] as HTMLInputElement
 
-    const { data } = await deleteUser({ userId: user?.id || '', password: password.value })
+    const { error } = await deleteUser({ userId: user?.id || '', password: password.value })
 
-    if (data?.user.id) await handleLogout(setUser, navigate)
+    if (!error?.message) await handleLogout(setUser, navigate)
   }
 
   return (

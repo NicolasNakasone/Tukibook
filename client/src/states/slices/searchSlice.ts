@@ -53,9 +53,9 @@ const searchSlice = createSlice({
         state.error = action.error.message || 'Error al obtener resultados'
       })
       .addCase(searchAll.fulfilled, (state, { payload: { data, error } }) => {
-        if (!data) {
+        if (error) {
           state.status = 'failed'
-          state.error = error?.message || ''
+          state.error = error.message
           return
         }
         state.status = 'succeeded'

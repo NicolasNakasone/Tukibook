@@ -2,10 +2,10 @@ export interface ResponseError {
   message: string
 }
 
-export interface ApiResponse<T> {
-  data?: T
-  error?: ResponseError
-}
+type ApiSuccess<T> = { data: T; error?: undefined }
+type ApiFailure = { error: ResponseError; data?: undefined }
+
+export type ApiResponse<T> = ApiSuccess<T> | ApiFailure
 
 export interface GetPage {
   page: number

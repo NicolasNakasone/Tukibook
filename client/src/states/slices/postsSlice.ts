@@ -157,9 +157,9 @@ const postsSlice = createSlice({
         state.error = action.error.message || 'Error al obtener posts'
       })
       .addCase(fetchPosts.fulfilled, (state, { payload: { data, error } }) => {
-        if (!data) {
+        if (error) {
           state.status = 'failed'
-          state.error = error?.message || ''
+          state.error = error.message
           return
         }
         state.status = 'succeeded'
@@ -182,13 +182,13 @@ const postsSlice = createSlice({
       .addCase(fetchPostById.pending, state => {
         state.status = 'loading'
       })
-      .addCase(fetchPostById.fulfilled, (state, { payload }) => {
-        state.status = 'succeeded'
-        if (payload.data) state.postDetail = payload.data
-      })
       .addCase(fetchPostById.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message || 'Error al obtener el post'
+      })
+      .addCase(fetchPostById.fulfilled, (state, { payload }) => {
+        state.status = 'succeeded'
+        if (payload.data) state.postDetail = payload.data
       })
       .addCase(addPost.fulfilled, (state, { payload: { data } }) => {
         /* TODO: Optimizar busqueda innecesaria la primera vez,

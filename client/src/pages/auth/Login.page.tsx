@@ -35,7 +35,7 @@ export const LoginPage = (): JSX.Element => {
     const loggedUser: LoginParams = { email: email.value, password: password.value }
 
     const { data, error } = await loginUser(loggedUser)
-    if (!data) return setError(error?.message || '')
+    if (error) return setError(error.message)
 
     target.reset()
     setError('')
