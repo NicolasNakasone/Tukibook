@@ -27,14 +27,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const fetchUser = async () => {
       try {
-        const res = await handleFetch(`${VITE_API_URL}${routes.me}`)
+        const { data } = await handleFetch<User>(`${VITE_API_URL}${routes.me}`)
 
-        if (!res?.id) {
+        if (!data) {
           localStorage.removeItem('accessToken')
           setUser(null)
-        } else {
-          setUser(res)
+          return
         }
+        setUser(data)
       } catch {
         localStorage.removeItem('accessToken')
         setUser(null)

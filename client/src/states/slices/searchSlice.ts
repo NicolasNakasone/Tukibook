@@ -49,25 +49,30 @@ const searchSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message || 'Error al obtener resultados'
       })
-      .addCase(searchAll.fulfilled, (state, { payload }) => {
+      .addCase(searchAll.fulfilled, (state, { payload: { data, error } }) => {
+        if (!data) {
+          state.status = 'failed'
+          state.error = error?.message || ''
+          return
+        }
         state.status = 'succeeded'
 
         state.page += 1
-        state.totalItems = payload.totalItems
+        state.totalItems = data.totalItems
 
-        // const newPosts = payload.posts.filter(
+        // const newPosts = data.posts.filter(
         //   post => !state.posts.some(existing => existing.id === post.id)
         // )
 
-        if (payload.posts) {
-          state.results = { posts: [...(state.results.posts || []), ...payload.posts] }
-          state.hasMore = payload.totalItems > (state.results.posts?.length || 0)
+        if (data.posts) {
+          state.results = { posts: [...(state.results.posts || []), ...data.posts] }
+          state.hasMore = data.totalItems > (state.results.posts?.length || 0)
           return
         }
 
-        if (payload.users) {
-          state.results = { users: [...(state.results.users || []), ...payload.users] }
-          state.hasMore = payload.totalItems > (state.results.users?.length || 0)
+        if (data.users) {
+          state.results = { users: [...(state.results.users || []), ...data.users] }
+          state.hasMore = data.totalItems > (state.results.users?.length || 0)
           return
         }
       })

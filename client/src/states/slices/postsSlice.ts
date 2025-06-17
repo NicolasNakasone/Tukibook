@@ -19,17 +19,12 @@ const PAGE_LIMIT = 2
 
 export const fetchPosts = createAsyncThunk(
   PostsActionTypes.GET_POSTS,
-  async ({ page, filters }: GetPostsParams) => {
-    const response: GetPostsResponse = await handleFetch(
+  async ({ page, filters }: GetPostsParams) =>
+    await handleFetch<GetPostsResponse>(
       `${VITE_API_URL}${routes.posts}?page=${page}&limit=${PAGE_LIMIT}`,
       { method: 'GET' },
       filters
     )
-    return {
-      posts: response.posts,
-      totalItems: response.totalItems,
-    }
-  }
 )
 
 export const fetchPostById = createAsyncThunk(
@@ -156,10 +151,19 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.pending, state => {
         state.status = 'loading'
       })
-      .addCase(fetchPosts.fulfilled, (state, { payload }) => {
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || 'Error al obtener posts'
+      })
+      .addCase(fetchPosts.fulfilled, (state, { payload: { data, error } }) => {
+        if (!data) {
+          state.status = 'failed'
+          state.error = error?.message || ''
+          return
+        }
         state.status = 'succeeded'
 
-        const newPosts = payload.posts.filter(
+        const newPosts = data.posts.filter(
           post => !state.posts.some(existing => existing.id === post.id)
         )
 
@@ -169,57 +173,51 @@ const postsSlice = createSlice({
           return
         }
 
-        state.totalItems = payload.totalItems
+        state.totalItems = data.totalItems
         state.posts = [...state.posts, ...newPosts]
         state.page += 1
-        state.hasMore = payload.totalItems > state.posts.length
-      })
-      .addCase(fetchPosts.rejected, (state, action) => {
-        state.status = 'failed'
-        state.error = action.error.message || 'Error al obtener posts'
+        state.hasMore = data.totalItems > state.posts.length
       })
       .addCase(fetchPostById.pending, state => {
         state.status = 'loading'
       })
       .addCase(fetchPostById.fulfilled, (state, { payload }) => {
         state.status = 'succeeded'
-        state.postDetail = payload
+        if (payload.data) state.postDetail = payload.data
       })
       .addCase(fetchPostById.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message || 'Error al obtener el post'
       })
-      .addCase(addPost.fulfilled, (state, action) => {
+      .addCase(addPost.fulfilled, (state, { payload: { data } }) => {
         /* TODO: Optimizar busqueda innecesaria la primera vez,
           ya que la primera vez es logico que tenga que agregar
           el post. Ver como hacer para saber 
           cuando es la "primera vez"
         */
-        const exists = state.posts.some(post => post.id === action.payload.id)
-        if (!exists && !!action.payload.id) {
-          state.posts.unshift(action.payload)
+        const exists = state.posts.some(post => post.id === data?.id)
+        if (!exists && !!data) {
+          state.posts.unshift(data)
         }
       })
-      .addCase(deletePost.fulfilled, (state, action) => {
-        if (action.payload.id) {
-          state.posts = state.posts.filter(post => post.id !== action.payload.id)
-        }
+      .addCase(deletePost.fulfilled, (state, { payload: { data } }) => {
+        if (data) state.posts = state.posts.filter(post => post.id !== data.id)
       })
-      .addCase(likePost.fulfilled, (state, action) => {
-        const post = state.posts.find(post => post.id === action.payload.id)
+      .addCase(likePost.fulfilled, (state, { payload: { data } }) => {
+        const post = state.posts.find(post => post.id === data?.id)
         if (!post) return
 
-        post.likes = action.payload.likes
+        post.likes = data?.likes || []
       })
-      .addCase(editPost.fulfilled, (state, action) => {
-        const index = state.posts.findIndex(post => post.id === action.payload.id)
+      .addCase(editPost.fulfilled, (state, { payload: { data } }) => {
+        const index = state.posts.findIndex(post => post.id === data?.id)
         if (index === -1) return
 
         state.posts[index] = {
           ...state.posts[index],
-          content: action.payload.content,
-          updatedAt: action.payload.updatedAt,
-          /* Tambien se puede directamente ...action.payload, 
+          content: data?.content || '',
+          updatedAt: data?.updatedAt || new Date(),
+          /* Tambien se puede directamente ...data, 
             en lugar de propiedad por propiedad 
           */
         }

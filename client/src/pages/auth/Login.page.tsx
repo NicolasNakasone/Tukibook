@@ -7,6 +7,7 @@ import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import styles from 'src/pages/auth/Auth.module.css'
+import { LoginParams, LoginResponse } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -16,6 +17,13 @@ export const LoginPage = (): JSX.Element => {
 
   const { setUser } = useAuth()
 
+  const loginUser = async (loginParams: LoginParams) =>
+    await handleFetch<LoginResponse>(`${VITE_API_URL}${routes.login}`, {
+      method: 'POST',
+      body: JSON.stringify(loginParams),
+      credentials: 'include',
+    })
+
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -24,26 +32,15 @@ export const LoginPage = (): JSX.Element => {
     const email = target[0] as HTMLInputElement
     const password = target[1] as HTMLInputElement
 
-    const loggedUser = {
-      email: email.value,
-      password: password.value,
-    }
+    const loggedUser: LoginParams = { email: email.value, password: password.value }
 
-    const response = await handleFetch(`${VITE_API_URL}${routes.login}`, {
-      method: 'POST',
-      body: JSON.stringify(loggedUser),
-      credentials: 'include',
-    })
-
-    if (response.message) {
-      setError(response.message)
-      return
-    }
+    const { data, error } = await loginUser(loggedUser)
+    if (!data) return setError(error?.message || '')
 
     target.reset()
     setError('')
-    localStorage.setItem('accessToken', response.token)
-    setUser(response.user)
+    localStorage.setItem('accessToken', data.token)
+    setUser(data.user)
     navigate(routes.home)
   }
 

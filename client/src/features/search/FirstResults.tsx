@@ -24,13 +24,11 @@ export const FirstResults = (): JSX.Element => {
   const query = params.get('q') || ''
 
   const handleSearchAll = async () => {
-    const response = await handleFetch(
+    const { data } = await handleFetch<SearchAllResponse>(
       `${VITE_API_URL}${routes.search}?q=${query}&type=all&page=1&limit=2`
     )
 
-    if (!response.message) {
-      setResults(response)
-    }
+    if (data) setResults(data)
   }
 
   return (

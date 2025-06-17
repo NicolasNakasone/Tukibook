@@ -6,12 +6,19 @@ import { PasswordInput } from 'src/components/form/PasswordInput'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import styles from 'src/pages/auth/Auth.module.css'
+import { RegisterParams, User } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
 export const RegisterPage = (): JSX.Element => {
   const [error, setError] = useState('')
   const navigate = useNavigate()
+
+  const registerUser = async (newUser: RegisterParams) =>
+    await handleFetch<User>(`${VITE_API_URL}${routes.register}`, {
+      method: 'POST',
+      body: JSON.stringify(newUser),
+    })
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -22,21 +29,14 @@ export const RegisterPage = (): JSX.Element => {
     const email = target[1] as HTMLInputElement
     const password = target[2] as HTMLInputElement
 
-    const newUser = {
+    const newUser: RegisterParams = {
       username: username.value,
       email: email.value,
       password: password.value,
     }
 
-    const response = await handleFetch(`${VITE_API_URL}${routes.register}`, {
-      method: 'POST',
-      body: JSON.stringify(newUser),
-    })
-
-    if (response.message) {
-      setError(response.message)
-      return
-    }
+    const { error } = await registerUser(newUser)
+    if (error) return setError(error.message)
 
     target.reset()
     setError('')

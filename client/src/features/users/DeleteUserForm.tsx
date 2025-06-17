@@ -7,6 +7,7 @@ import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { handleLogout } from 'src/utils'
+import { DeleteUserParams, DeleteUserResponse } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -18,24 +19,25 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
 
+  const deleteUser = async ({ userId, password }: DeleteUserParams) =>
+    await handleFetch<DeleteUserResponse>(
+      `${VITE_API_URL}${routes.deleteUser.replace(':id', userId)}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ password }),
+        credentials: 'include',
+      }
+    )
+
   const handleDeleteUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const target = e.target as HTMLFormElement
     const password = target[0] as HTMLInputElement
 
-    const response = await handleFetch(
-      `${VITE_API_URL}${routes.deleteUser.replace(':id', user?.id || '')}`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ password: password.value }),
-        credentials: 'include',
-      }
-    )
+    const { data } = await deleteUser({ userId: user?.id || '', password: password.value })
 
-    if (response.user.id) {
-      await handleLogout(setUser, navigate)
-    }
+    if (data?.user.id) await handleLogout(setUser, navigate)
   }
 
   return (

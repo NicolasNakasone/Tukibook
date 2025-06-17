@@ -1,4 +1,5 @@
 import { routes } from 'src/constants/routes'
+import { ApiResponse } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
 
@@ -6,10 +7,20 @@ const { VITE_API_URL } = import.meta.env
 // const responseErrors = ['Usuario no encontrado', 'No autorizado']
 
 interface HandleFetchProps {
-  <T = any>(url: RequestInfo, options?: RequestInit, filters?: Record<string, any>): Promise<T>
+  <T = any>(
+    url: RequestInfo,
+    options?: RequestInit,
+    filters?: Record<string, any>,
+    throwOnError?: boolean
+  ): Promise<ApiResponse<T>>
 }
 
-export const handleFetch: HandleFetchProps = async (url, options = {}, filters = {}) => {
+export const handleFetch: HandleFetchProps = async (
+  url,
+  options = {},
+  filters = {},
+  throwOnError = false
+) => {
   const token = localStorage.getItem('accessToken')
 
   const isFormData = options.body instanceof FormData
@@ -46,13 +57,22 @@ export const handleFetch: HandleFetchProps = async (url, options = {}, filters =
     }
   }
 
-  const parsedResponse = await response.json()
+  let parsedResponse
+  try {
+    parsedResponse = await response.json()
+  } catch (err) {
+    // Por si el backend devuelve algo no JSON
+    return {
+      error: { message: 'Respuesta no válida del servidor' },
+    }
+  }
 
-  // if (!response.ok) {
-  //   throw new Error(parsedResponse.message || 'Error en la solicitud')
-  // }
+  if (response.ok) return { data: parsedResponse }
 
-  return parsedResponse
+  const message = parsedResponse?.message || 'Error en la solicitud'
+
+  if (throwOnError) throw new Error(message)
+  return { error: { message } }
 }
 
 type QueryParams = {
