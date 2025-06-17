@@ -1,12 +1,10 @@
 import { FormEvent } from 'react'
 
-import { useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { PasswordInput } from 'src/components/form/PasswordInput'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
-import { handleLogout } from 'src/utils'
 import { DeleteUserParams, DeleteUserResponse } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -16,8 +14,7 @@ interface DeleteUserFormProps {
 }
 
 export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element => {
-  const { user, setUser } = useAuth()
-  const navigate = useNavigate()
+  const { user, logoutUser } = useAuth()
 
   const deleteUser = async ({ userId, password }: DeleteUserParams) =>
     await handleFetch<DeleteUserResponse>(
@@ -35,9 +32,8 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
     const target = e.target as HTMLFormElement
     const password = target[0] as HTMLInputElement
 
-    const { error } = await deleteUser({ userId: user?.id || '', password: password.value })
-
-    if (!error?.message) await handleLogout(setUser, navigate)
+    const { data } = await deleteUser({ userId: user?.id || '', password: password.value })
+    if (data) await logoutUser()
   }
 
   return (

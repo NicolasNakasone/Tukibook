@@ -1,31 +1,21 @@
 import { FormEvent, useState } from 'react'
 
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { PasswordInput } from 'src/components/form/PasswordInput'
-import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import styles from 'src/pages/auth/Auth.module.css'
-import { LoginParams, LoginResponse } from 'tukibook-helper'
-
-const { VITE_API_URL } = import.meta.env
+import { LoginParams } from 'tukibook-helper'
 
 export const LoginPage = (): JSX.Element => {
   const [error, setError] = useState('')
-  const navigate = useNavigate()
 
-  const { setUser } = useAuth()
-
-  const loginUser = async (loginParams: LoginParams) =>
-    await handleFetch<LoginResponse>(`${VITE_API_URL}${routes.login}`, {
-      method: 'POST',
-      body: JSON.stringify(loginParams),
-      credentials: 'include',
-    })
+  const { loginUser } = useAuth()
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setError('')
 
     const target = e.target as HTMLFormElement
 
@@ -34,14 +24,10 @@ export const LoginPage = (): JSX.Element => {
 
     const loggedUser: LoginParams = { email: email.value, password: password.value }
 
-    const { data, error } = await loginUser(loggedUser)
-    if (error) return setError(error.message)
+    const response = (await loginUser(loggedUser))?.message
+    if (response) return setError(response)
 
     target.reset()
-    setError('')
-    localStorage.setItem('accessToken', data.token)
-    setUser(data.user)
-    navigate(routes.home)
   }
 
   return (

@@ -1,14 +1,11 @@
 import tukibookLogo from 'public/tuki.webp'
-import { useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import styles from 'src/components/common/Header.module.css'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
-import { handleLogout } from 'src/utils'
 
 export const Header = (): JSX.Element => {
-  const { user, setUser } = useAuth()
-  const navigate = useNavigate()
+  const { user, logoutUser } = useAuth()
 
   return (
     <header>
@@ -30,7 +27,7 @@ export const Header = (): JSX.Element => {
           <Button variant="link" size="md" to={routes.profile} className={styles.navLink}>
             👤 Perfil
           </Button>
-          <Button size="md" onClick={() => handleLogout(setUser, navigate)}>
+          <Button size="md" onClick={logoutUser}>
             🚪 Cerrar sesión
           </Button>
         </nav>

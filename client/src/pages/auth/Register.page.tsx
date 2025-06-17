@@ -1,27 +1,20 @@
 import { FormEvent, useState } from 'react'
 
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { PasswordInput } from 'src/components/form/PasswordInput'
-import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
+import { useAuth } from 'src/hooks/useAuth.hook'
 import styles from 'src/pages/auth/Auth.module.css'
-import { RegisterParams, User } from 'tukibook-helper'
-
-const { VITE_API_URL } = import.meta.env
+import { RegisterParams } from 'tukibook-helper'
 
 export const RegisterPage = (): JSX.Element => {
+  const { registerUser } = useAuth()
   const [error, setError] = useState('')
-  const navigate = useNavigate()
-
-  const registerUser = async (newUser: RegisterParams) =>
-    await handleFetch<User>(`${VITE_API_URL}${routes.register}`, {
-      method: 'POST',
-      body: JSON.stringify(newUser),
-    })
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setError('')
 
     const target = e.target as HTMLFormElement
 
@@ -35,12 +28,10 @@ export const RegisterPage = (): JSX.Element => {
       password: password.value,
     }
 
-    const { error } = await registerUser(newUser)
-    if (error) return setError(error.message)
+    const response = (await registerUser(newUser))?.message
+    if (response) return setError(response)
 
     target.reset()
-    setError('')
-    navigate(routes.login)
   }
 
   return (
