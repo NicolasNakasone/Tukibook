@@ -1,0 +1,25 @@
+.userCardContainer {
+  width: 40vw;
+  padding: 2rem 1.5rem;
+  display: flex;
+  gap: 1rem;
+  border: 1px solid CanvasText;
+  border-radius: 0.25rem;
+}
+
+.userCardAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: CanvasText;
+  border-radius: 50%;
+}
+
+.userCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  & > p {
+    font-size: 0.875rem;
+  }
+}
