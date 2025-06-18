@@ -9,7 +9,7 @@ export const SearchPage = (): JSX.Element => {
 
   return (
     <main className={styles.searchMainContainer}>
-      <h1>{`Resultados de búsqueda: "${query}"`}</h1>
+      <h2>{`Resultados de búsqueda: "${query}"`}</h2>
       <div className={styles.searchContainer}>
         <SearchSidebar />
         <div className={styles.resultsContainer}>

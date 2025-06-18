@@ -1,0 +1,10 @@
+.searchFilterButton {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.activeButton {
+  background-color: var(--pressed-bg);
+  border-radius: 0.25rem;
+  font-weight: 700;
+}

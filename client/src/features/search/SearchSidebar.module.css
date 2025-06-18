@@ -9,17 +9,6 @@
   border: 1px solid CanvasText;
 }
 
-h2 {
+.sidebarTitle {
   margin: 0 0 2rem;
-}
-
-.searchFilterButton {
-  padding: 0.75rem;
-  text-align: left;
-}
-
-.activeButton {
-  background-color: var(--pressed-bg);
-  border-radius: 0.25rem;
-  font-weight: 700;
 }
