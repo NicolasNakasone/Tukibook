@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { useLocation } from 'react-router-dom'
-import { GoBackButton } from 'src/components/common/GoBackButton'
 import { PostFeed } from 'src/features/posts/PostFeed'
 import { ProfileUserInfo } from 'src/features/profile/ProfileUserInfo'
 import { useAuth } from 'src/hooks/useAuth.hook'
@@ -28,7 +27,6 @@ export const ProfilePage = (): JSX.Element => {
 
   return (
     <main className={styles.profileMainContainer}>
-      <GoBackButton />
       <div className={styles.profileMainContent}>
         <ProfileUserInfo />
         <div className={styles.profileUserPosts}>
