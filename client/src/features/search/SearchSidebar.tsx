@@ -1,6 +1,8 @@
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 import { routes } from 'src/constants/routes'
+import styles from 'src/features/search/SearchSidebar.module.css'
+import { isActiveRoute } from 'src/utils/search'
 import { SearchType } from 'tukibook-helper'
 
 export const SearchSidebar = (): JSX.Element => {
@@ -18,10 +20,32 @@ export const SearchSidebar = (): JSX.Element => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <Button onClick={() => handleChangeType(SearchType.ALL)}>Todo</Button>
-      <Button onClick={() => handleChangeType(SearchType.POSTS)}>Posts</Button>
-      <Button onClick={() => handleChangeType(SearchType.USERS)}>Usuarios</Button>
+    <div className={styles.sidebarContainer}>
+      <h2>Filtros</h2>
+      <Button
+        size="md"
+        width="full"
+        className={`${styles.searchFilterButton}${isActiveRoute(SearchType.ALL) ? ` ${styles.activeButton}` : ''}`}
+        onClick={() => handleChangeType(SearchType.ALL)}
+      >
+        Todo
+      </Button>
+      <Button
+        size="md"
+        width="full"
+        className={`${styles.searchFilterButton} ${isActiveRoute(SearchType.POSTS) ? ` ${styles.activeButton}` : ''}`}
+        onClick={() => handleChangeType(SearchType.POSTS)}
+      >
+        Posts
+      </Button>
+      <Button
+        size="md"
+        width="full"
+        className={`${styles.searchFilterButton} ${isActiveRoute(SearchType.USERS) ? ` ${styles.activeButton}` : ''}`}
+        onClick={() => handleChangeType(SearchType.USERS)}
+      >
+        Usuarios
+      </Button>
     </div>
   )
 }

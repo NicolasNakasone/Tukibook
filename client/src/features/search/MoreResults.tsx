@@ -38,9 +38,9 @@ export const MoreResults = ({ type: currentType }: MoreResultsProps): JSX.Elemen
   }
 
   return (
-    <div>
+    <>
       {returnComponent[currentType]}
       <div ref={loaderRef} />
-    </div>
+    </>
   )
 }

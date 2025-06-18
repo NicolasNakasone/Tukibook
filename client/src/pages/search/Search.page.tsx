@@ -1,5 +1,6 @@
 import { Outlet, useSearchParams } from 'react-router-dom'
 import { SearchSidebar } from 'src/features/search/SearchSidebar'
+import styles from 'src/pages/search/Search.module.css'
 
 export const SearchPage = (): JSX.Element => {
   const [params] = useSearchParams()
@@ -7,11 +8,13 @@ export const SearchPage = (): JSX.Element => {
   const query = params.get('q') || ''
 
   return (
-    <main>
+    <main className={styles.searchMainContainer}>
       <h1>{`Resultados de búsqueda: "${query}"`}</h1>
-      <div style={{ display: 'flex', gap: '4rem', flexWrap: 'wrap' }}>
+      <div className={styles.searchContainer}>
         <SearchSidebar />
-        <Outlet />
+        <div className={styles.resultsContainer}>
+          <Outlet />
+        </div>
       </div>
     </main>
   )

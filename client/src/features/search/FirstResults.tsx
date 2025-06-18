@@ -32,9 +32,9 @@ export const FirstResults = (): JSX.Element => {
   }
 
   return (
-    <div>
+    <>
       <ListPostResults results={results.posts} />
       <ListUserResults results={results.users} />
-    </div>
+    </>
   )
 }

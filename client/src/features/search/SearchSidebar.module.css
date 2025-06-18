@@ -1,0 +1,25 @@
+.sidebarContainer {
+  width: 32%;
+  height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: Canvas;
+  border: 1px solid CanvasText;
+}
+
+h2 {
+  margin: 0 0 2rem;
+}
+
+.searchFilterButton {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.activeButton {
+  background-color: var(--pressed-bg);
+  border-radius: 0.25rem;
+  font-weight: 700;
+}

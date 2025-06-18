@@ -1,3 +1,4 @@
+import styles from 'src/features/search/ListResults.module.css'
 import { SearchAllResponse } from 'tukibook-helper'
 
 interface ListUserResultsProps {
@@ -6,7 +7,7 @@ interface ListUserResultsProps {
 
 export const ListUserResults = ({ results }: ListUserResultsProps): JSX.Element => {
   return (
-    <div>
+    <div className={styles.listResultsContainer}>
       {results?.map(user => {
         return (
           <div key={user.id} style={{ height: '20rem', border: '1px solid CanvasText' }}>
