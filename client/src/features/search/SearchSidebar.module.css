@@ -12,3 +12,15 @@
 .sidebarTitle {
   margin: 0 0 2rem;
 }
+
+@media (max-width: 1024px) {
+  .sidebarContainer {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: normal;
+    flex-wrap: wrap;
+    border: none;
+    border-bottom: 1px solid CanvasText;
+  }
+}
