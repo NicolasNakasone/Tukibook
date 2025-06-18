@@ -44,7 +44,7 @@ export const PostFeed = (): JSX.Element => {
 
   return (
     <>
-      <HomeContainer {...{ posts }} />
+      <HomeContainer />
       <div ref={loader} />
     </>
   )
