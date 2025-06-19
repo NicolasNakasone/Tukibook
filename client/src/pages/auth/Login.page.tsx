@@ -9,12 +9,14 @@ import styles from 'src/pages/auth/Auth.module.css'
 import { LoginParams } from 'tukibook-helper'
 
 export const LoginPage = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
   const { loginUser } = useAuth()
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsLoading(true)
     setError('')
 
     const target = e.target as HTMLFormElement
@@ -25,6 +27,7 @@ export const LoginPage = (): JSX.Element => {
     const loggedUser: LoginParams = { email: email.value, password: password.value }
 
     const response = (await loginUser(loggedUser))?.message
+    setIsLoading(false)
     if (response) return setError(response)
 
     target.reset()
@@ -39,7 +42,14 @@ export const LoginPage = (): JSX.Element => {
       >
         <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
         <PasswordInput />
-        <Button size="md" width="xlarge" type="submit" className={styles.submitButton}>
+        <Button
+          size="md"
+          width="xlarge"
+          type="submit"
+          disabled={isLoading}
+          isLoading={isLoading}
+          className={styles.submitButton}
+        >
           Inicia sesión
         </Button>
         {error && <p>{error}</p>}

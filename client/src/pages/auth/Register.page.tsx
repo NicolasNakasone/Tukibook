@@ -10,10 +10,12 @@ import { RegisterParams } from 'tukibook-helper'
 
 export const RegisterPage = (): JSX.Element => {
   const { registerUser } = useAuth()
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsLoading(true)
     setError('')
 
     const target = e.target as HTMLFormElement
@@ -29,6 +31,7 @@ export const RegisterPage = (): JSX.Element => {
     }
 
     const response = (await registerUser(newUser))?.message
+    setIsLoading(false)
     if (response) return setError(response)
 
     target.reset()
@@ -44,7 +47,14 @@ export const RegisterPage = (): JSX.Element => {
         <input name="username" type="text" placeholder="👤 Ingresa tu nombre de usuario" />
         <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
         <PasswordInput />
-        <Button size="md" width="xlarge" type="submit" className={styles.submitButton}>
+        <Button
+          size="md"
+          width="xlarge"
+          type="submit"
+          disabled={isLoading}
+          isLoading={isLoading}
+          className={styles.submitButton}
+        >
           Registrate
         </Button>
         {error && <p>{error}</p>}

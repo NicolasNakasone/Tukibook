@@ -2,6 +2,7 @@ import { forwardRef, ButtonHTMLAttributes, Ref } from 'react'
 
 import { Link, LinkProps } from 'react-router-dom'
 import styles from 'src/components/common/Button.module.css'
+import { ButtonLoader } from 'src/components/common/ButtonLoader'
 
 type ButtonVariant = 'normal' | 'outline' | 'link'
 type ButtonSize = 'sm' | 'md' | 'lg'
@@ -12,6 +13,7 @@ interface ButtonCommonProps {
   size?: ButtonSize
   color?: ButtonColor
   width?: ButtonWidth
+  isLoading?: boolean
 }
 
 interface ButtonAsButton extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -33,6 +35,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
       size = 'sm',
       color = 'primary',
       width = 'mxcontent',
+      isLoading = false,
       ...rest
     },
     ref
@@ -40,7 +43,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
     const classes = `${styles[variant]} ${styles[size]} ${styles[width]} ${styles[color]} ${className}`
 
     if (variant === 'link') {
-      const linkProps = rest as LinkProps
+      const linkProps = rest as ButtonAsLink
       return (
         <Link ref={ref as Ref<HTMLAnchorElement>} className={classes} {...linkProps}>
           {children}
@@ -53,9 +56,9 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
         ref={ref as Ref<HTMLButtonElement>}
         type="button"
         className={classes}
-        {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}
+        {...(rest as ButtonAsButton)}
       >
-        {children}
+        {isLoading ? <ButtonLoader /> : children}
       </button>
     )
   }

@@ -59,6 +59,7 @@ export const AddPostForm = (): JSX.Element => {
         width="large"
         type="submit"
         disabled={isLoading}
+        isLoading={isLoading}
         className={styles.addPostButton}
       >
         Crear
