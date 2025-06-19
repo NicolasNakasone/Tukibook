@@ -1,8 +1,8 @@
-import 'src/components/common/Footer.module.css'
+import styles from 'src/components/common/Footer.module.css'
 
 export const Footer = (): JSX.Element => {
   return (
-    <footer>
+    <footer className={styles.footer}>
       <p>Hecho con ❤️</p>
       {/* <p>RRSS</p> */}
     </footer>

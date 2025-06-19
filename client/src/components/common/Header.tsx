@@ -8,7 +8,7 @@ export const Header = (): JSX.Element => {
   const { user, logoutUser } = useAuth()
 
   return (
-    <header>
+    <header className={styles.header}>
       <div role="heading" className={styles.heading}>
         <h1>Tukibook!</h1>
         <img src={tukibookLogo} alt="Tukibook Logo" className={styles.appLogo} />
