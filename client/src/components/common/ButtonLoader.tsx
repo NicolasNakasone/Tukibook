@@ -17,7 +17,7 @@ export const ButtonLoader = ({ maxLength = 4 }: ButtonLoaderProps): JSX.Element 
       }
       flag && setFlag(false)
       decreaseContent()
-    }, 500)
+    }, 1000)
 
     return () => {
       clearTimeout(changeContent)
