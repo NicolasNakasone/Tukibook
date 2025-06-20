@@ -12,6 +12,7 @@ import {
   UpdateCommentInput,
   GetPostsParams,
   PAGE_LIMIT,
+  ApiResponse,
 } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -143,8 +144,11 @@ const postsSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    const isPostRelatedAction = (action: any): action is { payload: Post; type: string } => {
-      return action.type.endsWith('/fulfilled') && action.payload?.id
+    const isPostRelatedAction = (action: {
+      payload: ApiResponse<Post>
+      type: string
+    }): action is { payload: ApiResponse<Post>; type: string } => {
+      return action.type.endsWith('/fulfilled') && !!action.payload?.data?.id
     }
 
     builder
@@ -227,7 +231,9 @@ const postsSlice = createSlice({
       .addCase(deleteComment.fulfilled, () => {})
       .addCase(likeComment.fulfilled, () => {})
       .addMatcher(isPostRelatedAction, (state, action) => {
-        const updatedPost = action.payload
+        if (action.payload.error) return
+
+        const updatedPost = action.payload.data
 
         // Actualizar detalle si aplica
         if (state.postDetail?.id === updatedPost.id) {
