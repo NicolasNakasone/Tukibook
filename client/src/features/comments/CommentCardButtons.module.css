@@ -1,0 +1,12 @@
+.commentCardButtons {
+  margin: 0.5rem 0 0 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.liked {
+  background-color: var(--pressed-bg);
+  border-radius: 0.25rem;
+  font-weight: 700;
+}

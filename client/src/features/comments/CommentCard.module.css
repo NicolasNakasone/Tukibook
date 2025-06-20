@@ -31,38 +31,9 @@
   font-weight: 400;
 }
 
-.commentCardButtons {
-  margin: 0.5rem 0 0 2rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-.liked {
-  background-color: var(--pressed-bg);
-  border-radius: 0.25rem;
-  font-weight: 700;
-}
-
 .repliesContainer {
   margin-block: 2rem;
   margin-inline: 2rem 0;
-}
-
-.editCommentInput {
-  width: 60%;
-  margin: 0.25rem auto 0 0;
-  font-size: 0.75rem;
-}
-
-.replyInput {
-  font-size: 0.75rem;
-}
-
-.replyButtons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
 }
 
 @media (max-width: 1024px) {

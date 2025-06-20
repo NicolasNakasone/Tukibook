@@ -1,0 +1,9 @@
+.replyInput {
+  font-size: 0.75rem;
+}
+
+.replyButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
