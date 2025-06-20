@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 
 interface ButtonLoaderProps {
   maxLength?: number
+  delayMs?: number
 }
 
-export const ButtonLoader = ({ maxLength = 4 }: ButtonLoaderProps): JSX.Element => {
+export const ButtonLoader = ({ maxLength = 4, delayMs = 400 }: ButtonLoaderProps): JSX.Element => {
   const [content, setContent] = useState('.')
   const [flag, setFlag] = useState(true)
 
@@ -17,7 +18,7 @@ export const ButtonLoader = ({ maxLength = 4 }: ButtonLoaderProps): JSX.Element 
       }
       flag && setFlag(false)
       decreaseContent()
-    }, 1000)
+    }, delayMs)
 
     return () => {
       clearTimeout(changeContent)
