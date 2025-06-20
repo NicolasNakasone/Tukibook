@@ -148,7 +148,9 @@ const postsSlice = createSlice({
       payload: ApiResponse<Post>
       type: string
     }): action is { payload: ApiResponse<Post>; type: string } => {
-      return action.type.endsWith('/fulfilled') && !!action.payload?.data?.id
+      return (
+        action.type.endsWith('/fulfilled') && !!action.payload?.data?.id && !action.payload?.error
+      )
     }
 
     builder
@@ -207,25 +209,8 @@ const postsSlice = createSlice({
       .addCase(deletePost.fulfilled, (state, { payload: { data } }) => {
         if (data) state.posts = state.posts.filter(post => post.id !== data.id)
       })
-      .addCase(likePost.fulfilled, (state, { payload: { data } }) => {
-        const post = state.posts.find(post => post.id === data?.id)
-        if (!post) return
-
-        post.likes = data?.likes || []
-      })
-      .addCase(editPost.fulfilled, (state, { payload: { data } }) => {
-        const index = state.posts.findIndex(post => post.id === data?.id)
-        if (index === -1) return
-
-        state.posts[index] = {
-          ...state.posts[index],
-          content: data?.content || '',
-          updatedAt: data?.updatedAt || new Date(),
-          /* Tambien se puede directamente ...data, 
-            en lugar de propiedad por propiedad 
-          */
-        }
-      })
+      .addCase(likePost.fulfilled, () => {})
+      .addCase(editPost.fulfilled, () => {})
       .addCase(commentPost.fulfilled, () => {})
       .addCase(editComment.fulfilled, () => {})
       .addCase(deleteComment.fulfilled, () => {})
@@ -242,9 +227,9 @@ const postsSlice = createSlice({
 
         // Actualizar post en lista si existe
         const index = state.posts.findIndex(post => post.id === updatedPost.id)
-        if (index !== -1) {
-          state.posts[index] = updatedPost
-        }
+        if (index === -1) return
+
+        state.posts[index] = updatedPost
       })
   },
 })
