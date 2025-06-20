@@ -12,7 +12,6 @@ import {
   UpdateCommentInput,
   GetPostsParams,
   PAGE_LIMIT,
-  ApiResponse,
 } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -128,6 +127,13 @@ const initialState: PostsState = {
   currentPage: '',
 }
 
+type PostPayload = Awaited<ReturnType<typeof handleFetch<Post>>>
+
+interface PostAction {
+  payload: PostPayload
+  type: string
+}
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
@@ -137,19 +143,16 @@ const postsSlice = createSlice({
       state.filters = payload
     },
     setPartialState: (state, { payload }: { payload: Partial<PostsState> }) => {
-      return {
-        ...state,
-        ...payload,
-      }
+      return { ...state, ...payload }
     },
   },
   extraReducers: builder => {
-    const isPostRelatedAction = (action: {
-      payload: ApiResponse<Post>
-      type: string
-    }): action is { payload: ApiResponse<Post>; type: string } => {
+    const isPostRelatedAction = (action: any): action is PostAction => {
+      const typedAction: PostAction = action
       return (
-        action.type.endsWith('/fulfilled') && !!action.payload?.data?.id && !action.payload?.error
+        typedAction.type.endsWith('/fulfilled') &&
+        !!typedAction.payload?.data?.id &&
+        !typedAction.payload?.error
       )
     }
 
