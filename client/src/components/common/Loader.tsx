@@ -11,7 +11,7 @@ export const Loader = ({ isLoading = true }: LoaderProps): ReactNode => {
   return (
     <p>
       Cargando
-      <ButtonLoader />
+      <ButtonLoader loaderProps={{ loaderType: 'dot' }} />
     </p>
   )
 }

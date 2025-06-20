@@ -1,32 +1,16 @@
-import { useState, useEffect } from 'react'
+import { ReactNode } from 'react'
+
+import { useLoader, UseLoaderProps } from 'src/hooks/useLoader.hook'
 
 interface ButtonLoaderProps {
-  maxLength?: number
-  delayMs?: number
+  isLoading?: boolean
+  loaderProps?: UseLoaderProps
 }
 
-export const ButtonLoader = ({ maxLength = 4, delayMs = 400 }: ButtonLoaderProps): JSX.Element => {
-  const [content, setContent] = useState('.')
-  const [flag, setFlag] = useState(true)
+export const ButtonLoader = ({ isLoading = true, loaderProps }: ButtonLoaderProps): ReactNode => {
+  if (!isLoading) return
 
-  useEffect(() => {
-    const changeContent = setTimeout(() => {
-      if ((content.length === 1 && !flag) || (content.length < maxLength && flag)) {
-        setFlag(true)
-        increaseContent()
-        return
-      }
-      flag && setFlag(false)
-      decreaseContent()
-    }, delayMs)
+  const { loader } = useLoader({ loaderType: 'spin', ...loaderProps })
 
-    return () => {
-      clearTimeout(changeContent)
-    }
-  }, [content.length, flag])
-
-  const increaseContent = () => setContent(prev => `${prev}.`)
-  const decreaseContent = () => setContent(prev => prev.slice(1))
-
-  return <span>{content}</span>
+  return <span>{loader}</span>
 }

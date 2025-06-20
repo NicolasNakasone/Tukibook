@@ -58,7 +58,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
         className={classes}
         {...(rest as ButtonAsButton)}
       >
-        {isLoading ? <ButtonLoader /> : children}
+        {children} {isLoading && <ButtonLoader />}
       </button>
     )
   }
