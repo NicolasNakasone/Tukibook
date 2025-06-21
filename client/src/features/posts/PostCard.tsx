@@ -13,7 +13,7 @@ import styles from 'src/features/posts/PostCard.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitEditPost } from 'src/sockets'
-import { Post } from 'tukibook-helper'
+import { Post, PostResponse } from 'tukibook-helper'
 
 interface PostCardProps {
   post: Post
@@ -44,12 +44,14 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   }
 
   const handleEditPost = async () => {
-    const response = await editPost({ id: post.id, content: newContent })
+    const response = (await (
+      await editPost({ id: post.id, content: newContent })
+    ).payload) as PostResponse
 
-    if (response.payload) {
-      emitEditPost(response.payload as Post)
+    if (response.data) {
+      emitEditPost(response)
       setIsEditing(false)
-      setNewContent((response.payload as Post).content)
+      setNewContent(response.data.content)
     }
   }
 

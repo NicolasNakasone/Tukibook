@@ -2,7 +2,7 @@ import { Button } from 'src/components/common/Button'
 import styles from 'src/features/posts/DeletePostButton.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitDeletePost } from 'src/sockets'
-import { Post } from 'tukibook-helper'
+import { Post, PostResponse } from 'tukibook-helper'
 
 interface DeletePostButtonProps {
   post: Post
@@ -13,9 +13,9 @@ export const DeletePostButton = ({ post, isDisabled }: DeletePostButtonProps): J
   const { deletePost } = usePosts()
 
   const handleDeletePost = async () => {
-    const response = await deletePost(post.id)
+    const response = (await (await deletePost(post.id)).payload) as PostResponse
 
-    if (response.payload) emitDeletePost(response.payload as Post)
+    if (response.data) emitDeletePost(response)
   }
 
   return (

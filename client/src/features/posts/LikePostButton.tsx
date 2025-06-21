@@ -3,7 +3,7 @@ import styles from 'src/features/posts/LikePostButton.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitLikePost } from 'src/sockets'
-import { Post } from 'tukibook-helper'
+import { Post, PostResponse } from 'tukibook-helper'
 
 export const LikePostButton = ({ post }: { post: Post }): JSX.Element => {
   const { likePost } = usePosts()
@@ -12,9 +12,9 @@ export const LikePostButton = ({ post }: { post: Post }): JSX.Element => {
   const hasLiked = post.likes.includes(user?.id || '')
 
   const handleLikePost = async () => {
-    const response = await likePost(post.id)
+    const response = (await (await likePost(post.id)).payload) as PostResponse
 
-    if (response.payload) emitLikePost(response.payload as Post)
+    if (response.data) emitLikePost(response)
   }
 
   return (

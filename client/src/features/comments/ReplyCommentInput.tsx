@@ -4,7 +4,7 @@ import { Button } from 'src/components/common/Button'
 import styles from 'src/features/comments/ReplyCommentInput.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitCommentPost } from 'src/sockets'
-import { Comment, Post } from 'tukibook-helper'
+import { Comment, Post, PostResponse } from 'tukibook-helper'
 
 interface ReplyCommentInputProps {
   parentCommentId: Comment['parentCommentId'] | Comment['id']
@@ -22,10 +22,12 @@ export const ReplyCommentInput = ({
   const { commentPost } = usePosts()
 
   const handleReplyComment = async () => {
-    const response = await commentPost({ content: replyNewContent, parentCommentId, postId })
+    const response = (await (
+      await commentPost({ content: replyNewContent, parentCommentId, postId })
+    ).payload) as PostResponse
 
-    if (response.payload) {
-      emitCommentPost(response.payload as Post)
+    if (response.data) {
+      emitCommentPost(response)
       setReplyNewContent('')
       cancelIsReplying()
     }

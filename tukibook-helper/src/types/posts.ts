@@ -1,5 +1,5 @@
 import { Comment } from './comments'
-import { GetPage } from './common'
+import { ApiResponse, GetPage } from './common'
 import { UserPayload } from './users'
 
 export interface PostInput {

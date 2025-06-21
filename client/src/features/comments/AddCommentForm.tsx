@@ -6,7 +6,7 @@ import styles from 'src/features/comments/AddCommentForm.module.css'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitCommentPost } from 'src/sockets'
-import { Post } from 'tukibook-helper'
+import { Post, PostResponse } from 'tukibook-helper'
 
 export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   const { commentPost } = usePosts()
@@ -20,11 +20,13 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
     const target = event.target as HTMLFormElement
     const content = (target[0] as HTMLInputElement).value
 
-    const response = await commentPost({ postId: post.id, content, parentCommentId: null })
+    const response = (await (
+      await commentPost({ postId: post.id, content, parentCommentId: null })
+    ).payload) as PostResponse
 
     handleIsLoading(false)
 
-    if (response.payload) emitCommentPost(response.payload as Post)
+    if (response.data) emitCommentPost(response)
 
     target.reset()
   }

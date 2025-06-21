@@ -6,7 +6,7 @@ import styles from 'src/features/posts/AddPostForm.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitNewPost } from 'src/sockets'
-import { Post } from 'tukibook-helper'
+import { PostResponse } from 'tukibook-helper'
 
 // TODO: Se crean pero no se muestran en pantalla sino hasta recargar,
 // hay que actualizar el state posts
@@ -34,9 +34,9 @@ export const AddPostForm = (): JSX.Element => {
     const form = event.currentTarget
     const formData = new FormData(event.currentTarget)
 
-    const response = await addPost(formData)
+    const response = (await (await addPost(formData)).payload) as PostResponse
 
-    if (response.payload) emitNewPost(response.payload as Post)
+    if (response.data) emitNewPost(response)
 
     form.reset()
     formRef.current?.resetFileInput()

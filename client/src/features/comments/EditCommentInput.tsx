@@ -4,7 +4,7 @@ import { Button } from 'src/components/common/Button'
 import styles from 'src/features/comments/EditCommentInput.module.css'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitEditComment } from 'src/sockets'
-import { Comment, Post } from 'tukibook-helper'
+import { Comment, PostResponse } from 'tukibook-helper'
 
 interface EditCommentInputProps {
   comment: Comment
@@ -27,12 +27,14 @@ export const EditCommentInput = ({
   // }, [comment.content, isEditing])
 
   const handleEditComment = async () => {
-    const response = await editComment({ id: comment.id, content: newContent })
+    const response = (await (
+      await editComment({ id: comment.id, content: newContent })
+    ).payload) as PostResponse
 
-    if (response.payload) {
-      emitEditComment(response.payload as Post)
+    if (response.data) {
+      emitEditComment(response)
       cancelIsEditing()
-      const foundNewContent = (response.payload as Post).comments.find(c => c.id === comment.id)
+      const foundNewContent = response.data.comments.find(c => c.id === comment.id)
       setNewContent(foundNewContent?.content || '')
     }
   }

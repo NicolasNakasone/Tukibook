@@ -3,7 +3,7 @@ import styles from 'src/features/comments/CommentCardButtons.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitLikeComment, emitDeleteComment } from 'src/sockets'
-import { Comment, Post } from 'tukibook-helper'
+import { Comment, PostResponse } from 'tukibook-helper'
 
 interface CommentCardButtonsProps {
   comment: Comment
@@ -23,15 +23,15 @@ export const CommentCardButtons = ({
   const hasLiked = comment.likes.includes(user?.id || '')
 
   const handleLikeComment = async () => {
-    const response = await likeComment(comment.id)
+    const response = (await (await likeComment(comment.id)).payload) as PostResponse
 
-    if (response.payload) emitLikeComment(response.payload as Post)
+    if (response.data) emitLikeComment(response)
   }
 
   const handleDeleteComment = async () => {
-    const response = await deleteComment(comment.id)
+    const response = (await (await deleteComment(comment.id)).payload) as PostResponse
 
-    if (response.payload) emitDeleteComment(response.payload as Post)
+    if (response.data) emitDeleteComment(response)
   }
 
   return (
