@@ -36,3 +36,5 @@ export interface GetPostsResponse {
   posts: PostList
   totalItems: number
 }
+
+export type PostResponse = ApiResponse<Post>
