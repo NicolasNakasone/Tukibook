@@ -5,6 +5,7 @@ import { PasswordInput } from 'src/components/form/PasswordInput'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
+import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import { DeleteUserParams, DeleteUserResponse } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -14,6 +15,7 @@ interface DeleteUserFormProps {
 }
 
 export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element => {
+  const { isLoading, handleIsLoading } = useIsLoading()
   const { user, logoutUser } = useAuth()
 
   const deleteUser = async ({ userId, password }: DeleteUserParams) =>
@@ -28,11 +30,15 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
 
   const handleDeleteUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    handleIsLoading(true)
 
     const target = e.target as HTMLFormElement
     const password = target[0] as HTMLInputElement
 
     const { data } = await deleteUser({ userId: user?.id || '', password: password.value })
+
+    handleIsLoading(false)
+
     if (data) await logoutUser()
   }
 
@@ -44,10 +50,16 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
       <p>Ingresá tu contraseña para confirmar que eliminas tu cuenta</p>
       <PasswordInput inputProps={{ placeholder: '🤫 Confirmá con tu contraseña' }} />
       <div style={{ margin: '1rem 0 0 auto', display: 'flex', gap: '0.75rem' }}>
-        <Button variant="normal" color="error" type="submit">
+        <Button
+          variant="normal"
+          color="error"
+          type="submit"
+          isLoading={isLoading}
+          disabled={isLoading}
+        >
           Confirmar
         </Button>
-        <Button variant="normal" onClick={onClose}>
+        <Button variant="normal" disabled={isLoading} onClick={onClose}>
           Cancelar
         </Button>
       </div>

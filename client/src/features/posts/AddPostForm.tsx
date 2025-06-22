@@ -1,9 +1,10 @@
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useRef } from 'react'
 
 import { Button } from 'src/components/common/Button'
 import { FileInput, FileInputHandle } from 'src/components/form/FileInput'
 import styles from 'src/features/posts/AddPostForm.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
+import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitNewPost } from 'src/sockets'
 import { PostResponse } from 'tukibook-helper'
@@ -23,24 +24,24 @@ import { PostResponse } from 'tukibook-helper'
   gestor de estados globales
 */
 export const AddPostForm = (): JSX.Element => {
-  const [isLoading, setIsLoading] = useState(false)
+  const { isLoading, handleIsLoading } = useIsLoading()
   const formRef = useRef<FileInputHandle>(null)
-
   const { addPost } = usePosts()
 
   const handleAddPost = async (event: FormEvent<HTMLFormElement>) => {
-    setIsLoading(true)
+    handleIsLoading(true)
     event.preventDefault()
     const form = event.currentTarget
     const formData = new FormData(event.currentTarget)
 
     const response = (await (await addPost(formData)).payload) as PostResponse
 
+    handleIsLoading(false)
+
     if (response.data) emitNewPost(response)
 
     form.reset()
     formRef.current?.resetFileInput()
-    setIsLoading(false)
   }
 
   return (
@@ -53,7 +54,7 @@ export const AddPostForm = (): JSX.Element => {
         disabled={isLoading}
         placeholder="Escribi un post..."
       />
-      <FileInput ref={formRef} showOptional />
+      <FileInput ref={formRef} showOptional isDisabled={isLoading} />
       <Button
         size="lg"
         width="large"

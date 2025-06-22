@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { FormEvent, useEffect } from 'react'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
@@ -23,20 +23,21 @@ export const HomePage = (): JSX.Element => {
     }
   }, [pathname])
 
+  const handleNavigateToSearch = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const target = e.target as HTMLFormElement
+    const search = target[0] as HTMLInputElement
+
+    navigate(`${routes.search}?q=${search.value}`)
+    target.reset()
+  }
+
   return (
     <main className={styles.homeMainContainer}>
       {!(status === 'loading' && posts.length === 0) && <AddPostForm />}
       <form
         style={{ width: '80%', display: 'flex', justifyContent: 'space-between', gap: '2rem' }}
-        onSubmit={e => {
-          e.preventDefault()
-          const target = e.target as HTMLFormElement
-
-          const search = target[0] as HTMLInputElement
-
-          navigate(`${routes.search}?q=${search.value}`)
-          target.reset()
-        }}
+        onSubmit={handleNavigateToSearch}
       >
         <input type="text" placeholder="Buscá un post..." style={{ width: '100%' }} />
         <Button variant="outline" size="md" type="submit" style={{ textWrap: 'nowrap' }}>

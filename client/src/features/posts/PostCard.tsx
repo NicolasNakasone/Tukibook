@@ -11,6 +11,7 @@ import { DeletePostButton } from 'src/features/posts/DeletePostButton'
 import { LikePostButton } from 'src/features/posts/LikePostButton'
 import styles from 'src/features/posts/PostCard.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
+import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitEditPost } from 'src/sockets'
 import { Post, PostResponse } from 'tukibook-helper'
@@ -22,7 +23,7 @@ interface PostCardProps {
 export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
   const [newContent, setNewContent] = useState(post.content)
-
+  const { isLoading, handleIsLoading } = useIsLoading()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { editPost } = usePosts()
@@ -44,9 +45,11 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   }
 
   const handleEditPost = async () => {
+    handleIsLoading(true)
     const response = (await (
       await editPost({ id: post.id, content: newContent })
     ).payload) as PostResponse
+    handleIsLoading(false)
 
     if (response.data) {
       emitEditPost(response)
@@ -80,7 +83,11 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
         </>
       )}
       {isEditing && (
-        <Button disabled={newContent === post.content} onClick={handleEditPost}>
+        <Button
+          isLoading={isLoading}
+          disabled={newContent === post.content || isLoading}
+          onClick={handleEditPost}
+        >
           Guardar
         </Button>
       )}

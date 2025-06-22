@@ -9,9 +9,8 @@ import { emitCommentPost } from 'src/sockets'
 import { Post, PostResponse } from 'tukibook-helper'
 
 export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
-  const { commentPost } = usePosts()
-
   const { isLoading, handleIsLoading } = useIsLoading()
+  const { commentPost } = usePosts()
 
   const handleCommentPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -34,7 +33,9 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   return (
     <form className={styles.commentForm} onSubmit={handleCommentPost}>
       <input type="text" placeholder="Comentar..." className={styles.commentInput} />
-      <Button type="submit">{isLoading ? <ButtonLoader /> : '💬'}</Button>
+      <Button type="submit" disabled={isLoading}>
+        {isLoading ? <ButtonLoader /> : '💬'}
+      </Button>
     </form>
   )
 }

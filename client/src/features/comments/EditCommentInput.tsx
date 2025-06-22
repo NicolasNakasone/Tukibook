@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Button } from 'src/components/common/Button'
 import styles from 'src/features/comments/EditCommentInput.module.css'
+import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitEditComment } from 'src/sockets'
 import { Comment, PostResponse } from 'tukibook-helper'
@@ -16,7 +17,7 @@ export const EditCommentInput = ({
   cancelIsEditing,
 }: EditCommentInputProps): JSX.Element => {
   const [newContent, setNewContent] = useState(comment.content)
-
+  const { isLoading, handleIsLoading } = useIsLoading()
   const { editComment } = usePosts()
 
   // Creo que ya no es necesario esto que hacia para mantener el contenido entre clientes
@@ -27,9 +28,11 @@ export const EditCommentInput = ({
   // }, [comment.content, isEditing])
 
   const handleEditComment = async () => {
+    handleIsLoading(true)
     const response = (await (
       await editComment({ id: comment.id, content: newContent })
     ).payload) as PostResponse
+    handleIsLoading(false)
 
     if (response.data) {
       emitEditComment(response)
@@ -46,10 +49,16 @@ export const EditCommentInput = ({
         value={newContent}
         onChange={e => setNewContent(e.target.value)}
       />
-      <Button disabled={newContent === comment.content} onClick={handleEditComment}>
+      <Button
+        isLoading={isLoading}
+        disabled={newContent === comment.content || isLoading}
+        onClick={handleEditComment}
+      >
         Guardar
       </Button>
-      <Button onClick={cancelIsEditing}>Cancelar</Button>
+      <Button disabled={isLoading} onClick={cancelIsEditing}>
+        Cancelar
+      </Button>
     </>
   )
 }

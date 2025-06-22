@@ -5,18 +5,18 @@ import { Button } from 'src/components/common/Button'
 import { PasswordInput } from 'src/components/form/PasswordInput'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
+import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import styles from 'src/pages/auth/Auth.module.css'
 import { LoginParams } from 'tukibook-helper'
 
 export const LoginPage = (): JSX.Element => {
-  const [isLoading, setIsLoading] = useState(false)
+  const { isLoading, handleIsLoading } = useIsLoading()
   const [error, setError] = useState('')
-
   const { loginUser } = useAuth()
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsLoading(true)
+    handleIsLoading(true)
     setError('')
 
     const target = e.target as HTMLFormElement
@@ -27,7 +27,7 @@ export const LoginPage = (): JSX.Element => {
     const loggedUser: LoginParams = { email: email.value, password: password.value }
 
     const response = (await loginUser(loggedUser))?.message
-    setIsLoading(false)
+    handleIsLoading(false)
     if (response) return setError(response)
 
     target.reset()

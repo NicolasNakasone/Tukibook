@@ -5,17 +5,18 @@ import { Button } from 'src/components/common/Button'
 import { PasswordInput } from 'src/components/form/PasswordInput'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
+import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import styles from 'src/pages/auth/Auth.module.css'
 import { RegisterParams } from 'tukibook-helper'
 
 export const RegisterPage = (): JSX.Element => {
-  const { registerUser } = useAuth()
-  const [isLoading, setIsLoading] = useState(false)
+  const { isLoading, handleIsLoading } = useIsLoading()
   const [error, setError] = useState('')
+  const { registerUser } = useAuth()
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsLoading(true)
+    handleIsLoading(true)
     setError('')
 
     const target = e.target as HTMLFormElement
@@ -31,7 +32,7 @@ export const RegisterPage = (): JSX.Element => {
     }
 
     const response = (await registerUser(newUser))?.message
-    setIsLoading(false)
+    handleIsLoading(false)
     if (response) return setError(response)
 
     target.reset()
