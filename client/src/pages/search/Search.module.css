@@ -22,3 +22,13 @@
   align-items: center;
   gap: 4rem;
 }
+
+@media (max-width: 1024px) {
+  .searchMainContainer {
+    padding: 0;
+
+    & > h2 {
+      margin: 0 2rem;
+    }
+  }
+}

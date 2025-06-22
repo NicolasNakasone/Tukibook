@@ -21,6 +21,8 @@
 
   & > p {
     font-size: 0.875rem;
+    /* word-break: break-all;
+    text-wrap: balance; */
   }
 }
 

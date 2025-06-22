@@ -5,3 +5,9 @@
   align-items: center;
   gap: 4rem;
 }
+
+@media (max-width: 1024px) {
+  .listResultsContainer {
+    width: 100%;
+  }
+}

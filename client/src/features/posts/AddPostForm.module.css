@@ -34,4 +34,8 @@
   .addPostForm {
     width: 100%;
   }
+
+  .addPostButton {
+    width: auto;
+  }
 }
