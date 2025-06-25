@@ -7,7 +7,7 @@ interface LoaderProps {
 }
 
 export const Loader = ({ isLoading = true }: LoaderProps): ReactNode => {
-  if (!isLoading) return
+  if (!isLoading) return null
   return (
     <p>
       Cargando

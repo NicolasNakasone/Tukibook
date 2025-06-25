@@ -1,11 +1,16 @@
+import { ReactNode } from 'react'
+
 import { useSearchParams } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
 
 interface MoreResultsButtonProps {
   routeTo: string
+  showMore: boolean
 }
 
-export const MoreResultsButton = ({ routeTo }: MoreResultsButtonProps): JSX.Element => {
+export const MoreResultsButton = ({ routeTo, showMore }: MoreResultsButtonProps): ReactNode => {
+  if (!showMore) return null
+
   const [params] = useSearchParams()
 
   const query = params.get('q') || ''
