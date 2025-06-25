@@ -7,6 +7,7 @@ import { User } from 'src/models/User'
 import { generateRefreshToken, generateToken, validateRequiredFields } from 'src/utils'
 
 const { JWT_REFRESH_SECRET } = process.env
+const isProductionEnv = process.env.NODE_ENV === 'production'
 
 export const registerUser: RequestHandler = async (req, res, next) => {
   try {
@@ -68,16 +69,13 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: isProductionEnv,
+      sameSite: isProductionEnv ? 'none' : 'lax',
       path: routes.refreshToken,
       maxAge: 1000 * 60 * 60 * 24,
     })
 
-    res.send({
-      user: userPayload,
-      token: accessToken,
-    })
+    res.send({ user: userPayload, token: accessToken })
   } catch (error) {
     next(error)
   }
@@ -114,8 +112,8 @@ export const logoutUser: RequestHandler = (req, res, next) => {
   try {
     res.clearCookie('refreshToken', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: isProductionEnv,
+      sameSite: isProductionEnv ? 'none' : 'lax',
       path: routes.refreshToken,
     })
     res.send({ message: 'Sesión cerrada correctamente' })
