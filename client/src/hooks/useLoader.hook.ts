@@ -7,7 +7,7 @@ export interface UseLoaderProps {
 }
 
 // TODO: Crear una prop para definir este array
-const spinDots = ['⠇', '⠋', '⠙', '⠸', '⠴', '⠦']
+const spinDots = ['⠸', '⠴', '⠦', '⠇', '⠋', '⠙']
 
 export const useLoader = (props?: UseLoaderProps) => {
   const maxLength = props?.maxLength || 4
