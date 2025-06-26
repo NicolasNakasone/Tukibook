@@ -11,7 +11,7 @@ export const router = express.Router()
 router.use(routes.posts, postsRouter)
 router.use(routes.comments, commentsRouter)
 router.use(routes.auth, authRouter)
-router.use(routes.user, usersRouter)
+router.use(routes.users, usersRouter)
 router.use(routes.search, searchRouter)
 
 router.get(routes.home, (req, res, next) => {
