@@ -3,7 +3,25 @@ import { RequestHandler } from 'express'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { User } from 'src/models/User'
+import { isValidObjectId } from 'src/utils'
 import { UserPayload } from 'tukibook-helper/index'
+
+export const getUserById: RequestHandler = async (req, res, next) => {
+  const { id: userId } = req.params
+
+  if (!isValidObjectId(userId)) {
+    return res.status(400).send({ message: 'Id del usuario inválido' })
+  }
+
+  try {
+    const foundUser = await User.findById(userId)
+    if (!foundUser) return res.status(404).send({ message: 'Usuario no encontrado' })
+
+    res.send(foundUser)
+  } catch (error) {
+    next(error)
+  }
+}
 
 export const deleteUser: RequestHandler = async (req, res, next) => {
   try {
