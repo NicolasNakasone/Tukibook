@@ -13,6 +13,7 @@ enum Routes {
   search = 'search',
   searchPosts = 'searchPosts',
   searchUsers = 'searchUsers',
+  userDetail = 'userDetail',
 }
 
 export const routes: { [key in Routes]: string } = {
@@ -20,14 +21,17 @@ export const routes: { [key in Routes]: string } = {
   posts: '/posts',
   postDetail: '/posts/:id',
   comments: '/comments',
+  profile: '/profile',
+  search: '/search',
+  searchPosts: '/search/posts',
+  searchUsers: '/search/users',
+  userDetail: '/users/:id',
+  deleteUser: '/users/:id/delete',
+
+  // Auth routes
   login: '/auth/login',
   register: '/auth/register',
   me: '/auth/me',
   refreshToken: '/auth/refreshToken',
   logout: '/auth/logout',
-  profile: '/profile',
-  deleteUser: '/user/:id/delete',
-  search: '/search',
-  searchPosts: '/search/posts',
-  searchUsers: '/search/users',
 }

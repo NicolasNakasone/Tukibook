@@ -7,12 +7,19 @@ import styles from 'src/features/profile/ProfileUserInfo.module.css'
 import { DeleteUserForm } from 'src/features/users/DeleteUserForm'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
+import { User } from 'tukibook-helper'
 
-export const ProfileUserInfo = () => {
-  const { user } = useAuth()
+interface ProfileUserInfoProps {
+  user: User | null
+}
+
+export const ProfileUserInfo = ({ user }: ProfileUserInfoProps) => {
+  const { user: loggedUser } = useAuth()
   const { totalItems } = usePosts()
 
   const [openDeleteUser, setOpenDeleteUser] = useState(false)
+
+  const isLoggedUser = user?.id === loggedUser?.id
 
   const closeOpenDeleteUser = () => setOpenDeleteUser(false)
 
@@ -27,19 +34,23 @@ export const ProfileUserInfo = () => {
       <p>Posts mas relevantes</p>
       <p>Primer post</p>
       <p>Fecha de registro</p> */}
-      <Button
-        size="md"
-        width="full"
-        color="error"
-        variant="normal"
-        className={styles.deleteUserButton}
-        onClick={() => setOpenDeleteUser(true)}
-      >
-        Borrar cuenta
-      </Button>
-      <Dialog open={openDeleteUser} allowBackdropClose={false} onClose={closeOpenDeleteUser}>
-        <DeleteUserForm onClose={closeOpenDeleteUser} />
-      </Dialog>
+      {isLoggedUser && (
+        <>
+          <Button
+            size="md"
+            width="full"
+            color="error"
+            variant="normal"
+            className={styles.deleteUserButton}
+            onClick={() => setOpenDeleteUser(true)}
+          >
+            Borrar cuenta
+          </Button>
+          <Dialog open={openDeleteUser} allowBackdropClose={false} onClose={closeOpenDeleteUser}>
+            <DeleteUserForm onClose={closeOpenDeleteUser} />
+          </Dialog>
+        </>
+      )}
     </div>
   )
 }

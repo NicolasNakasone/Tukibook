@@ -28,7 +28,7 @@ export const ProfilePage = (): JSX.Element => {
   return (
     <main className={styles.profileMainContainer}>
       <div className={styles.profileMainContent}>
-        <ProfileUserInfo />
+        <ProfileUserInfo user={user} />
         <div className={styles.profileUserPosts}>
           <h2>Tus posts</h2>
           <PostFeed />
