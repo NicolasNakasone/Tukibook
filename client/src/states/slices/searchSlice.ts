@@ -21,18 +21,18 @@ export interface SearchState {
   results: SearchResults
   page: number
   hasMore: boolean
-  totalItems: number
+  totals: Record<'users' | 'posts', number>
   error: string | null
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
 }
 
 const initialState: SearchState = {
-  results: {},
   page: 1,
   error: null,
-  hasMore: false,
-  totalItems: 0,
+  results: {},
   status: 'idle',
+  hasMore: false,
+  totals: { posts: 0, users: 0 },
 }
 
 const searchSlice = createSlice({
@@ -59,21 +59,30 @@ const searchSlice = createSlice({
         state.status = 'succeeded'
 
         state.page += 1
-        state.totalItems = data.totalItems
+        state.totals = { posts: data.totalPosts, users: data.totalUsers }
 
-        // const newPosts = data.posts.filter(
-        //   post => !state.posts.some(existing => existing.id === post.id)
-        // )
+        state.results = {
+          ...(data.posts && { posts: [...(state.results.posts || []), ...data.posts] }),
+          ...(data.users && { users: [...(state.results.users || []), ...data.users] }),
+        }
+
+        const postsLength = state.results.posts?.length || 0
+        const usersLength = state.results.users?.length || 0
+        const totalLength = postsLength + usersLength
+
+        if (data.posts && data.users) {
+          const totalItems = data.totalPosts + data.totalUsers
+          state.hasMore = totalItems > totalLength
+          return
+        }
 
         if (data.posts) {
-          state.results = { posts: [...(state.results.posts || []), ...data.posts] }
-          state.hasMore = data.totalItems > (state.results.posts?.length || 0)
+          state.hasMore = data.totalPosts > postsLength
           return
         }
 
         if (data.users) {
-          state.results = { users: [...(state.results.users || []), ...data.users] }
-          state.hasMore = data.totalItems > (state.results.users?.length || 0)
+          state.hasMore = data.totalUsers > usersLength
           return
         }
       })

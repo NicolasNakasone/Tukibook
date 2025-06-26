@@ -12,9 +12,11 @@ const { VITE_API_URL } = import.meta.env
 export const FirstResults = (): JSX.Element => {
   const [params] = useSearchParams()
 
-  const [results, setResults] = useState<Omit<SearchAllResponse, 'totalItems'>>({
+  const [results, setResults] = useState<SearchAllResponse>({
     posts: [],
+    totalPosts: 0,
     users: [],
+    totalUsers: 0,
   })
 
   useEffect(() => {
@@ -33,8 +35,14 @@ export const FirstResults = (): JSX.Element => {
 
   return (
     <>
-      <ListPostResults results={results.posts} />
-      <ListUserResults results={results.users} />
+      <ListPostResults
+        results={results.posts}
+        showMore={(results.posts?.length || 0) < results.totalPosts}
+      />
+      <ListUserResults
+        results={results.users}
+        showMore={(results.users?.length || 0) < results.totalUsers}
+      />
     </>
   )
 }

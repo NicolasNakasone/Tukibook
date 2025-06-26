@@ -8,7 +8,7 @@ import { SearchAllParams } from 'tukibook-helper'
 
 export const useSearch = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { error, hasMore, page, results, status, totalItems } = useSelector(
+  const { error, hasMore, page, results, status, totals } = useSelector(
     ({ search }: RootState) => search
   )
 
@@ -33,7 +33,7 @@ export const useSearch = () => {
     page,
     results,
     status,
-    totalItems,
+    totals,
     getResults: handleGetResults,
     getMoreResults: handleGetMoreResults,
     resetSearchState: handleResetState,

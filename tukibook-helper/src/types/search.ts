@@ -20,4 +20,9 @@ export interface SearchResults {
   posts?: PostList
 }
 
-export type SearchAllResponse = SearchResults & { totalItems: number }
+export interface SearchTotals {
+  totalPosts: number
+  totalUsers: number
+}
+
+export type SearchAllResponse = SearchResults & SearchTotals
