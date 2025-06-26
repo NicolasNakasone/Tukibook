@@ -4,7 +4,7 @@ import { authRouter } from 'src/routes/auth'
 import { commentsRouter } from 'src/routes/comments'
 import { postsRouter } from 'src/routes/posts'
 import { searchRouter } from 'src/routes/search'
-import { usersRouter } from 'src/routes/user'
+import { usersRouter } from 'src/routes/users'
 
 export const router = express.Router()
 
