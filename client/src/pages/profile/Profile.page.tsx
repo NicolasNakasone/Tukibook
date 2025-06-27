@@ -48,10 +48,7 @@ export const ProfilePage = (): JSX.Element => {
 
   const getPostsFromUserId = async (userId: string) => {
     resetPostsState()
-    setPartialState({
-      filters: { user: userId },
-      currentPage: pathname as '' | '/' | '/profile' | undefined,
-    })
+    setPartialState({ filters: { user: userId }, currentPage: pathname })
     getPosts({ page: 1, filters: { user: userId } })
   }
 

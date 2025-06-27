@@ -112,7 +112,7 @@ export interface PostsState {
   postDetail: Post | null
   filters: GetPostsParams['filters']
   totalItems: number
-  currentPage: '' | '/' | '/profile'
+  currentPage: string
 }
 
 const initialState: PostsState = {

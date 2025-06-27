@@ -18,7 +18,7 @@ export const HomePage = (): JSX.Element => {
   useEffect(() => {
     if (currentPage !== pathname) {
       resetPostsState()
-      setPartialState({ filters: {}, currentPage: pathname as '' | '/' | '/profile' | undefined })
+      setPartialState({ filters: {}, currentPage: pathname })
       getPosts({ page: 1, filters: {} })
     }
   }, [pathname])
