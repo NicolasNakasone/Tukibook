@@ -12,7 +12,6 @@ import {
   ProfilePage,
   RegisterPage,
   SearchPage,
-  UserDetailPage,
 } from 'src/pages'
 import { SearchType } from 'tukibook-helper'
 
@@ -39,7 +38,7 @@ export const App = () => {
           <Route path={routes.searchPosts} element={<MoreResults type={SearchType.POSTS} />} />
           <Route path={routes.searchUsers} element={<MoreResults type={SearchType.USERS} />} />
         </Route>
-        <Route path={routes.userDetail} element={<UserDetailPage />} />
+        <Route path={routes.userDetail} element={<ProfilePage />} />
       </Route>
       <Route path={routes.login} element={<LoginPage />} />
       <Route path={routes.register} element={<RegisterPage />} />

@@ -4,14 +4,5 @@ import { HomePage } from 'src/pages/home/Home.page'
 import { PostDetailPage } from 'src/pages/postDetail/PostDetail.page'
 import { ProfilePage } from 'src/pages/profile/Profile.page'
 import { SearchPage } from 'src/pages/search/Search.page'
-import { UserDetailPage } from 'src/pages/userDetail/UserDetail.page'
 
-export {
-  HomePage,
-  PostDetailPage,
-  LoginPage,
-  RegisterPage,
-  ProfilePage,
-  SearchPage,
-  UserDetailPage,
-}
+export { HomePage, PostDetailPage, LoginPage, RegisterPage, ProfilePage, SearchPage }

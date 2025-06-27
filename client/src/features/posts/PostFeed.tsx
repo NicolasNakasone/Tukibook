@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 import { HomeContainer } from 'src/features/home/HomeContainer'
+import { NoPostsButton } from 'src/features/posts/NoPostsButton'
 import { PostSkeleton } from 'src/features/posts/PostSkeleton'
 import { usePosts } from 'src/hooks/usePosts.hook'
 
@@ -34,13 +35,15 @@ export const PostFeed = (): JSX.Element => {
     }
   }, [loader, getMorePosts, status, hasMore])
 
-  if (status === 'loading' && posts.length === 0)
+  if (status === 'loading' && !posts.length)
     return (
       <>
         <PostSkeleton />
         <PostSkeleton />
       </>
     )
+
+  if (status === 'succeeded' && !posts.length) return <NoPostsButton />
 
   return (
     <>
