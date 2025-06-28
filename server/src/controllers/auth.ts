@@ -75,7 +75,7 @@ export const loginUser: RequestHandler = async (req, res, next) => {
       maxAge: 1000 * 60 * 60 * 24,
     })
 
-    res.send({ user: userPayload, token: accessToken })
+    res.send({ user: existingUser, token: accessToken })
   } catch (error) {
     next(error)
   }
@@ -83,7 +83,9 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
 export const getMe: RequestHandler = async (req, res) => {
   if (!req.user) return res.status(401).send({ message: 'No autorizado' })
-  res.send(req.user)
+  const user = await User.findById(req.user.id)
+  if (!user) return res.status(401).send({ message: 'Usuario no encontrado' })
+  res.send(user)
 }
 
 export const refreshToken: RequestHandler = async (req, res) => {
