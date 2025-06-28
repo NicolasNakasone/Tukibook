@@ -1,4 +1,4 @@
-import { UserPayload } from './users'
+import { User } from './users'
 
 export interface CommentInput {
   postId: string
@@ -8,7 +8,7 @@ export interface CommentInput {
 
 export interface Comment extends CommentInput {
   id: string
-  user: UserPayload
+  user: User
   likes: string[]
   createdAt: Date
   updatedAt: Date

@@ -1,6 +1,6 @@
 import { Comment } from './comments'
 import { ApiResponse, GetPage } from './common'
-import { UserPayload } from './users'
+import { User } from './users'
 
 export interface PostInput {
   content: string
@@ -12,7 +12,7 @@ export interface UpdatePostInput extends Partial<PostInput> {
 
 export interface Post extends PostInput {
   id: string
-  user: UserPayload
+  user: User
   likes: string[]
   comments: Comment[]
   image: {

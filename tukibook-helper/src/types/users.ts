@@ -16,7 +16,7 @@ export interface DeleteUserParams {
 }
 
 export interface DeleteUserResponse {
-  user: UserPayload
+  user: User
   message: string
 }
 
@@ -31,4 +31,4 @@ export interface UserPayload {
   email: string
 }
 
-export type UserList = UserPayload[]
+export type UserList = User[]

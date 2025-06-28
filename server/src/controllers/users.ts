@@ -4,7 +4,6 @@ import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { User } from 'src/models/User'
 import { isValidObjectId } from 'src/utils'
-import { UserPayload } from 'tukibook-helper/index'
 
 export const getUserById: RequestHandler = async (req, res, next) => {
   const { id: userId } = req.params
@@ -57,11 +56,7 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
 
     res.clearCookie('refreshToken')
 
-    const { email, id, username } = user
-
-    const deletedUser: UserPayload = { email, id, username }
-
-    res.status(200).json({ user: deletedUser, message: 'Cuenta eliminada exitosamente' })
+    res.status(200).json({ user, message: 'Cuenta eliminada exitosamente' })
   } catch (error) {
     next(error)
   }

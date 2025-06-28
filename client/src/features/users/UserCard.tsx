@@ -2,10 +2,10 @@ import tukibookLogo from 'public/tuki.webp'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { routes } from 'src/constants/routes'
 import styles from 'src/features/users/UserCard.module.css'
-import { UserPayload } from 'tukibook-helper'
+import { User } from 'tukibook-helper'
 
 interface UserCardProps {
-  user: UserPayload
+  user: User
 }
 
 export const UserCard = ({ user }: UserCardProps): JSX.Element => {
