@@ -1,10 +1,7 @@
-import { useState } from 'react'
-
 import tukibookLogo from 'public/tuki.webp'
 import { Button } from 'src/components/common/Button'
-import { Dialog } from 'src/components/common/Dialog'
 import styles from 'src/features/profile/ProfileUserInfo.module.css'
-import { DeleteUserForm } from 'src/features/users/DeleteUserForm'
+import { DeleteUserModal } from 'src/features/users/DeleteUserModal'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { User } from 'tukibook-helper'
@@ -17,11 +14,7 @@ export const ProfileUserInfo = ({ user }: ProfileUserInfoProps) => {
   const { user: loggedUser } = useAuth()
   const { totalItems } = usePosts()
 
-  const [openDeleteUser, setOpenDeleteUser] = useState(false)
-
   const isLoggedUser = user?.id === loggedUser?.id
-
-  const closeOpenDeleteUser = () => setOpenDeleteUser(false)
 
   return (
     <div className={styles.profileUserInfo}>
@@ -43,16 +36,13 @@ export const ProfileUserInfo = ({ user }: ProfileUserInfoProps) => {
           <Button
             size="md"
             width="full"
-            color="error"
+            color="info"
             variant="normal"
             className={styles.deleteUserButton}
-            onClick={() => setOpenDeleteUser(true)}
           >
-            Borrar cuenta
+            Editar perfil
           </Button>
-          <Dialog open={openDeleteUser} allowBackdropClose={false} onClose={closeOpenDeleteUser}>
-            <DeleteUserForm onClose={closeOpenDeleteUser} />
-          </Dialog>
+          <DeleteUserModal />
         </>
       )}
     </div>
