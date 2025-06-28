@@ -110,7 +110,7 @@ const PostCardHeader = ({
     <div className={styles.postCardHeaderContainer}>
       <h2 className={styles.postCardUsername}>
         <img
-          src={tukibookLogo}
+          src={post.user.avatar?.url || tukibookLogo}
           alt={`Foto de perfil de ${post.user?.username}`}
           className={styles.postCardAvatar}
         />

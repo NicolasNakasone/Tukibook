@@ -1,5 +1,6 @@
 import { FormEvent, useRef } from 'react'
 
+import tukibookLogo from 'public/tuki.webp'
 import { Button } from 'src/components/common/Button'
 import { FileInput, FileInputHandle } from 'src/components/form/FileInput'
 import styles from 'src/features/posts/AddPostForm.module.css'
@@ -74,7 +75,7 @@ const AddPostFormHeader = (): JSX.Element => {
 
   return (
     <div className={styles.addPostFormHeader}>
-      <div className={styles.addPostFormImage} />
+      <img src={user?.avatar?.url || tukibookLogo} className={styles.addPostImage} />
       <h2 /* className={styles.postCardUsername} */>{user?.username}</h2>
     </div>
   )

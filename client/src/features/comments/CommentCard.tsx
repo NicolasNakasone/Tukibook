@@ -22,8 +22,8 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
     <div className={styles.commentCardMainContainer}>
       <div key={comment.id} className={styles.commentCardContainer}>
         <img
-          src={tukibookLogo}
-          alt={`${post.user.username}'s profile picture`}
+          src={comment.user.avatar?.url || tukibookLogo}
+          alt={`Foto de perfil de ${comment.user.username}`}
           className={styles.commentUsername}
         />
         {!isEditing && (

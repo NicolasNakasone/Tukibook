@@ -25,7 +25,11 @@ export const ProfileUserInfo = ({ user }: ProfileUserInfoProps) => {
 
   return (
     <div className={styles.profileUserInfo}>
-      <img src={tukibookLogo} alt="Foto de perfil" className={styles.profileUserAvatar} />
+      <img
+        src={user?.avatar?.url || tukibookLogo}
+        alt={`Foto de perfil de ${user?.username}`}
+        className={styles.profileUserAvatar}
+      />
       <h2>{user?.username}</h2>
       <h2>{user?.email}</h2>
       <p>Posts realizados: {totalItems}</p>
