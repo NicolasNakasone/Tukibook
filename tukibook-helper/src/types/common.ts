@@ -10,3 +10,8 @@ export type ApiResponse<T> = ApiSuccess<T> | ApiFailure
 export interface GetPage {
   page: number
 }
+
+export interface PublicImage {
+  url: string
+  publicId: string
+}

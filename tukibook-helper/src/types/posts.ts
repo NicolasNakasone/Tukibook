@@ -1,5 +1,5 @@
 import { Comment } from './comments'
-import { ApiResponse, GetPage } from './common'
+import { ApiResponse, GetPage, PublicImage } from './common'
 import { User } from './users'
 
 export interface PostInput {
@@ -15,10 +15,7 @@ export interface Post extends PostInput {
   user: User
   likes: string[]
   comments: Comment[]
-  image: {
-    url: string
-    publicId: string
-  }
+  image?: PublicImage
   createdAt: Date
   updatedAt: Date
 }

@@ -1,16 +1,14 @@
 import mongoose, { Document, Schema, Types } from 'mongoose'
 import { IComment } from 'src/models/Comment'
 import { IUser } from 'src/models/User'
+import { PublicImage } from 'tukibook-helper'
 
 export interface IPost extends Document {
   user: IUser['_id']
   content: string
   likes: Types.ObjectId[]
   comments: IComment[]
-  image: {
-    url: string
-    publicId: string
-  }
+  image?: PublicImage
   createdAt: Date
   updatedAt: Date
 }
@@ -21,10 +19,7 @@ const PostSchema: Schema = new Schema(
     content: { type: String, required: true },
     likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
-    image: {
-      url: { type: String, default: '' },
-      publicId: { type: String, default: '' },
-    },
+    image: { url: { type: String, default: '' }, publicId: { type: String, default: '' } },
   },
   { timestamps: true }
 )

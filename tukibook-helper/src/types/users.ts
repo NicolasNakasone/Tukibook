@@ -1,11 +1,10 @@
+import { PublicImage } from './common'
+
 export interface UserInput {
   username: string
   email: string
   password: string
-  avatar: {
-    url: string
-    publicId: string
-  }
+  avatar?: PublicImage
 }
 
 export interface User extends Omit<UserInput, 'password'> {

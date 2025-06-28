@@ -1,10 +1,11 @@
 import mongoose, { Document, Schema } from 'mongoose'
+import { PublicImage } from 'tukibook-helper'
 
 export interface IUser extends Document {
   username: string
   email: string
   password: string
-  avatar: { url: string; publicId: string }
+  avatar?: PublicImage
   createdAt: Date
   updatedAt: Date
 }
