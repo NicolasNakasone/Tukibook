@@ -4,6 +4,7 @@ export interface IUser extends Document {
   username: string
   email: string
   password: string
+  avatar: { url: string; publicId: string }
   createdAt: Date
   updatedAt: Date
 }
@@ -13,6 +14,7 @@ const UserSchema = new Schema<IUser>(
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    avatar: { url: { type: String, default: '' }, publicId: { type: String, default: '' } },
   },
   { timestamps: true }
 ).set('toJSON', {

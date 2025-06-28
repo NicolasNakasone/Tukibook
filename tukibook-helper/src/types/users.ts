@@ -2,6 +2,10 @@ export interface UserInput {
   username: string
   email: string
   password: string
+  avatar: {
+    url: string
+    publicId: string
+  }
 }
 
 export interface User extends Omit<UserInput, 'password'> {
@@ -18,6 +22,10 @@ export interface DeleteUserParams {
 export interface DeleteUserResponse {
   user: User
   message: string
+}
+
+export interface UpdateUserInput extends Partial<UserInput> {
+  id: string
 }
 
 /* TODO: Quitar esta interfaz, reemplazarla por User,
