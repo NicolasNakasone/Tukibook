@@ -4,6 +4,7 @@ import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { User } from 'src/models/User'
 import { isValidObjectId } from 'src/utils'
+import { UpdateUserInput } from 'tukibook-helper'
 
 export const getUserById: RequestHandler = async (req, res, next) => {
   const { id: userId } = req.params
@@ -57,6 +58,47 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
     res.clearCookie('refreshToken')
 
     res.status(200).json({ user, message: 'Cuenta eliminada exitosamente' })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const editUser: RequestHandler = async (req, res, next) => {
+  try {
+    const userIdFromToken = req.user?.id
+    const userIdFromParams = req.params.id
+    const { email, username }: UpdateUserInput = req.body
+
+    if (userIdFromToken !== userIdFromParams) {
+      return res.status(403).json({ message: 'No autorizado para editar este usuario' })
+    }
+
+    const user = await User.findById(userIdFromToken)
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' })
+    }
+
+    if (!email && !username /* && !req.file */) {
+      return res.status(400).json({ message: 'No hay datos para actualizar' })
+    }
+
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }],
+      _id: { $ne: userIdFromToken },
+    })
+
+    if (existingUser) return res.status(400).send({ message: 'Email o username ya están en uso' })
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userIdFromToken,
+      { email, username },
+      { new: true }
+    )
+    if (!updatedUser) {
+      return res.status(404).send({ message: 'Usuario no encontrado luego de actualizar' })
+    }
+
+    res.send(updatedUser)
   } catch (error) {
     next(error)
   }

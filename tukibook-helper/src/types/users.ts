@@ -24,7 +24,7 @@ export interface DeleteUserResponse {
   message: string
 }
 
-export interface UpdateUserInput extends Partial<UserInput> {
+export interface UpdateUserInput extends Partial<Omit<UserInput, 'password'>> {
   id: string
 }
 
