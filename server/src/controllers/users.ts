@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import { RequestHandler } from 'express'
+import { cloudinary } from 'src/cloudinary'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { User } from 'src/models/User'
@@ -46,6 +47,16 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Contraseña incorrecta' })
     }
+
+    const userPosts = await Post.find({ user: userIdFromToken })
+
+    const destroyImagePromises = userPosts
+      .filter(post => post.image?.publicId)
+      .map(post => cloudinary.uploader.destroy(post.image!.publicId))
+
+    await Promise.all(destroyImagePromises)
+
+    if (user.avatar?.publicId) await cloudinary.uploader.destroy(user.avatar.publicId)
 
     await Comment.deleteMany({ user: userIdFromToken })
     await Post.deleteMany({ user: userIdFromToken })
