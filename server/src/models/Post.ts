@@ -35,18 +35,18 @@ const PostSchema: Schema = new Schema(
   .pre('find', function () {
     this.populate({
       path: 'comments',
-      populate: { path: 'user', select: 'username id email' },
+      populate: { path: 'user', select: 'username id email avatar' },
       options: { sort: { createdAt: -1 } }, // Ordena los comentarios por fecha de creación en orden descendente
     })
-    this.populate({ path: 'user', select: 'username id email' })
+    this.populate({ path: 'user', select: 'username id email avatar' })
   })
   .pre('findOne', function () {
     this.populate({
       path: 'comments',
-      populate: { path: 'user', select: 'username id email' },
+      populate: { path: 'user', select: 'username id email avatar' },
       options: { sort: { createdAt: -1 } }, // Ordena los comentarios por fecha de creación en orden descendente
     })
-    this.populate({ path: 'user', select: 'username id email' })
+    this.populate({ path: 'user', select: 'username id email avatar' })
   })
 
 export const Post = mongoose.model<IPost>('Post', PostSchema)
