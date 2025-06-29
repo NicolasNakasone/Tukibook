@@ -2,7 +2,7 @@ import { ChangeEvent, forwardRef, useRef, useState, useImperativeHandle } from '
 
 import { Button } from 'src/components/common/Button'
 
-interface CustomFileInputProps {
+interface FileInputProps {
   inputName?: string
   buttonLabel?: string
   showOptional?: boolean
@@ -13,7 +13,7 @@ export interface FileInputHandle {
   resetFileInput: () => void
 }
 
-export const FileInput = forwardRef<FileInputHandle, CustomFileInputProps>(
+export const FileInput = forwardRef<FileInputHandle, FileInputProps>(
   (
     { buttonLabel = '📷 Agrega una imagen', inputName = 'image', showOptional, isDisabled },
     ref
