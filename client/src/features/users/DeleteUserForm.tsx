@@ -11,7 +11,7 @@ import { DeleteUserParams, DeleteUserResponse } from 'tukibook-helper'
 const { VITE_API_URL } = import.meta.env
 
 interface DeleteUserFormProps {
-  onClose?: () => void
+  onClose: () => void
 }
 
 export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element => {
