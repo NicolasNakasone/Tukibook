@@ -2,7 +2,7 @@ import { ChangeEvent, forwardRef, useRef, useState, useImperativeHandle } from '
 
 import { Button } from 'src/components/common/Button'
 
-interface FileInputProps {
+export interface FileInputProps {
   inputName?: string
   buttonLabel?: string
   showOptional?: boolean

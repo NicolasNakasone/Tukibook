@@ -1,19 +1,22 @@
 enum Routes {
   home = 'home',
   posts = 'posts',
-  comments = 'comments',
   postDetail = 'postDetail',
+  comments = 'comments',
+  profile = 'profile',
+  search = 'search',
+  searchPosts = 'searchPosts',
+  searchUsers = 'searchUsers',
+  userDetail = 'userDetail',
+  deleteUser = 'deleteUser',
+  editUser = 'editUser',
+
+  // Auth routes
   login = 'login',
   register = 'register',
   me = 'me',
   refreshToken = 'refreshToken',
   logout = 'logout',
-  profile = 'profile',
-  deleteUser = 'deleteUser',
-  search = 'search',
-  searchPosts = 'searchPosts',
-  searchUsers = 'searchUsers',
-  userDetail = 'userDetail',
 }
 
 export const routes: { [key in Routes]: string } = {
@@ -27,6 +30,7 @@ export const routes: { [key in Routes]: string } = {
   searchUsers: '/search/users',
   userDetail: '/users/:id',
   deleteUser: '/users/:id/delete',
+  editUser: '/users/:id',
 
   // Auth routes
   login: '/auth/login',

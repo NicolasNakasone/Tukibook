@@ -1,7 +1,7 @@
 import tukibookLogo from 'public/tuki.webp'
-import { Button } from 'src/components/common/Button'
 import styles from 'src/features/profile/ProfileUserInfo.module.css'
 import { DeleteUserModal } from 'src/features/users/DeleteUserModal'
+import { EditUserModal } from 'src/features/users/EditUserModal'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { User } from 'tukibook-helper'
@@ -33,15 +33,7 @@ export const ProfileUserInfo = ({ user }: ProfileUserInfoProps) => {
       <p>Fecha de registro</p> */}
       {isLoggedUser && (
         <>
-          <Button
-            size="md"
-            width="full"
-            color="info"
-            variant="normal"
-            className={styles.deleteUserButton}
-          >
-            Editar perfil
-          </Button>
+          <EditUserModal />
           <DeleteUserModal />
         </>
       )}

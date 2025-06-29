@@ -1,0 +1,19 @@
+.avatarInputContainer {
+  width: max-content;
+  margin: 0 auto;
+  position: relative;
+  /* border: solid; */
+
+  & > div {
+    position: absolute;
+    bottom: -0.25rem;
+    right: -0.25rem;
+  }
+}
+
+.avatarImage {
+  width: 4rem;
+  height: 4rem;
+  background-color: CanvasText;
+  border-radius: 50%;
+}
