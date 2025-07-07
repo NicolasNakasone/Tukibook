@@ -33,9 +33,11 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
     handleIsLoading(true)
 
     const target = e.target as HTMLFormElement
-    const avatarName = (target[0] as HTMLInputElement).files?.[0]?.name
-    const username = (target[2] as HTMLInputElement).value
-    const email = (target[3] as HTMLInputElement).value
+
+    const avatarName = (target.querySelector('input[name="avatar"]') as HTMLInputElement)
+      .files?.[0]?.name
+    const username = (target.querySelector('input[name="username"]') as HTMLInputElement).value
+    const email = (target.querySelector('input[name="email"]') as HTMLInputElement).value
 
     // No hay value o los valores no se modificaron
     if (
