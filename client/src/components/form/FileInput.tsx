@@ -7,6 +7,7 @@ export interface FileInputProps {
   buttonLabel?: string
   showOptional?: boolean
   isDisabled?: boolean
+  onFileSelect?: (file: File) => void
 }
 
 export interface FileInputHandle {
@@ -15,14 +16,23 @@ export interface FileInputHandle {
 
 export const FileInput = forwardRef<FileInputHandle, FileInputProps>(
   (
-    { buttonLabel = '📷 Agrega una imagen', inputName = 'image', showOptional, isDisabled },
+    {
+      buttonLabel = '📷 Agrega una imagen',
+      inputName = 'image',
+      showOptional,
+      isDisabled,
+      onFileSelect,
+    },
     ref
   ) => {
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [isFileSelected, setIsFileSelected] = useState(false)
 
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) =>
-      setIsFileSelected(!!e.target.files?.[0])
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      setIsFileSelected(!!file)
+      if (file && onFileSelect) onFileSelect(file)
+    }
 
     const triggerFileSelect = () => fileInputRef.current?.click()
 
