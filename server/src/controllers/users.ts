@@ -5,7 +5,7 @@ import { cloudinary } from 'src/cloudinary'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { IUser, User } from 'src/models/User'
-import { isValidObjectId } from 'src/utils'
+import { isValidObjectId, validateRequiredFields } from 'src/utils'
 import { UpdateUserInput } from 'tukibook-helper'
 
 export const getUserById: RequestHandler = async (req, res, next) => {
@@ -89,6 +89,9 @@ export const editUser: RequestHandler = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' })
     }
+
+    if (!validateRequiredFields(email?.trim(), username?.trim()))
+      return res.status(400).send({ message: 'Faltan datos para editar el usuario' })
 
     if (!email && !username && !req.file) {
       return res.status(400).json({ message: 'No hay datos para actualizar' })
