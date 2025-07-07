@@ -5,6 +5,7 @@ import { AvatarInput } from 'src/components/form/AvatarInput'
 import { FileInputHandle } from 'src/components/form/FileInput'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
+import { ChangePasswordForm } from 'src/features/auth/ChangePasswordForm'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import { User } from 'tukibook-helper'
@@ -20,6 +21,8 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
   const formRef = useRef<FileInputHandle>(null)
   const [error, setError] = useState('')
   const { user, logoutUser } = useAuth()
+
+  const [showChangePassword, setShowChangePassword] = useState(false)
 
   const editUser = async (id: string, payload: FormData) =>
     await handleFetch<User>(`${VITE_API_URL}${routes.editUser.replace(':id', id)}`, {
@@ -97,6 +100,11 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
         </Button>
       </div>
       {error && <p>{error}</p>}
+      <hr style={{ opacity: '0.5' }} />
+      <Button
+        onClick={() => setShowChangePassword(prev => !prev)}
+      >{`${showChangePassword ? 'Ocultar' : 'Mostrar'} cambiar contraseña`}</Button>
+      {showChangePassword && <ChangePasswordForm />}
     </form>
   )
 }
