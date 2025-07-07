@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 
 import { Button } from 'src/components/common/Button'
 import { AvatarInput } from 'src/components/form/AvatarInput'
@@ -18,6 +18,7 @@ interface EditUserFormProps {
 export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
   const { isLoading, handleIsLoading } = useIsLoading()
   const formRef = useRef<FileInputHandle>(null)
+  const [error, setError] = useState('')
   const { user, logoutUser } = useAuth()
 
   const editUser = async (id: string, payload: FormData) =>
@@ -28,17 +29,28 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
 
   const handleEditUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setError('')
     handleIsLoading(true)
 
-    const form = e.currentTarget
-    const formData = new FormData(e.currentTarget)
+    const target = e.target as HTMLFormElement
+    const username = (target[2] as HTMLInputElement).value
+    const email = (target[3] as HTMLInputElement).value
 
-    const { data } = await editUser(user?.id || '', formData)
+    // No hay value o los valores no se modificaron
+    if ((!username && !email) || (username === user?.username && email === user?.email)) {
+      handleIsLoading(false)
+      return setError('No hay datos para actualizar')
+    }
+
+    const formData = new FormData(e.currentTarget)
+    const { data, error } = await editUser(user?.id || '', formData)
 
     handleIsLoading(false)
 
+    if (error) return setError(error.message)
+
     if (data) {
-      form.reset()
+      target.reset()
       formRef.current?.resetFileInput()
 
       await logoutUser()
@@ -78,6 +90,7 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
           Cancelar
         </Button>
       </div>
+      {error && <p>{error}</p>}
     </form>
   )
 }
