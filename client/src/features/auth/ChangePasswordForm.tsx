@@ -1,10 +1,14 @@
 import { FormEvent } from 'react'
 
-import { Button } from 'src/components/common/Button'
 import { PasswordInput } from 'src/components/form/PasswordInput'
+import { SubmitButtons } from 'src/components/form/SubmitButtons'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 
-export const ChangePasswordForm = (): JSX.Element => {
+interface ChangePasswordFormProps {
+  onClose: () => void
+}
+
+export const ChangePasswordForm = ({ onClose }: ChangePasswordFormProps): JSX.Element => {
   const { isLoading, handleIsLoading } = useIsLoading()
 
   const handleChangePassword = async (e: FormEvent<HTMLFormElement>) => {
@@ -32,23 +36,7 @@ export const ChangePasswordForm = (): JSX.Element => {
           placeholder: '🤫 Ingresá tu contraseña nuevamente',
         }}
       />
-      <div style={{ margin: '1rem 0 0 auto', display: 'flex', gap: '0.75rem' }}>
-        <Button
-          variant="normal"
-          // color="info"
-          type="submit"
-          isLoading={isLoading}
-          disabled={isLoading}
-        >
-          Confirmar
-        </Button>
-        <Button
-          disabled={isLoading}
-          // onClick={onClose}
-        >
-          Cancelar
-        </Button>
-      </div>
+      <SubmitButtons {...{ isLoading, onClose }} />
     </form>
   )
 }

@@ -3,6 +3,7 @@ import { FormEvent, useRef, useState } from 'react'
 import { Button } from 'src/components/common/Button'
 import { AvatarInput } from 'src/components/form/AvatarInput'
 import { FileInputHandle } from 'src/components/form/FileInput'
+import { SubmitButtons } from 'src/components/form/SubmitButtons'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { ChangePasswordForm } from 'src/features/auth/ChangePasswordForm'
@@ -33,6 +34,7 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
   const handleEditUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
+    setShowChangePassword(false)
     handleIsLoading(true)
 
     const target = e.target as HTMLFormElement
@@ -85,26 +87,13 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
         defaultValue={user?.email}
         placeholder="✉️ Ingresa tu correo"
       />
-      <div style={{ margin: '1rem 0 0 auto', display: 'flex', gap: '0.75rem' }}>
-        <Button
-          variant="normal"
-          // color="info"
-          type="submit"
-          isLoading={isLoading}
-          disabled={isLoading}
-        >
-          Confirmar
-        </Button>
-        <Button disabled={isLoading} onClick={onClose}>
-          Cancelar
-        </Button>
-      </div>
+      <SubmitButtons {...{ isLoading, onClose }} />
       {error && <p>{error}</p>}
       <hr style={{ opacity: '0.5' }} />
       <Button
         onClick={() => setShowChangePassword(prev => !prev)}
       >{`${showChangePassword ? 'Ocultar' : 'Mostrar'} cambiar contraseña`}</Button>
-      {showChangePassword && <ChangePasswordForm />}
+      {showChangePassword && <ChangePasswordForm {...{ onClose }} />}
     </form>
   )
 }

@@ -1,7 +1,7 @@
 import { FormEvent } from 'react'
 
-import { Button } from 'src/components/common/Button'
 import { PasswordInput } from 'src/components/form/PasswordInput'
+import { SubmitButtons } from 'src/components/form/SubmitButtons'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
@@ -49,20 +49,7 @@ export const DeleteUserForm = ({ onClose }: DeleteUserFormProps): JSX.Element =>
     >
       <p>Ingresá tu contraseña para confirmar que eliminas tu cuenta</p>
       <PasswordInput inputProps={{ placeholder: '🤫 Confirmá con tu contraseña' }} />
-      <div style={{ margin: '1rem 0 0 auto', display: 'flex', gap: '0.75rem' }}>
-        <Button
-          variant="normal"
-          color="error"
-          type="submit"
-          isLoading={isLoading}
-          disabled={isLoading}
-        >
-          Confirmar
-        </Button>
-        <Button variant="normal" disabled={isLoading} onClick={onClose}>
-          Cancelar
-        </Button>
-      </div>
+      <SubmitButtons {...{ isLoading, onClose }} color="error" />
     </form>
   )
 }

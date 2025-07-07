@@ -9,7 +9,7 @@ type ButtonSize = 'sm' | 'md' | 'lg'
 type ButtonColor = 'primary' | 'success' | 'error' | 'warning' | 'info'
 type ButtonWidth = 'mxcontent' | 'large' | 'xlarge' | 'full'
 
-interface ButtonCommonProps {
+export interface ButtonCommonProps {
   size?: ButtonSize
   color?: ButtonColor
   width?: ButtonWidth
