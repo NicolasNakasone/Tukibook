@@ -40,7 +40,7 @@ export const LoginPage = (): JSX.Element => {
         style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
         onSubmit={handleLogin}
       >
-        <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
+        <input name="email" type="email" placeholder="✉️ Ingresá tu correo" />
         <PasswordInput />
         <Button
           size="md"

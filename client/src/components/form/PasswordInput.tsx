@@ -8,7 +8,7 @@ interface PasswordInputProps {
 }
 
 export const PasswordInput = ({
-  inputProps = { name: 'password', placeholder: '🤫 Ingresa tu contraseña' },
+  inputProps = { name: 'password', placeholder: '🤫 Ingresá tu contraseña' },
 }: PasswordInputProps): JSX.Element => {
   const [isPassword, setIsPassword] = useState(true)
   const buttonRef = useRef<HTMLButtonElement | null>(null)

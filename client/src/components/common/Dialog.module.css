@@ -12,7 +12,8 @@
 }
 
 .dialogContainer {
-  min-width: 18.75rem;
+  /* min-width: 18.75rem; */
+  min-width: 48vw;
   padding: 1.5rem;
   background-color: Canvas;
   border: 1px solid CanvasText;
@@ -26,6 +27,9 @@
 
 @media (max-width: 1024px) {
   .dialogContainer {
-    max-width: 90%;
+    min-width: 72vw;
+    max-width: 90vw;
+    height: 90vh;
+    overflow: auto;
   }
 }

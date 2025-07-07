@@ -45,8 +45,8 @@ export const RegisterPage = (): JSX.Element => {
         style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
         onSubmit={handleRegister}
       >
-        <input name="username" type="text" placeholder="👤 Ingresa tu nombre de usuario" />
-        <input name="email" type="email" placeholder="✉️ Ingresa tu correo" />
+        <input name="username" type="text" placeholder="👤 Ingresá tu nombre de usuario" />
+        <input name="email" type="email" placeholder="✉️ Ingresá tu correo" />
         <PasswordInput />
         <Button
           size="md"
