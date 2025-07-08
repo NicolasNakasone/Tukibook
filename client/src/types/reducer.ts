@@ -12,6 +12,7 @@ export enum PostsActionTypes {
   RESET_STATE = 'posts/resetState',
   SET_FILTERS = 'posts/setFilters',
   SET_PARTIAL_STATE = 'posts/setPartialState',
+  UPDATE_AVATAR_IN_POSTS = 'posts/updateAvatarInPosts',
 }
 
 export enum SearchActionTypes {

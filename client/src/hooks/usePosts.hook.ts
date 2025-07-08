@@ -23,6 +23,7 @@ import {
   Comment,
   UpdateCommentInput,
   GetPostsParams,
+  PublicImage,
 } from 'tukibook-helper'
 
 export const usePosts = () => {
@@ -70,6 +71,9 @@ export const usePosts = () => {
   const handleSetPartialState = (payload: Partial<PostsState>) =>
     dispatch({ type: PostsActionTypes.SET_PARTIAL_STATE, payload })
 
+  const handleUpdateAvatarInPosts = (payload: { userId: string; newAvatar: PublicImage }) =>
+    dispatch({ type: PostsActionTypes.UPDATE_AVATAR_IN_POSTS, payload })
+
   return {
     posts,
     postDetail,
@@ -94,5 +98,6 @@ export const usePosts = () => {
     resetPostsState: handleResetState,
     setFilters: handleSetFilters,
     setPartialState: handleSetPartialState,
+    updateAvatarInPosts: handleUpdateAvatarInPosts,
   }
 }

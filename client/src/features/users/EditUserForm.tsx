@@ -6,6 +6,7 @@ import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
+import { usePosts } from 'src/hooks/usePosts.hook'
 import { User } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -18,6 +19,7 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
   const { isLoading, handleIsLoading } = useIsLoading()
   const [error, setError] = useState('')
   const { user, logoutUser, setUser } = useAuth()
+  const { updateAvatarInPosts } = usePosts()
 
   const editUser = async (id: string, payload: FormData) =>
     await handleFetch<User>(`${VITE_API_URL}${routes.editUser.replace(':id', id)}`, {
@@ -60,6 +62,7 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
       return
     }
     setUser(data)
+    updateAvatarInPosts({ userId: data.id, newAvatar: data.avatar! })
     onClose()
   }
 

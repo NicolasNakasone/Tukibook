@@ -12,6 +12,7 @@ import {
   UpdateCommentInput,
   GetPostsParams,
   PAGE_LIMIT,
+  PublicImage,
 } from 'tukibook-helper'
 
 const { VITE_API_URL } = import.meta.env
@@ -144,6 +145,19 @@ const postsSlice = createSlice({
     },
     setPartialState: (state, { payload }: { payload: Partial<PostsState> }) => {
       return { ...state, ...payload }
+    },
+    updateAvatarInPosts: (
+      state,
+      { payload: { userId, newAvatar } }: { payload: { userId: string; newAvatar: PublicImage } }
+    ) => {
+      state.posts = state.posts.map(post => {
+        if (post.user.id === userId)
+          return {
+            ...post,
+            user: { ...post.user, avatar: newAvatar },
+          }
+        return post
+      })
     },
   },
   extraReducers: builder => {
