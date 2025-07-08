@@ -4,7 +4,12 @@ import jwt from 'jsonwebtoken'
 import { passwordPattern } from 'src/constants/regexps'
 import { routes } from 'src/constants/routes'
 import { User } from 'src/models/User'
-import { generateRefreshToken, generateToken, validateRequiredFields } from 'src/utils'
+import {
+  generateRefreshToken,
+  generateToken,
+  uploadAvatarToCloudinary,
+  validateRequiredFields,
+} from 'src/utils'
 
 const { JWT_REFRESH_SECRET } = process.env
 const isProductionEnv = process.env.NODE_ENV === 'production'
@@ -31,10 +36,13 @@ export const registerUser: RequestHandler = async (req, res, next) => {
     const saltRounds = 10
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
+    const avatar = await uploadAvatarToCloudinary({ newFile: req.file })
+
     const newUser = new User({
       username,
       email,
       password: hashedPassword,
+      avatar,
     })
 
     const savedUser = await newUser.save()

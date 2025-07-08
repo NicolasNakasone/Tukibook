@@ -8,10 +8,11 @@ import {
   registerUser,
 } from 'src/controllers/auth'
 import { authenticateToken } from 'src/middlewares/authenticateToken'
+import { upload } from 'src/middlewares/multer'
 
 export const authRouter = express.Router()
 
-authRouter.post('/register', registerUser)
+authRouter.post('/register', upload.single('avatar'), registerUser)
 authRouter.post('/login', loginUser)
 authRouter.get('/me', authenticateToken, getMe)
 authRouter.post('/refreshToken', refreshToken)
