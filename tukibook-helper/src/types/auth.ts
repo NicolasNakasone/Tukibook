@@ -19,3 +19,12 @@ export interface LoginResponse {
 export interface LogoutResponse {
   message: string
 }
+
+export interface ChangePasswordParams {
+  password: string
+  newPassword: string
+}
+
+export interface ChangePasswordResponse {
+  message: string
+}

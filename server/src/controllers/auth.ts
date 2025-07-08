@@ -123,3 +123,41 @@ export const logoutUser: RequestHandler = (req, res, next) => {
     next(error)
   }
 }
+
+export const changePassword: RequestHandler = async (req, res, next) => {
+  try {
+    const { password, newPassword } = req.body
+
+    if (!validateRequiredFields(password, newPassword))
+      return res.status(400).send({ message: 'Faltan datos para cambiar la contraseña' })
+
+    const user = await User.findById(req.user?.id)
+    if (!user) return res.status(401).send({ message: 'Usuario no encontrado' })
+
+    const isSamePassword = await bcrypt.compare(password, user.password)
+    if (!isSamePassword)
+      return res.status(401).send({ message: 'La contraseña actual es incorrecta' })
+
+    if (!passwordPattern.test(newPassword))
+      return res.status(400).send({
+        message:
+          'La contraseña debe tener mínimo 8 caracteres, incluyendo mayúsculas, minúsculas, un número y un símbolo',
+      })
+
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
+
+    const updatedUser = await User.findByIdAndUpdate(
+      user.id,
+      { password: hashedPassword },
+      { new: true }
+    )
+    if (!updatedUser) {
+      return res.status(404).send({ message: 'Usuario no encontrado luego de actualizar' })
+    }
+
+    res.send({ message: 'La contraseña se cambió exitosamente' })
+  } catch (error) {
+    next(error)
+  }
+}
