@@ -2,12 +2,12 @@ import { FormEvent, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
+import { AvatarInput } from 'src/components/form/AvatarInput'
 import { PasswordInput } from 'src/components/form/PasswordInput'
 import { routes } from 'src/constants/routes'
 import { useAuth } from 'src/hooks/useAuth.hook'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import styles from 'src/pages/auth/Auth.module.css'
-import { RegisterParams } from 'tukibook-helper'
 
 export const RegisterPage = (): JSX.Element => {
   const { isLoading, handleIsLoading } = useIsLoading()
@@ -21,17 +21,9 @@ export const RegisterPage = (): JSX.Element => {
 
     const target = e.target as HTMLFormElement
 
-    const username = target[0] as HTMLInputElement
-    const email = target[1] as HTMLInputElement
-    const password = target[2] as HTMLInputElement
+    const formData = new FormData(e.currentTarget)
 
-    const newUser: RegisterParams = {
-      username: username.value,
-      email: email.value,
-      password: password.value,
-    }
-
-    const response = (await registerUser(newUser))?.message
+    const response = (await registerUser(formData))?.message
     handleIsLoading(false)
     if (response) return setError(response)
 
@@ -45,6 +37,7 @@ export const RegisterPage = (): JSX.Element => {
         style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
         onSubmit={handleRegister}
       >
+        <AvatarInput />
         <input name="username" type="text" placeholder="👤 Ingresá tu nombre de usuario" />
         <input name="email" type="email" placeholder="✉️ Ingresá tu correo" />
         <PasswordInput />

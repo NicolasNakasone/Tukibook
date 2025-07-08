@@ -10,7 +10,6 @@ import {
   LoginParams,
   LoginResponse,
   LogoutResponse,
-  RegisterParams,
   ResponseError,
   User,
 } from 'tukibook-helper'
@@ -21,7 +20,7 @@ interface AuthContextValue {
   user: User | null
   loading: boolean
   setUser: (user: User | null) => void
-  registerUser: (newUser: RegisterParams) => Promise<ResponseError | undefined>
+  registerUser: (newUser: FormData) => Promise<ResponseError | undefined>
   loginUser: (loginParams: LoginParams) => Promise<ResponseError | undefined>
   logoutUser: () => Promise<ApiResponse<LogoutResponse>>
   changePassword: (
@@ -65,10 +64,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser()
   }, [])
 
-  const registerUser = async (newUser: RegisterParams) => {
+  const registerUser = async (newUser: FormData) => {
     const { error } = await handleFetch<User>(`${VITE_API_URL}${routes.register}`, {
       method: 'POST',
-      body: JSON.stringify(newUser),
+      body: newUser,
     })
     if (error) return error
 

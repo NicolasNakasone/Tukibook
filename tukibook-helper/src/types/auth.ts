@@ -1,5 +1,6 @@
 import { User } from './users'
 
+// Ya no se usa
 export interface RegisterParams {
   username: string
   email: string
