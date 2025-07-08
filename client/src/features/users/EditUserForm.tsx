@@ -19,7 +19,7 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
   const { isLoading, handleIsLoading } = useIsLoading()
   const formRef = useRef<FileInputHandle>(null)
   const [error, setError] = useState('')
-  const { user, logoutUser } = useAuth()
+  const { user, logoutUser, setUser } = useAuth()
 
   const editUser = async (id: string, payload: FormData) =>
     await handleFetch<User>(`${VITE_API_URL}${routes.editUser.replace(':id', id)}`, {
@@ -40,10 +40,10 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
     const email = (target.querySelector('input[name="email"]') as HTMLInputElement).value
 
     // No hay value o los valores no se modificaron
-    if (
-      !avatarName &&
-      ((!username && !email) || (username === user?.username && email === user?.email))
-    ) {
+
+    const areValuesUnchanged = username === user?.username && email === user?.email
+
+    if (!avatarName && ((!username && !email) || areValuesUnchanged)) {
       handleIsLoading(false)
       return setError('No hay datos para actualizar')
     }
@@ -55,12 +55,14 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
 
     if (error) return setError(error.message)
 
-    if (data) {
-      target.reset()
-      formRef.current?.resetFileInput()
+    target.reset()
+    formRef.current?.resetFileInput()
 
+    if (!(avatarName && areValuesUnchanged)) {
       await logoutUser()
+      return
     }
+    setUser(data)
   }
 
   return (
