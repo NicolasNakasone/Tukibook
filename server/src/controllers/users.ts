@@ -1,11 +1,10 @@
 import bcrypt from 'bcrypt'
-import { UploadApiResponse } from 'cloudinary'
 import { RequestHandler } from 'express'
 import { cloudinary } from 'src/cloudinary'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
-import { IUser, User } from 'src/models/User'
-import { isValidObjectId, validateRequiredFields } from 'src/utils'
+import { User } from 'src/models/User'
+import { isValidObjectId, uploadAvatarToCloudinary, validateRequiredFields } from 'src/utils'
 import { UpdateUserInput } from 'tukibook-helper'
 
 export const getUserById: RequestHandler = async (req, res, next) => {
@@ -104,30 +103,10 @@ export const editUser: RequestHandler = async (req, res, next) => {
 
     if (existingUser) return res.status(400).send({ message: 'Email o username ya están en uso' })
 
-    let updatedAvatar: IUser['avatar'] = user.avatar
-
-    if (req.file) {
-      const buffer = req.file.buffer
-
-      const uploadResult: UploadApiResponse | undefined = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream(
-            { folder: 'Tukibook/users', resource_type: 'image', format: 'webp' },
-            (err, result) => {
-              if (err) reject(err)
-              else resolve(result)
-            }
-          )
-          .end(buffer)
-      })
-
-      updatedAvatar = {
-        url: uploadResult?.secure_url || '',
-        publicId: uploadResult?.public_id || '',
-      }
-
-      if (user.avatar?.publicId) await cloudinary.uploader.destroy(user.avatar.publicId)
-    }
+    const updatedAvatar = await uploadAvatarToCloudinary({
+      currentImage: user.avatar,
+      newFile: req.file,
+    })
 
     const updatedUser = await User.findByIdAndUpdate(
       userIdFromToken,
