@@ -1,4 +1,5 @@
 import tukibookLogo from 'public/tuki.webp'
+import { ChangePasswordModal } from 'src/features/auth/ChangePasswordModal'
 import styles from 'src/features/profile/ProfileUserInfo.module.css'
 import { DeleteUserModal } from 'src/features/users/DeleteUserModal'
 import { EditUserModal } from 'src/features/users/EditUserModal'
@@ -34,6 +35,7 @@ export const ProfileUserInfo = ({ user }: ProfileUserInfoProps) => {
       {isLoggedUser && (
         <>
           <EditUserModal />
+          <ChangePasswordModal />
           <DeleteUserModal />
         </>
       )}

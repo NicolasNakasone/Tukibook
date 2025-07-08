@@ -5,6 +5,8 @@ import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import {
   ApiResponse,
+  ChangePasswordParams,
+  ChangePasswordResponse,
   LoginParams,
   LoginResponse,
   LogoutResponse,
@@ -22,6 +24,9 @@ interface AuthContextValue {
   registerUser: (newUser: RegisterParams) => Promise<ResponseError | undefined>
   loginUser: (loginParams: LoginParams) => Promise<ResponseError | undefined>
   logoutUser: () => Promise<ApiResponse<LogoutResponse>>
+  changePassword: (
+    changePasswordParams: ChangePasswordParams
+  ) => Promise<ApiResponse<ChangePasswordResponse>>
 }
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -97,8 +102,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return response
   }
 
+  const changePassword = async (changePasswordParams: ChangePasswordParams) => {
+    return await handleFetch<ChangePasswordResponse>(`${VITE_API_URL}${routes.changePassword}`, {
+      method: 'PUT',
+      body: JSON.stringify(changePasswordParams),
+    })
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, setUser, registerUser, loginUser, logoutUser }}>
+    <AuthContext.Provider
+      value={{ user, loading, setUser, registerUser, loginUser, logoutUser, changePassword }}
+    >
       {children}
     </AuthContext.Provider>
   )

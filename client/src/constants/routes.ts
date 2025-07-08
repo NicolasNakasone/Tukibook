@@ -17,6 +17,7 @@ enum Routes {
   me = 'me',
   refreshToken = 'refreshToken',
   logout = 'logout',
+  changePassword = 'changePassword',
 }
 
 export const routes: { [key in Routes]: string } = {
@@ -38,4 +39,5 @@ export const routes: { [key in Routes]: string } = {
   me: '/auth/me',
   refreshToken: '/auth/refreshToken',
   logout: '/auth/logout',
+  changePassword: '/auth/changePassword',
 }
