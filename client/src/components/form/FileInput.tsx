@@ -12,6 +12,7 @@ export interface FileInputProps {
 
 export interface FileInputHandle {
   resetFileInput: () => void
+  triggerFileSelect: () => void
 }
 
 export const FileInput = forwardRef<FileInputHandle, FileInputProps>(
@@ -43,6 +44,7 @@ export const FileInput = forwardRef<FileInputHandle, FileInputProps>(
           setIsFileSelected(false)
         }
       },
+      triggerFileSelect,
     }))
 
     return (

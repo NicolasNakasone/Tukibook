@@ -16,4 +16,5 @@
   height: 4rem;
   background-color: CanvasText;
   border-radius: 50%;
+  cursor: pointer;
 }

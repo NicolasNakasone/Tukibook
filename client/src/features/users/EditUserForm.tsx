@@ -1,7 +1,6 @@
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 import { AvatarInput } from 'src/components/form/AvatarInput'
-import { FileInputHandle } from 'src/components/form/FileInput'
 import { SubmitButtons } from 'src/components/form/SubmitButtons'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
@@ -17,7 +16,6 @@ interface EditUserFormProps {
 
 export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
   const { isLoading, handleIsLoading } = useIsLoading()
-  const formRef = useRef<FileInputHandle>(null)
   const [error, setError] = useState('')
   const { user, logoutUser, setUser } = useAuth()
 
@@ -56,13 +54,13 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
     if (error) return setError(error.message)
 
     target.reset()
-    formRef.current?.resetFileInput()
 
     if (!(avatarName && areValuesUnchanged)) {
       await logoutUser()
       return
     }
     setUser(data)
+    onClose()
   }
 
   return (
@@ -71,7 +69,7 @@ export const EditUserForm = ({ onClose }: EditUserFormProps): JSX.Element => {
       onSubmit={handleEditUser}
     >
       <p>Modificá tus datos e inicia sesión nuevamente</p>
-      <AvatarInput ref={formRef} />
+      <AvatarInput />
       <input
         name="username"
         type="text"
