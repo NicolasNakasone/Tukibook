@@ -44,7 +44,7 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
                 />
               )}
               {!!commentReplies.length && (
-                <Button onClick={() => setShowReplies(prevState => !prevState)}>
+                <Button variant="text" onClick={() => setShowReplies(prevState => !prevState)}>
                   {showReplies ? 'Ocultar respuestas' : 'Ver respuestas'}
                 </Button>
               )}

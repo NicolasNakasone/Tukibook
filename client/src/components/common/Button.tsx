@@ -4,7 +4,7 @@ import { Link, LinkProps } from 'react-router-dom'
 import styles from 'src/components/common/Button.module.css'
 import { ButtonLoader } from 'src/components/common/ButtonLoader'
 
-type ButtonVariant = 'normal' | 'outline' | 'link'
+type ButtonVariant = 'normal' | 'outline' | 'link' | 'text'
 type ButtonSize = 'sm' | 'md' | 'lg'
 type ButtonColor = 'primary' | 'success' | 'error' | 'warning' | 'info'
 type ButtonWidth = 'mxcontent' | 'large' | 'xlarge' | 'full'

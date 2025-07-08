@@ -21,6 +21,17 @@
   }
 }
 
+.text {
+  border: none;
+  transition: filter 0.25s;
+  &:hover {
+    filter: brightness(0.75);
+  }
+  &:active {
+    filter: brightness(1.25);
+  }
+}
+
 .sm {
   padding: 0.25rem;
   font-size: 0.875rem;
@@ -45,11 +56,21 @@
 .primary.link {
   background-color: transparent;
 }
+.primary.text {
+  background-color: transparent;
+  &:hover {
+    background-color: buttonface;
+  }
+  &:active {
+    filter: none;
+  }
+}
 
 .success {
   background-color: limegreen;
 }
-.success.link {
+.success.link,
+.success.text {
   color: limegreen;
   background-color: transparent;
 }
@@ -57,7 +78,8 @@
 .error {
   background-color: tomato;
 }
-.error.link {
+.error.link,
+.error.text {
   color: tomato;
   background-color: transparent;
 }
@@ -65,7 +87,8 @@
 .warning {
   background-color: orange;
 }
-.warning.link {
+.warning.link,
+.warning.text {
   color: orange;
   background-color: transparent;
 }
@@ -73,7 +96,8 @@
 .info {
   background-color: dodgerblue;
 }
-.info.link {
+.info.link,
+.info.text {
   color: dodgerblue;
   background-color: transparent;
 }
@@ -95,10 +119,20 @@
 }
 
 @media (prefers-color-scheme: dark) {
+  .text {
+    &:hover {
+      filter: brightness(1.25);
+    }
+    &:active {
+      filter: brightness(0.75);
+    }
+  }
+
   .success {
     background-color: forestgreen;
   }
-  .success.link {
+  .success.link,
+  .success.text {
     color: forestgreen;
     background-color: transparent;
   }
@@ -106,7 +140,8 @@
   .error {
     background-color: brown;
   }
-  .error.link {
+  .error.link,
+  .error.text {
     color: brown;
     background-color: transparent;
   }
@@ -114,7 +149,8 @@
   .warning {
     background-color: chocolate;
   }
-  .warning.link {
+  .warning.link,
+  .warning.text {
     color: chocolate;
     background-color: transparent;
   }
@@ -122,7 +158,8 @@
   .info {
     background-color: steelblue;
   }
-  .info.link {
+  .info.link,
+  .info.text {
     color: steelblue;
     background-color: transparent;
   }
