@@ -10,9 +10,13 @@ interface ChangePasswordFormProps {
 }
 
 export const ChangePasswordForm = ({ onClose }: ChangePasswordFormProps): JSX.Element => {
+  const [isPassword, setIsPassword] = useState(true)
+
   const { isLoading, handleIsLoading } = useIsLoading()
   const [error, setError] = useState('')
   const { changePassword, logoutUser } = useAuth()
+
+  const togglePassword = () => setIsPassword(prev => !prev)
 
   const handleChangePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -53,11 +57,19 @@ export const ChangePasswordForm = ({ onClose }: ChangePasswordFormProps): JSX.El
       onSubmit={handleChangePassword}
     >
       <p>Modificá tu contraseña e inicia sesión de nuevo</p>
-      <PasswordInput inputProps={{ placeholder: '🤫 Ingresá tu contraseña actual' }} />
       <PasswordInput
+        showPassword={isPassword}
+        handleShowPassword={togglePassword}
+        inputProps={{ placeholder: '🤫 Ingresá tu contraseña actual' }}
+      />
+      <PasswordInput
+        showPassword={isPassword}
+        handleShowPassword={togglePassword}
         inputProps={{ name: 'newPassword', placeholder: '🤫 Ingresá tu nueva contraseña' }}
       />
       <PasswordInput
+        showPassword={isPassword}
+        handleShowPassword={togglePassword}
         inputProps={{
           name: 'reNewPassword',
           placeholder: '🤫 Ingresá tu nueva contraseña de nuevo',
