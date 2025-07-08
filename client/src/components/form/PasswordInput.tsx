@@ -27,9 +27,9 @@ export const PasswordInput = ({
   return (
     <div className={styles.passwordInputContainer}>
       <input
-        name={inputProps.name}
+        name={inputProps.name || 'password'}
         type={isPassword ? 'password' : 'text'}
-        placeholder={inputProps.placeholder}
+        placeholder={inputProps.placeholder || '🤫 Ingresá tu contraseña'}
         style={{ paddingRight: `${buttonWidth + 24}px` }}
       />
       <Button ref={buttonRef} variant="normal" onClick={togglePassword}>
