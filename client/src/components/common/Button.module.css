@@ -42,42 +42,37 @@
   color: CanvasText;
   background-color: buttonface;
 }
-
-.success {
-  background-color: limegreen;
-}
-
-.error {
-  background-color: tomato;
-}
-
-.warning {
-  background-color: orange;
-}
-
-.info {
-  background-color: dodgerblue;
-}
-
 .primary.link {
   background-color: transparent;
 }
 
+.success {
+  background-color: limegreen;
+}
 .success.link {
   color: limegreen;
   background-color: transparent;
 }
 
+.error {
+  background-color: tomato;
+}
 .error.link {
   color: tomato;
   background-color: transparent;
 }
 
+.warning {
+  background-color: orange;
+}
 .warning.link {
   color: orange;
   background-color: transparent;
 }
 
+.info {
+  background-color: dodgerblue;
+}
 .info.link {
   color: dodgerblue;
   background-color: transparent;
@@ -103,34 +98,30 @@
   .success {
     background-color: forestgreen;
   }
-
-  .error {
-    background-color: brown;
-  }
-
-  .warning {
-    background-color: chocolate;
-  }
-
-  .info {
-    background-color: steelblue;
-  }
-
   .success.link {
     color: forestgreen;
     background-color: transparent;
   }
 
+  .error {
+    background-color: brown;
+  }
   .error.link {
     color: brown;
     background-color: transparent;
   }
 
+  .warning {
+    background-color: chocolate;
+  }
   .warning.link {
     color: chocolate;
     background-color: transparent;
   }
 
+  .info {
+    background-color: steelblue;
+  }
   .info.link {
     color: steelblue;
     background-color: transparent;
