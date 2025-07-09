@@ -1,5 +1,5 @@
 import { Comment } from './comments'
-import { ApiResponse, GetPage, PublicImage } from './common'
+import { ApiResponse, GetPage, PublicImage, SortType } from './common'
 import { User } from './users'
 
 export interface PostInput {
@@ -25,6 +25,7 @@ export type PostList = Post[]
 export interface GetPostsParams extends GetPage {
   filters?: {
     user?: string
+    sort?: SortType
     // [key: string]: string | undefined
   }
 }

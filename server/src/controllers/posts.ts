@@ -1,10 +1,10 @@
 import { UploadApiResponse } from 'cloudinary'
 import { RequestHandler } from 'express'
-import mongoose from 'mongoose'
+import mongoose, { SortOrder } from 'mongoose'
 import { cloudinary } from 'src/cloudinary'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
-import { isValidObjectId, validateRequiredFields } from 'src/utils'
+import { isValidObjectId, parseFilters, validateRequiredFields } from 'src/utils'
 import { populatePost, populatePostQuery } from 'src/utils/populatePost'
 import {
   GetPostsParams,
@@ -12,6 +12,7 @@ import {
   Post as IPost,
   PAGE_LIMIT,
   PostList,
+  SortType,
 } from 'tukibook-helper'
 
 export const getPosts: RequestHandler = async (req, res) => {
@@ -19,22 +20,32 @@ export const getPosts: RequestHandler = async (req, res) => {
 
   const offset = (Number(page) - 1) * Number(limit)
 
-  let queryFilters: Record<string, string> = {}
+  const queryFilters =
+    typeof filters === 'string' ? parseFilters<GetPostsParams['filters']>(filters) : {}
 
-  if (typeof filters === 'string') {
-    try {
-      queryFilters = (JSON.parse(filters) as GetPostsParams['filters']) || {}
-    } catch (error) {
-      return res.status(400).send({ message: 'Parámetros de filtro inválidos' })
-    }
-  }
+  // if (typeof filters === 'string') {
+  //   try {
+  //     queryFilters = JSON.parse(filters) || {}
+  //   } catch (error) {
+  //     return res.status(400).send({ message: 'Parámetros de filtro inválidos' })
+  //   }
+  // }
 
-  const posts = await Post.find(queryFilters)
-    .sort({ createdAt: -1 })
+  const { sort, ...restOfFilters } = queryFilters || {}
+
+  const sortOptions:
+    | string
+    | { [key: string]: SortOrder | { $meta: any } }
+    | [string, SortOrder][]
+    | null
+    | undefined = sort === SortType.OLDEST ? { createdAt: 1 } : { createdAt: -1 }
+
+  const posts = await Post.find(restOfFilters)
+    .sort(sortOptions)
     .limit(Number(limit))
     .skip(Number(offset))
 
-  const totalItems = await Post.countDocuments(queryFilters)
+  const totalItems = await Post.countDocuments(restOfFilters)
 
   const response: GetPostsResponse = {
     posts: posts as unknown as PostList,

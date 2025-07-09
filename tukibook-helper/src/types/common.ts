@@ -11,6 +11,11 @@ export interface GetPage {
   page: number
 }
 
+export enum SortType {
+  NEWEST = 'newest',
+  OLDEST = 'oldest',
+}
+
 export interface PublicImage {
   url: string
   publicId: string
