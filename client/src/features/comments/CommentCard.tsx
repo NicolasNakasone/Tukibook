@@ -9,7 +9,13 @@ import { EditCommentInput } from 'src/features/comments/EditCommentInput'
 import { ReplyCommentInput } from 'src/features/comments/ReplyCommentInput'
 import { Comment, Post } from 'tukibook-helper'
 
-export const CommentCard = ({ comment, post }: { comment: Comment; post: Post }): JSX.Element => {
+interface CommentCardProps {
+  comment: Comment
+  post: Post
+  isOrphan?: boolean
+}
+
+export const CommentCard = ({ comment, post, isOrphan }: CommentCardProps): JSX.Element => {
   const [isEditing, setIsEditing] = useState(false)
   const [showReplies, setShowReplies] = useState(false)
   const [isReplying, setIsReplying] = useState(false)
@@ -17,6 +23,21 @@ export const CommentCard = ({ comment, post }: { comment: Comment; post: Post })
   const commentReplies = useMemo(() => {
     return post.comments.filter(postComments => postComments.parentCommentId === comment.id)
   }, [post.comments, comment.id])
+
+  if (isOrphan)
+    return (
+      // TODO: Mejorar UI
+      <div className={styles.commentCardMainContainer}>
+        <div className={styles.commentCardContainer}>
+          <p className={styles.commentContent}>
+            <span className={styles.orphanMessage}>Este comentario fue eliminado</span>
+            <div className={styles.repliesContainer}>
+              <CommentCard {...{ comment, post }} />
+            </div>
+          </p>
+        </div>
+      </div>
+    )
 
   return (
     <div className={styles.commentCardMainContainer}>
