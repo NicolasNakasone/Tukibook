@@ -33,6 +33,7 @@ const PostSchema: Schema = new Schema(
     },
   })
   .pre('find', function () {
+    // TODO: Quitar estos populate una vez se termine el refactor de comentarios
     this.populate({
       path: 'comments',
       populate: { path: 'user', select: 'username id email avatar' },
@@ -41,6 +42,7 @@ const PostSchema: Schema = new Schema(
     this.populate({ path: 'user', select: 'username id email avatar' })
   })
   .pre('findOne', function () {
+    // TODO: Quitar estos populate una vez se termine el refactor de comentarios
     this.populate({
       path: 'comments',
       populate: { path: 'user', select: 'username id email avatar' },

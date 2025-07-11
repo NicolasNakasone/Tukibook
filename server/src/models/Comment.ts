@@ -23,19 +23,26 @@ const CommentSchema = new Schema<IComment>(
     likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true }
-).set('toJSON', {
-  virtuals: true,
-  versionKey: false,
-  transform: (_, ret) => {
-    ret.id = ret._id
-    delete ret._id
-    delete ret.postId
+)
+  .set('toJSON', {
+    virtuals: true,
+    versionKey: false,
+    transform: (_, ret) => {
+      ret.id = ret._id
+      delete ret._id
+      delete ret.postId
 
-    if (ret.user && ret.user._id) {
-      ret.user.id = ret.user._id
-    }
-    return ret
-  },
-})
+      if (ret.user && ret.user._id) {
+        ret.user.id = ret.user._id
+      }
+      return ret
+    },
+  })
+  .pre('find', function () {
+    this.populate({ path: 'user', select: 'username id email avatar' })
+  })
+  .pre('findOne', function () {
+    this.populate({ path: 'user', select: 'username id email avatar' })
+  })
 
 export const Comment = mongoose.model<IComment>('Comment', CommentSchema)
