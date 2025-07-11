@@ -1,3 +1,4 @@
+import { GetPage } from './common'
 import { User } from './users'
 
 export interface CommentInput {
@@ -12,6 +13,20 @@ export interface Comment extends CommentInput {
   likes: string[]
   createdAt: Date
   updatedAt: Date
+}
+
+export type CommentList = Comment[]
+
+export interface GetCommentsParams extends GetPage {
+  filters?: {
+    user?: string
+    // [key: string]: string | undefined
+  }
+}
+
+export interface GetCommentsResponse {
+  comments: CommentList
+  totalItems: number
 }
 
 export interface UpdateCommentInput extends Partial<CommentInput> {
