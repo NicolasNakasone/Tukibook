@@ -4,8 +4,39 @@ import { Comment, IComment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
 import { populatePost } from 'src/utils/populatePost'
+import { CommentList, GetCommentsResponse, PAGE_LIMIT } from 'tukibook-helper'
 
-export const addCommentToPost: RequestHandler = async (req, res, next) => {
+export const getCommentsByPostId: RequestHandler = async (req, res, next) => {
+  const { page = 1, limit = PAGE_LIMIT } = req.query
+  const { postId } = req.params
+
+  const offset = (Number(page) - 1) * Number(limit)
+
+  if (!isValidObjectId(postId)) {
+    return res.status(400).send({ message: 'Id del post inválido' })
+  }
+  try {
+    const foundPost = await Post.findById(postId)
+    if (!foundPost) return res.status(404).send({ message: 'Post no encontrado' })
+
+    const comments = await Comment.find({ postId })
+      .sort({ createdAt: -1 })
+      .limit(Number(limit))
+      .skip(Number(offset))
+
+    const totalItems = await Comment.countDocuments({ postId })
+
+    const response: GetCommentsResponse = {
+      comments: comments as unknown as CommentList,
+      totalItems,
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const addComment: RequestHandler = async (req, res, next) => {
   try {
     const { postId, content, parentCommentId } = req.body
 

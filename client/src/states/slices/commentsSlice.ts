@@ -2,6 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 import { handleFetch } from 'src/constants/api'
 import { Comment } from 'tukibook-helper'
 
+/* 
+  Si vas a mostrar algo como Mas comentarios (x) o algo asi,
+  el calculo creo que seria:
+  const remainingComments = totalItems - (PAGE_LIMIT * page)
+  ej: remainingComments = 7 - (2 * 2) -> 3
+*/
+
 export interface CommentsState {
   commentsByPostId: {
     [postId: string]: {

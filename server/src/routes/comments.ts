@@ -1,9 +1,10 @@
 import express from 'express'
 import {
-  addCommentToPost,
+  addComment,
   addLikeToComment,
   deleteComment,
   editComment,
+  getCommentsByPostId,
 } from 'src/controllers/comments'
 import { authenticateToken } from 'src/middlewares/authenticateToken'
 
@@ -11,7 +12,8 @@ export const commentsRouter = express.Router()
 
 commentsRouter.use(authenticateToken)
 
-commentsRouter.post('/', addCommentToPost)
+commentsRouter.get('/:postId', getCommentsByPostId)
+commentsRouter.post('/', addComment)
 commentsRouter.put('/:id', editComment)
 commentsRouter.delete('/:id', deleteComment)
 commentsRouter.patch('/:id/like', addLikeToComment)
