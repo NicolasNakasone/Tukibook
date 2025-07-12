@@ -18,6 +18,7 @@ export interface Comment extends CommentInput {
 export type CommentList = Comment[]
 
 export interface GetCommentsParams extends GetPage {
+  postId: string
   filters?: {
     user?: string
     // [key: string]: string | undefined

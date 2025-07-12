@@ -15,6 +15,17 @@ export enum PostsActionTypes {
   UPDATE_AVATAR_IN_POSTS = 'posts/updateAvatarInPosts',
 }
 
+export enum CommentsActionTypes {
+  GET_COMMENTS = 'comments/getComments',
+  COMMENT_POST = 'comments/commentPost',
+  EDIT_COMMENT = 'comments/editComment',
+  DELETE_COMMENT = 'comments/deleteComment',
+  LIKE_COMMENT = 'comments/likeComment',
+  RESET_STATE = 'comments/resetState',
+  // SET_FILTERS = 'comments/setFilters',
+  SET_PARTIAL_STATE = 'comments/setPartialState',
+}
+
 export enum SearchActionTypes {
   SEARCH_ALL = 'search/searchAll',
   RESET_STATE = 'search/resetState',
