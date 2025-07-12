@@ -17,7 +17,7 @@ export enum PostsActionTypes {
 
 export enum CommentsActionTypes {
   GET_COMMENTS = 'comments/getComments',
-  COMMENT_POST = 'comments/commentPost',
+  ADD_COMMENT = 'comments/addComment',
   EDIT_COMMENT = 'comments/editComment',
   DELETE_COMMENT = 'comments/deleteComment',
   LIKE_COMMENT = 'comments/likeComment',
