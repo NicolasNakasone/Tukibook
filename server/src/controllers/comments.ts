@@ -1,10 +1,9 @@
 import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
-import { Comment, IComment } from 'src/models/Comment'
+import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
-import { populatePost } from 'src/utils/populatePost'
-import { CommentList, GetCommentsResponse, PAGE_LIMIT } from 'tukibook-helper'
+import { CommentList, CommentResponse, GetCommentsResponse, PAGE_LIMIT } from 'tukibook-helper'
 
 export const getCommentsByPostId: RequestHandler = async (req, res, next) => {
   const { page = 1, limit = PAGE_LIMIT } = req.query
@@ -66,12 +65,9 @@ export const addComment: RequestHandler = async (req, res, next) => {
 
     const savedComment = await newComment.save()
 
-    foundPost.comments.unshift(savedComment._id as IComment)
+    const commentResponse: CommentResponse = { comment: savedComment.toObject(), postId }
 
-    await foundPost.save()
-    await populatePost(foundPost)
-
-    res.status(201).send(foundPost)
+    res.status(201).send(commentResponse)
   } catch (error) {
     next(error)
   }
@@ -95,7 +91,13 @@ export const editComment: RequestHandler = async (req, res, next) => {
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }
-    res.send(updatedPost)
+
+    const commentResponse: CommentResponse = {
+      comment: updatedComment.toObject(),
+      postId: updatedComment.postId.toString(),
+    }
+
+    res.send(commentResponse)
   } catch (error) {
     next(error)
   }
@@ -118,7 +120,13 @@ export const deleteComment: RequestHandler = async (req, res, next) => {
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }
-    res.send(updatedPost)
+
+    const commentResponse: CommentResponse = {
+      comment: deletedComment.toObject(),
+      postId: deletedComment.postId.toString(),
+    }
+
+    res.send(commentResponse)
   } catch (error) {
     next(error)
   }
@@ -146,14 +154,19 @@ export const addLikeToComment: RequestHandler = async (req, res, next) => {
       foundComment.likes.push(userObjectId)
     }
 
-    await foundComment.save()
+    const savedComment = await foundComment.save()
 
     const updatedPost = await Post.findById(foundComment.postId)
     if (!updatedPost) {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }
 
-    res.send(updatedPost)
+    const commentResponse: CommentResponse = {
+      comment: savedComment.toObject(),
+      postId: savedComment.postId.toString(),
+    }
+
+    res.send(commentResponse)
   } catch (error) {
     next(error)
   }
