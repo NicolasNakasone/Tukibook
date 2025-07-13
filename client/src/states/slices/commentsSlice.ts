@@ -163,6 +163,14 @@ const commentsSlice = createSlice({
       .addCase(addComment.pending, (state, action) => {
         createCommentSlot(state, action.meta.arg.postId)
       })
+      .addCase(addComment.rejected, (state, action) => {
+        const { postId } = action.meta.arg
+        const commentState = state.commentsByPostId[postId]
+        if (!commentState) return
+
+        commentState.isLoading = false
+        commentState.error = action.error.message || 'Error al agregar un comentario'
+      })
       .addCase(addComment.fulfilled, (state, action) => {
         const { postId } = action.meta.arg
         const { data, error } = action.payload
