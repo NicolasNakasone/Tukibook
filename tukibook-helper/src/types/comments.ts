@@ -1,4 +1,4 @@
-import { GetPage } from './common'
+import { ApiResponse, GetPage } from './common'
 import { Post } from './posts'
 import { User } from './users'
 
@@ -31,10 +31,12 @@ export interface GetCommentsResponse {
   totalItems: number
 }
 
-export interface CommentResponse {
+export interface CommentResponseProps {
   postId: Post['id']
   comment: Comment
 }
+
+export type CommentResponse = ApiResponse<CommentResponseProps>
 
 export interface UpdateCommentInput extends Partial<CommentInput> {
   id: string

@@ -3,7 +3,12 @@ import mongoose from 'mongoose'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
-import { CommentList, CommentResponse, GetCommentsResponse, PAGE_LIMIT } from 'tukibook-helper'
+import {
+  CommentList,
+  CommentResponseProps,
+  GetCommentsResponse,
+  PAGE_LIMIT,
+} from 'tukibook-helper'
 
 export const getCommentsByPostId: RequestHandler = async (req, res, next) => {
   const { page = 1, limit = PAGE_LIMIT } = req.query
@@ -65,7 +70,7 @@ export const addComment: RequestHandler = async (req, res, next) => {
 
     const savedComment = await newComment.save()
 
-    const commentResponse: CommentResponse = { comment: savedComment.toObject(), postId }
+    const commentResponse: CommentResponseProps = { comment: savedComment.toObject(), postId }
 
     res.status(201).send(commentResponse)
   } catch (error) {
@@ -92,7 +97,7 @@ export const editComment: RequestHandler = async (req, res, next) => {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }
 
-    const commentResponse: CommentResponse = {
+    const commentResponse: CommentResponseProps = {
       comment: updatedComment.toObject(),
       postId: updatedComment.postId.toString(),
     }
@@ -121,7 +126,7 @@ export const deleteComment: RequestHandler = async (req, res, next) => {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }
 
-    const commentResponse: CommentResponse = {
+    const commentResponse: CommentResponseProps = {
       comment: deletedComment.toObject(),
       postId: deletedComment.postId.toString(),
     }
@@ -161,7 +166,7 @@ export const addLikeToComment: RequestHandler = async (req, res, next) => {
       return res.status(404).send({ message: 'Post no encontrado luego de actualizar' })
     }
 
-    const commentResponse: CommentResponse = {
+    const commentResponse: CommentResponseProps = {
       comment: savedComment.toObject(),
       postId: savedComment.postId.toString(),
     }

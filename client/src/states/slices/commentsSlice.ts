@@ -5,7 +5,7 @@ import { CommentsActionTypes } from 'src/types/reducer'
 import {
   Comment,
   CommentInput,
-  CommentResponse,
+  CommentResponseProps,
   GetCommentsParams,
   GetCommentsResponse,
   PAGE_LIMIT,
@@ -36,7 +36,7 @@ export const getCommentsByPostId = createAsyncThunk(
 export const addComment = createAsyncThunk(
   CommentsActionTypes.ADD_COMMENT,
   async (newComment: CommentInput) =>
-    await handleFetch<CommentResponse>(`${VITE_API_URL}${routes.comments}`, {
+    await handleFetch<CommentResponseProps>(`${VITE_API_URL}${routes.comments}`, {
       method: 'POST',
       body: JSON.stringify(newComment),
     })
@@ -45,7 +45,7 @@ export const addComment = createAsyncThunk(
 export const editComment = createAsyncThunk(
   CommentsActionTypes.EDIT_COMMENT,
   async ({ id, ...newComment }: UpdateCommentInput) =>
-    await handleFetch<CommentResponse>(`${VITE_API_URL}${routes.comments}/${id}`, {
+    await handleFetch<CommentResponseProps>(`${VITE_API_URL}${routes.comments}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(newComment),
     })
@@ -54,7 +54,7 @@ export const editComment = createAsyncThunk(
 export const deleteComment = createAsyncThunk(
   CommentsActionTypes.DELETE_COMMENT,
   async (commentId: Comment['id']) =>
-    await handleFetch<CommentResponse>(`${VITE_API_URL}${routes.comments}/${commentId}`, {
+    await handleFetch<CommentResponseProps>(`${VITE_API_URL}${routes.comments}/${commentId}`, {
       method: 'DELETE',
     })
 )
@@ -62,9 +62,12 @@ export const deleteComment = createAsyncThunk(
 export const likeComment = createAsyncThunk(
   CommentsActionTypes.LIKE_COMMENT,
   async (commentId: Comment['id']) =>
-    await handleFetch<CommentResponse>(`${VITE_API_URL}${routes.comments}/${commentId}/like`, {
-      method: 'PATCH',
-    })
+    await handleFetch<CommentResponseProps>(
+      `${VITE_API_URL}${routes.comments}/${commentId}/like`,
+      {
+        method: 'PATCH',
+      }
+    )
 )
 
 interface CommentByPostIdProps {
@@ -95,7 +98,7 @@ export const initialValues: CommentByPostIdProps = {
   page: 1,
 }
 
-type CommentPayload = Awaited<ReturnType<typeof handleFetch<CommentResponse>>>
+type CommentPayload = Awaited<ReturnType<typeof handleFetch<CommentResponseProps>>>
 
 interface CommentAction {
   payload: CommentPayload
