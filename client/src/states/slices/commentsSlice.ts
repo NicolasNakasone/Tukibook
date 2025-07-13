@@ -157,7 +157,16 @@ const commentsSlice = createSlice({
         commentState.comments = [...commentState.comments, ...newComments]
         commentState.hasMore = commentState.comments.length < data.totalItems
       })
-      .addCase(addComment.fulfilled, () => {})
+      .addCase(addComment.fulfilled, (state, { payload: { data, error } }) => {
+        if (error) return
+        const { comment, postId } = data
+        const commentState = state.commentsByPostId[postId]
+
+        const exists = commentState.comments.some(c => c.id === comment.id)
+        if (!exists) {
+          commentState.comments.unshift(comment)
+        }
+      })
       .addCase(editComment.fulfilled, () => {})
       .addCase(deleteComment.fulfilled, () => {})
       .addCase(likeComment.fulfilled, () => {})
