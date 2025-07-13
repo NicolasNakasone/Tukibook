@@ -9,6 +9,7 @@ import {
   GetCommentsParams,
   GetCommentsResponse,
   PAGE_LIMIT,
+  Post,
   UpdateCommentInput,
 } from 'tukibook-helper'
 
@@ -68,7 +69,7 @@ export const likeComment = createAsyncThunk(
 
 export interface CommentsState {
   commentsByPostId: {
-    [postId: string]: {
+    [postId: Post['id']]: {
       error: string | null
       comments: Comment[]
       totalItems: number
@@ -109,23 +110,25 @@ const commentsSlice = createSlice({
       )
     }
 
+    const createCommentSlot = (state: CommentsState, postId: Post['id']) => {
+      if (!state.commentsByPostId[postId]) {
+        state.commentsByPostId[postId] = {
+          isLoading: false,
+          hasMore: false,
+          totalItems: 0,
+          comments: [],
+          error: null,
+          page: 1,
+        }
+        return
+      }
+      state.commentsByPostId[postId].isLoading = true
+      state.commentsByPostId[postId].error = null
+    }
+
     builder
       .addCase(getCommentsByPostId.pending, (state, action) => {
-        const { postId } = action.meta.arg
-
-        if (!state.commentsByPostId[postId]) {
-          state.commentsByPostId[postId] = {
-            error: null,
-            comments: [],
-            totalItems: 0,
-            isLoading: true,
-            hasMore: true,
-            page: 1,
-          }
-          return
-        }
-        state.commentsByPostId[postId].isLoading = true
-        state.commentsByPostId[postId].error = null
+        createCommentSlot(state, action.meta.arg.postId)
       })
       .addCase(getCommentsByPostId.rejected, (state, action) => {
         const { postId } = action.meta.arg
@@ -157,10 +160,21 @@ const commentsSlice = createSlice({
         commentState.comments = [...commentState.comments, ...newComments]
         commentState.hasMore = commentState.comments.length < data.totalItems
       })
-      .addCase(addComment.fulfilled, (state, { payload: { data, error } }) => {
-        if (error) return
-        const { comment, postId } = data
+      .addCase(addComment.pending, (state, action) => {
+        createCommentSlot(state, action.meta.arg.postId)
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        const { postId } = action.meta.arg
+        const { data, error } = action.payload
+
         const commentState = state.commentsByPostId[postId]
+
+        if (error) {
+          commentState.error = error.message
+          commentState.isLoading = false
+          return
+        }
+        const { comment } = data
 
         const exists = commentState.comments.some(c => c.id === comment.id)
         if (!exists) {

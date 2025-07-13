@@ -1,4 +1,5 @@
 import { GetPage } from './common'
+import { Post } from './posts'
 import { User } from './users'
 
 export interface CommentInput {
@@ -31,7 +32,7 @@ export interface GetCommentsResponse {
 }
 
 export interface CommentResponse {
-  postId: string
+  postId: Post['id']
   comment: Comment
 }
 
