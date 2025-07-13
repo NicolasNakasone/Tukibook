@@ -30,6 +30,11 @@ export interface GetCommentsResponse {
   totalItems: number
 }
 
+export interface CommentResponse {
+  postId: string
+  comment: Comment
+}
+
 export interface UpdateCommentInput extends Partial<CommentInput> {
   id: string
 }

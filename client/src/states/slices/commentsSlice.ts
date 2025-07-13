@@ -2,7 +2,15 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { handleFetch } from 'src/constants/api'
 import { routes } from 'src/constants/routes'
 import { CommentsActionTypes } from 'src/types/reducer'
-import { Comment, GetCommentsParams, GetCommentsResponse, PAGE_LIMIT } from 'tukibook-helper'
+import {
+  Comment,
+  CommentInput,
+  CommentResponse,
+  GetCommentsParams,
+  GetCommentsResponse,
+  PAGE_LIMIT,
+  UpdateCommentInput,
+} from 'tukibook-helper'
 
 /* 
   Si vas a mostrar algo como Mas comentarios (x) o algo asi,
@@ -24,6 +32,40 @@ export const getCommentsByPostId = createAsyncThunk(
     )
 )
 
+export const addComment = createAsyncThunk(
+  CommentsActionTypes.ADD_COMMENT,
+  async (newComment: CommentInput) =>
+    await handleFetch<CommentResponse>(`${VITE_API_URL}${routes.comments}`, {
+      method: 'POST',
+      body: JSON.stringify(newComment),
+    })
+)
+
+export const editComment = createAsyncThunk(
+  CommentsActionTypes.EDIT_COMMENT,
+  async ({ id, ...newComment }: UpdateCommentInput) =>
+    await handleFetch<CommentResponse>(`${VITE_API_URL}${routes.comments}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(newComment),
+    })
+)
+
+export const deleteComment = createAsyncThunk(
+  CommentsActionTypes.DELETE_COMMENT,
+  async (commentId: Comment['id']) =>
+    await handleFetch<CommentResponse>(`${VITE_API_URL}${routes.comments}/${commentId}`, {
+      method: 'DELETE',
+    })
+)
+
+export const likeComment = createAsyncThunk(
+  CommentsActionTypes.LIKE_COMMENT,
+  async (commentId: Comment['id']) =>
+    await handleFetch<CommentResponse>(`${VITE_API_URL}${routes.comments}/${commentId}/like`, {
+      method: 'PATCH',
+    })
+)
+
 export interface CommentsState {
   commentsByPostId: {
     [postId: string]: {
@@ -41,7 +83,7 @@ const initialState: CommentsState = {
   commentsByPostId: {},
 }
 
-type CommentPayload = Awaited<ReturnType<typeof handleFetch<Comment>>>
+type CommentPayload = Awaited<ReturnType<typeof handleFetch<CommentResponse>>>
 
 interface CommentAction {
   payload: CommentPayload
@@ -62,7 +104,7 @@ const commentsSlice = createSlice({
       const typedAction: CommentAction = action
       return (
         typedAction.type.endsWith('/fulfilled') &&
-        !!typedAction.payload?.data?.id &&
+        !!typedAction.payload?.data?.postId &&
         !typedAction.payload?.error
       )
     }
@@ -115,8 +157,21 @@ const commentsSlice = createSlice({
         commentState.comments = [...commentState.comments, ...newComments]
         commentState.hasMore = commentState.comments.length < data.totalItems
       })
+      .addCase(addComment.fulfilled, () => {})
+      .addCase(editComment.fulfilled, () => {})
+      .addCase(deleteComment.fulfilled, () => {})
+      .addCase(likeComment.fulfilled, () => {})
       .addMatcher(isCommentRelatedAction, (state, action) => {
         if (action.payload.error) return
+
+        const { postId, comment: updatedComment } = action.payload.data
+
+        const commentState = state.commentsByPostId[postId]
+
+        const index = commentState.comments.findIndex(comment => comment.id === updatedComment.id)
+        if (index === -1) return
+
+        commentState.comments[index] = updatedComment
       })
   },
 })
