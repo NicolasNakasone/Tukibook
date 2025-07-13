@@ -67,21 +67,32 @@ export const likeComment = createAsyncThunk(
     })
 )
 
+interface CommentByPostIdProps {
+  error: string | null
+  comments: Comment[]
+  totalItems: number
+  isLoading: boolean
+  hasMore: boolean
+  page: number
+}
+
 export interface CommentsState {
   commentsByPostId: {
-    [postId: Post['id']]: {
-      error: string | null
-      comments: Comment[]
-      totalItems: number
-      isLoading: boolean
-      hasMore: boolean
-      page: number
-    }
+    [postId: Post['id']]: CommentByPostIdProps
   }
 }
 
 const initialState: CommentsState = {
   commentsByPostId: {},
+}
+
+export const initialValues: CommentByPostIdProps = {
+  isLoading: true,
+  hasMore: false,
+  totalItems: 0,
+  comments: [],
+  error: null,
+  page: 1,
 }
 
 type CommentPayload = Awaited<ReturnType<typeof handleFetch<CommentResponse>>>
@@ -112,14 +123,7 @@ const commentsSlice = createSlice({
 
     const createCommentSlot = (state: CommentsState, postId: Post['id']) => {
       if (!state.commentsByPostId[postId]) {
-        state.commentsByPostId[postId] = {
-          isLoading: false,
-          hasMore: false,
-          totalItems: 0,
-          comments: [],
-          error: null,
-          page: 1,
-        }
+        state.commentsByPostId[postId] = initialValues
         return
       }
       state.commentsByPostId[postId].isLoading = true
