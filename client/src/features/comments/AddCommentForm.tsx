@@ -3,14 +3,14 @@ import { FormEvent } from 'react'
 import { Button } from 'src/components/common/Button'
 import { ButtonLoader } from 'src/components/common/ButtonLoader'
 import styles from 'src/features/comments/AddCommentForm.module.css'
+import { useComments } from 'src/hooks/useComments.hook'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
-import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitCommentPost } from 'src/sockets'
-import { Post, PostResponse } from 'tukibook-helper'
+import { emitAddComment } from 'src/sockets'
+import { CommentResponse, Post } from 'tukibook-helper'
 
 export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
   const { isLoading, handleIsLoading } = useIsLoading()
-  const { commentPost } = usePosts()
+  const { addComment } = useComments({ postId: post.id })
 
   const handleCommentPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -20,12 +20,12 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
     const content = (target[0] as HTMLInputElement).value
 
     const response = (await (
-      await commentPost({ postId: post.id, content, parentCommentId: null })
-    ).payload) as PostResponse
+      await addComment({ postId: post.id, content, parentCommentId: null })
+    ).payload) as CommentResponse
 
     handleIsLoading(false)
 
-    if (response.data) emitCommentPost(response)
+    if (response.data) emitAddComment(response)
 
     target.reset()
   }

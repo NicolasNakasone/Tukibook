@@ -2,23 +2,25 @@ import { Button } from 'src/components/common/Button'
 import { ButtonLoader } from 'src/components/common/ButtonLoader'
 import styles from 'src/features/comments/CommentCardButtons.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
+import { useComments } from 'src/hooks/useComments.hook'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
-import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitLikeComment, emitDeleteComment } from 'src/sockets'
-import { Comment, PostResponse } from 'tukibook-helper'
+import { Comment, CommentResponse, Post } from 'tukibook-helper'
 
 interface CommentCardButtonsProps {
   comment: Comment
+  postId: Post['id']
   isReplying: boolean
   handleIsEditing: () => void
 }
 
 export const CommentCardButtons = ({
   comment,
+  postId,
   handleIsEditing,
   isReplying,
 }: CommentCardButtonsProps): JSX.Element => {
-  const { deleteComment, likeComment } = usePosts()
+  const { deleteComment, likeComment } = useComments({ postId })
   const { isLoading: isLoadingLike, handleIsLoading: handleIsLoadingLike } = useIsLoading()
   const { isLoading: isLoadingDelete, handleIsLoading: handleIsLoadingDelete } = useIsLoading()
 
@@ -30,7 +32,7 @@ export const CommentCardButtons = ({
 
   const handleLikeComment = async () => {
     handleIsLoadingLike(true)
-    const response = (await (await likeComment(comment.id)).payload) as PostResponse
+    const response = (await (await likeComment(comment.id)).payload) as CommentResponse
     handleIsLoadingLike(false)
 
     if (response.data) emitLikeComment(response)
@@ -38,7 +40,7 @@ export const CommentCardButtons = ({
 
   const handleDeleteComment = async () => {
     handleIsLoadingDelete(true)
-    const response = (await (await deleteComment(comment.id)).payload) as PostResponse
+    const response = (await (await deleteComment(comment.id)).payload) as CommentResponse
     handleIsLoadingDelete(false)
 
     if (response.data) emitDeleteComment(response)

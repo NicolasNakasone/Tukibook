@@ -7,6 +7,7 @@ import styles from 'src/features/comments/CommentCard.module.css'
 import { CommentCardButtons } from 'src/features/comments/CommentCardButtons'
 import { EditCommentInput } from 'src/features/comments/EditCommentInput'
 import { ReplyCommentInput } from 'src/features/comments/ReplyCommentInput'
+import { useComments } from 'src/hooks/useComments.hook'
 import { Comment, Post } from 'tukibook-helper'
 
 interface CommentCardProps {
@@ -16,13 +17,15 @@ interface CommentCardProps {
 }
 
 export const CommentCard = ({ comment, post, isOrphan }: CommentCardProps): JSX.Element => {
+  const { comments } = useComments({ postId: post.id })
+
   const [isEditing, setIsEditing] = useState(false)
   const [showReplies, setShowReplies] = useState(false)
   const [isReplying, setIsReplying] = useState(false)
 
   const commentReplies = useMemo(() => {
-    return post.comments.filter(postComments => postComments.parentCommentId === comment.id)
-  }, [post.comments, comment.id])
+    return comments.filter(postComments => postComments.parentCommentId === comment.id)
+  }, [comments, comment.id])
 
   if (isOrphan)
     return (
@@ -71,13 +74,18 @@ export const CommentCard = ({ comment, post, isOrphan }: CommentCardProps): JSX.
               )}
             </p>
             <CommentCardButtons
+              postId={post.id}
               {...{ comment, isReplying }}
               handleIsEditing={() => setIsEditing(true)}
             />
           </>
         )}
         {isEditing && (
-          <EditCommentInput {...{ comment }} cancelIsEditing={() => setIsEditing(false)} />
+          <EditCommentInput
+            postId={post.id}
+            {...{ comment }}
+            cancelIsEditing={() => setIsEditing(false)}
+          />
         )}
       </div>
       {showReplies && (

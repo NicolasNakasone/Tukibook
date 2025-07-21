@@ -3,28 +3,16 @@ import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addPost,
-  commentPost,
-  deleteComment,
   deletePost,
-  editComment,
   editPost,
   fetchPostById,
   fetchPosts,
-  likeComment,
   likePost,
   PostsState,
 } from 'src/states/slices/postsSlice'
 import { AppDispatch, RootState } from 'src/states/store'
 import { PostsActionTypes } from 'src/types/reducer'
-import {
-  Post,
-  CommentInput,
-  UpdatePostInput,
-  Comment,
-  UpdateCommentInput,
-  GetPostsParams,
-  PublicImage,
-} from 'tukibook-helper'
+import { Post, UpdatePostInput, GetPostsParams, PublicImage } from 'tukibook-helper'
 
 export const usePosts = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -54,15 +42,6 @@ export const usePosts = () => {
 
   const handleEditPost = (updatedPost: UpdatePostInput) => dispatch(editPost(updatedPost))
 
-  const handleCommentPost = (newComment: CommentInput) => dispatch(commentPost(newComment))
-
-  const handleEditComment = (updatedComment: UpdateCommentInput) =>
-    dispatch(editComment(updatedComment))
-
-  const handleDeleteComment = (commentId: Comment['id']) => dispatch(deleteComment(commentId))
-
-  const handleLikeComment = (commentId: Comment['id']) => dispatch(likeComment(commentId))
-
   const handleResetState = () => dispatch({ type: PostsActionTypes.RESET_STATE })
 
   const handleSetFilters = (payload: GetPostsParams['filters']) =>
@@ -91,10 +70,6 @@ export const usePosts = () => {
     deletePost: handleDeletePost,
     likePost: handleLikePost,
     editPost: handleEditPost,
-    commentPost: handleCommentPost,
-    editComment: handleEditComment,
-    deleteComment: handleDeleteComment,
-    likeComment: handleLikeComment,
     resetPostsState: handleResetState,
     setFilters: handleSetFilters,
     setPartialState: handleSetPartialState,

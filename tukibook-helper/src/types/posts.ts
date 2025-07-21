@@ -1,4 +1,3 @@
-import { Comment } from './comments'
 import { ApiResponse, GetPage, PublicImage, SortType } from './common'
 import { User } from './users'
 
@@ -14,7 +13,6 @@ export interface Post extends PostInput {
   id: string
   user: User
   likes: string[]
-  comments: Comment[]
   image?: PublicImage
   createdAt: Date
   updatedAt: Date

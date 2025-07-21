@@ -90,7 +90,7 @@ const initialState: CommentsState = {
 }
 
 export const initialValues: CommentByPostIdProps = {
-  isLoading: true,
+  isLoading: false,
   hasMore: false,
   totalItems: 0,
   comments: [],
@@ -127,7 +127,7 @@ const commentsSlice = createSlice({
     const createCommentSlot = (state: CommentsState, postId: Post['id']) => {
       if (!state.commentsByPostId[postId]) {
         state.commentsByPostId[postId] = initialValues
-        return
+        // return
       }
       state.commentsByPostId[postId].isLoading = true
       state.commentsByPostId[postId].error = null

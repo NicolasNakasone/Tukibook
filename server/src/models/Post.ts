@@ -34,20 +34,20 @@ const PostSchema: Schema = new Schema(
   })
   .pre('find', function () {
     // TODO: Quitar estos populate una vez se termine el refactor de comentarios
-    this.populate({
-      path: 'comments',
-      populate: { path: 'user', select: 'username id email avatar' },
-      options: { sort: { createdAt: -1 } }, // Ordena los comentarios por fecha de creación en orden descendente
-    })
+    // this.populate({
+    //   path: 'comments',
+    //   populate: { path: 'user', select: 'username id email avatar' },
+    //   options: { sort: { createdAt: -1 } }, // Ordena los comentarios por fecha de creación en orden descendente
+    // })
     this.populate({ path: 'user', select: 'username id email avatar' })
   })
   .pre('findOne', function () {
     // TODO: Quitar estos populate una vez se termine el refactor de comentarios
-    this.populate({
-      path: 'comments',
-      populate: { path: 'user', select: 'username id email avatar' },
-      options: { sort: { createdAt: -1 } }, // Ordena los comentarios por fecha de creación en orden descendente
-    })
+    // this.populate({
+    //   path: 'comments',
+    //   populate: { path: 'user', select: 'username id email avatar' },
+    //   options: { sort: { createdAt: -1 } }, // Ordena los comentarios por fecha de creación en orden descendente
+    // })
     this.populate({ path: 'user', select: 'username id email avatar' })
   })
 

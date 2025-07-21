@@ -5,11 +5,8 @@ import { PostsActionTypes } from 'src/types/reducer'
 import {
   PostList,
   Post,
-  CommentInput,
-  Comment,
   GetPostsResponse,
   UpdatePostInput,
-  UpdateCommentInput,
   GetPostsParams,
   PAGE_LIMIT,
   PublicImage,
@@ -66,40 +63,6 @@ export const likePost = createAsyncThunk(
   PostsActionTypes.LIKE_POST,
   async (postId: Post['id']) =>
     await handleFetch<Post>(`${VITE_API_URL}${routes.posts}/${postId}/like`, {
-      method: 'PATCH',
-    })
-)
-
-export const commentPost = createAsyncThunk(
-  PostsActionTypes.COMMENT_POST,
-  async (newComment: CommentInput) =>
-    await handleFetch<Post>(`${VITE_API_URL}${routes.comments}`, {
-      method: 'POST',
-      body: JSON.stringify(newComment),
-    })
-)
-
-export const editComment = createAsyncThunk(
-  PostsActionTypes.EDIT_COMMENT,
-  async ({ id, ...newComment }: UpdateCommentInput) =>
-    await handleFetch<Post>(`${VITE_API_URL}${routes.comments}/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(newComment),
-    })
-)
-
-export const deleteComment = createAsyncThunk(
-  PostsActionTypes.DELETE_COMMENT,
-  async (commentId: Comment['id']) =>
-    await handleFetch<Post>(`${VITE_API_URL}${routes.comments}/${commentId}`, {
-      method: 'DELETE',
-    })
-)
-
-export const likeComment = createAsyncThunk(
-  PostsActionTypes.LIKE_COMMENT,
-  async (commentId: Comment['id']) =>
-    await handleFetch<Post>(`${VITE_API_URL}${routes.comments}/${commentId}/like`, {
       method: 'PATCH',
     })
 )
@@ -228,10 +191,6 @@ const postsSlice = createSlice({
       })
       .addCase(likePost.fulfilled, () => {})
       .addCase(editPost.fulfilled, () => {})
-      .addCase(commentPost.fulfilled, () => {})
-      .addCase(editComment.fulfilled, () => {})
-      .addCase(deleteComment.fulfilled, () => {})
-      .addCase(likeComment.fulfilled, () => {})
       .addMatcher(isPostRelatedAction, (state, action) => {
         if (action.payload.error) return
 

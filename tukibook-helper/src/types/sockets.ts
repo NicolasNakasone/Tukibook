@@ -3,7 +3,7 @@ export enum SocketEvents {
   DELETE_POST = 'deletePost',
   LIKE_POST = 'likePost',
   EDIT_POST = 'editPost',
-  COMMENT_POST = 'commentPost',
+  ADD_COMMENT = 'addComment',
   EDIT_COMMENT = 'editComment',
   DELETE_COMMENT = 'deleteComment',
   LIKE_COMMENT = 'likeComment',

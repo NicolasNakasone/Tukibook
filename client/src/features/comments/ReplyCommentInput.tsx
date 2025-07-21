@@ -2,10 +2,10 @@ import { useState } from 'react'
 
 import { Button } from 'src/components/common/Button'
 import styles from 'src/features/comments/ReplyCommentInput.module.css'
+import { useComments } from 'src/hooks/useComments.hook'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
-import { usePosts } from 'src/hooks/usePosts.hook'
-import { emitCommentPost } from 'src/sockets'
-import { Comment, Post, PostResponse } from 'tukibook-helper'
+import { emitAddComment } from 'src/sockets'
+import { Comment, CommentResponse, Post } from 'tukibook-helper'
 
 interface ReplyCommentInputProps {
   parentCommentId: Comment['parentCommentId'] | Comment['id']
@@ -20,17 +20,17 @@ export const ReplyCommentInput = ({
 }: ReplyCommentInputProps): JSX.Element => {
   const [newContent, setNewContent] = useState('')
   const { isLoading, handleIsLoading } = useIsLoading()
-  const { commentPost } = usePosts()
+  const { addComment } = useComments({ postId })
 
   const handleReplyComment = async () => {
     handleIsLoading(true)
     const response = (await (
-      await commentPost({ content: newContent, parentCommentId, postId })
-    ).payload) as PostResponse
+      await addComment({ content: newContent, parentCommentId, postId })
+    ).payload) as CommentResponse
     handleIsLoading(false)
 
     if (response.data) {
-      emitCommentPost(response)
+      emitAddComment(response)
       setNewContent('')
       cancelIsReplying()
     }
