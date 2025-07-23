@@ -156,22 +156,19 @@ const PostCardComments = ({ post }: { post: Post }): ReactNode => {
     Pensar en la posibilidad de cambiar el componente a CommentFeed
     y moverlo a src/features/comments/
   */
-  const { comments, getComments, page, hasMore, isLoading } = useComments({
-    postId: post.id,
-  })
+  const { comments, getComments, page, hasMore, isLoading, isSlotCreated, remainingComments } =
+    useComments({
+      postId: post.id,
+    })
 
   const handleGetComments = async () => {
-    if (!comments.length) {
-      getComments({ page: 1, postId: post.id })
-      return
-    }
-    if (hasMore) {
+    if (!comments.length || hasMore) {
       getComments({ page, postId: post.id })
       return
     }
   }
 
-  if (isLoading) return <Loader {...{ isLoading }} />
+  const isDisabled = !hasMore && isSlotCreated
 
   return (
     <div className={styles.commentsContainer}>
@@ -185,11 +182,12 @@ const PostCardComments = ({ post }: { post: Post }): ReactNode => {
 
         if (isOrphan) return <CommentCard key={comment.id} {...{ comment, post, isOrphan }} />
       })}
+      <Loader {...{ isLoading }} />
       <Button
         isLoading={isLoading}
-        disabled={isLoading}
+        disabled={isLoading || isDisabled}
         onClick={handleGetComments}
-      >{`Ver${hasMore ? ' mas' : ''} comentarios`}</Button>
+      >{`Ver${hasMore ? ' mas' : ''} comentarios ${hasMore ? `(${remainingComments})` : ''}`}</Button>
     </div>
   )
 }

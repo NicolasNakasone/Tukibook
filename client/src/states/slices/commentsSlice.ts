@@ -126,11 +126,10 @@ const commentsSlice = createSlice({
 
     const createCommentSlot = (state: CommentsState, postId: Post['id']) => {
       if (!state.commentsByPostId[postId]) {
-        state.commentsByPostId[postId] = initialValues
-        // return
+        state.commentsByPostId[postId] = { ...initialValues, isLoading: true }
+        return
       }
       state.commentsByPostId[postId].isLoading = true
-      state.commentsByPostId[postId].error = null
     }
 
     builder

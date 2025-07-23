@@ -16,6 +16,7 @@ import {
   Comment,
   CommentInput,
   GetCommentsParams,
+  PAGE_LIMIT,
   Post,
   UpdateCommentInput,
 } from 'tukibook-helper'
@@ -29,6 +30,7 @@ export const useComments = ({ postId }: { postId: Post['id'] }) => {
     [commentsByPostId, postId]
   )
   const { comments, page, hasMore, isLoading, error, totalItems } = commentState
+  const remainingComments = totalItems - PAGE_LIMIT * (page - 1)
 
   const handleGetComments = useCallback(({ postId, page }: GetCommentsParams) => {
     return dispatch(getCommentsByPostId({ postId, page }))
@@ -64,6 +66,8 @@ export const useComments = ({ postId }: { postId: Post['id'] }) => {
     hasMore,
     isLoading,
     totalItems,
+    isSlotCreated: !!commentsByPostId[postId],
+    remainingComments,
     getComments: handleGetComments,
     getMoreComments: handleGetMoreComments,
     addComment: handleAddComment,
