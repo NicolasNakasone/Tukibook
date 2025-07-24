@@ -150,9 +150,9 @@ const commentsSlice = createSlice({
 
         const commentState = state.commentsByPostId[postId]
 
+        commentState.isLoading = false
         if (error) {
           commentState.error = error.message
-          commentState.isLoading = false
           return
         }
 
@@ -161,7 +161,6 @@ const commentsSlice = createSlice({
         )
 
         commentState.page += 1
-        commentState.isLoading = false
         commentState.totalItems = data.totalItems
         commentState.comments = [...commentState.comments, ...newComments]
         commentState.hasMore = commentState.comments.length < data.totalItems
@@ -183,9 +182,9 @@ const commentsSlice = createSlice({
 
         const commentState = state.commentsByPostId[postId]
 
+        commentState.isLoading = false
         if (error) {
           commentState.error = error.message
-          commentState.isLoading = false
           return
         }
         const { comment } = data
