@@ -5,7 +5,7 @@ import { cloudinary } from 'src/cloudinary'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, parseFilters, validateRequiredFields } from 'src/utils'
-import { populatePost, populatePostQuery } from 'src/utils/populatePost'
+import { populateDocument, populateDocumentQuery } from 'src/utils/populateDocument'
 import {
   GetPostsParams,
   GetPostsResponse,
@@ -100,7 +100,7 @@ export const addPost: RequestHandler = async (req, res, next) => {
     const newPost = new Post({ user: req.user?.id, content, image: newImage })
     const savedPost = await newPost.save()
 
-    await populatePost(savedPost)
+    await populateDocument(savedPost)
 
     res.status(201).send(savedPost)
   } catch (error) {
@@ -121,7 +121,7 @@ export const editPost: RequestHandler = async (req, res, next) => {
   // }
 
   try {
-    const updatedPost = await populatePostQuery(
+    const updatedPost = await populateDocumentQuery(
       Post.findByIdAndUpdate(postId, { content }, { new: true })
     )
 

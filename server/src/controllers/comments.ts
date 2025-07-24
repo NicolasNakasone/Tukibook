@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import { Comment } from 'src/models/Comment'
 import { Post } from 'src/models/Post'
 import { isValidObjectId, validateRequiredFields } from 'src/utils'
+import { populateDocument } from 'src/utils/populateDocument'
 import {
   CommentList,
   CommentResponseProps,
@@ -69,6 +70,8 @@ export const addComment: RequestHandler = async (req, res, next) => {
     })
 
     const savedComment = await newComment.save()
+
+    await populateDocument(savedComment)
 
     const commentResponse: CommentResponseProps = { comment: savedComment.toObject(), postId }
 
