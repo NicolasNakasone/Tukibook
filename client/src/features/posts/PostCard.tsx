@@ -1,18 +1,16 @@
-import { ReactNode, SetStateAction, useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 
 import tukibookLogo from 'public/tuki.webp'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'src/components/common/Button'
-import { Loader } from 'src/components/common/Loader'
 import { SeeMoreButton } from 'src/components/common/SeeMoreButton'
 import { routes } from 'src/constants/routes'
 import { AddCommentForm } from 'src/features/comments/AddCommentForm'
-import { CommentCard } from 'src/features/comments/CommentCard'
+import { CommentFeed } from 'src/features/comments/CommentFeed'
 import { DeletePostButton } from 'src/features/posts/DeletePostButton'
 import { LikePostButton } from 'src/features/posts/LikePostButton'
 import styles from 'src/features/posts/PostCard.module.css'
 import { useAuth } from 'src/hooks/useAuth.hook'
-import { useComments } from 'src/hooks/useComments.hook'
 import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import { usePosts } from 'src/hooks/usePosts.hook'
 import { emitEditPost } from 'src/sockets'
@@ -80,7 +78,7 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
       {!isEditing && (
         <>
           <LikePostButton {...{ post }} />
-          <PostCardComments {...{ post }} />
+          <CommentFeed {...{ post }} />
           <AddCommentForm {...{ post }} />
         </>
       )}
@@ -148,46 +146,5 @@ const PostCardContent = ({
     <p className={styles.postContent}>{post.content}</p>
   ) : (
     <SeeMoreButton content={post.content} />
-  )
-}
-
-const PostCardComments = ({ post }: { post: Post }): ReactNode => {
-  /* Probablemente aca haya que agregar logica para obtener comentarios
-    Pensar en la posibilidad de cambiar el componente a CommentFeed
-    y moverlo a src/features/comments/
-  */
-  const { comments, getComments, page, hasMore, isLoading, isSlotCreated, remainingComments } =
-    useComments({
-      postId: post.id,
-    })
-
-  const handleGetComments = async () => {
-    if (!comments.length || hasMore) {
-      getComments({ page, postId: post.id })
-      return
-    }
-  }
-
-  const isDisabled = !hasMore && isSlotCreated
-
-  return (
-    <div className={styles.commentsContainer}>
-      {comments.map(comment => {
-        if (!comment.parentCommentId)
-          return <CommentCard key={comment.id} {...{ comment, post }} />
-
-        const isOrphan =
-          !!comment.parentCommentId &&
-          !comments.map(({ id }) => ({ id })).find(c => c.id === comment.parentCommentId)
-
-        if (isOrphan) return <CommentCard key={comment.id} {...{ comment, post, isOrphan }} />
-      })}
-      <Loader {...{ isLoading }} />
-      <Button
-        isLoading={isLoading}
-        disabled={isLoading || isDisabled}
-        onClick={handleGetComments}
-      >{`Ver${hasMore ? ' mas' : ''} comentarios ${hasMore ? `(${remainingComments})` : ''}`}</Button>
-    </div>
   )
 }
