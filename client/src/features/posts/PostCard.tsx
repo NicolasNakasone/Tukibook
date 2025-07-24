@@ -59,7 +59,7 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
   }
 
   return (
-    <div key={post.id} className={styles.postCardContainer} onClick={handleCardClick}>
+    <div className={styles.postCardContainer} onClick={handleCardClick}>
       {/* Cambiar mas adelante a un menu tipo tooltip con tres puntos
         para mostrar opciones como borrar el post o cosas asi
       */}
@@ -78,8 +78,8 @@ export const PostCard = ({ post }: PostCardProps): JSX.Element => {
       {!isEditing && (
         <>
           <LikePostButton {...{ post }} />
-          <CommentFeed {...{ post }} />
-          <AddCommentForm {...{ post }} />
+          <CommentFeed postId={post.id} />
+          <AddCommentForm postId={post.id} />
         </>
       )}
       {isEditing && (

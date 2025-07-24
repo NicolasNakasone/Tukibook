@@ -12,12 +12,12 @@ import { Comment, Post } from 'tukibook-helper'
 
 interface CommentCardProps {
   comment: Comment
-  post: Post
+  postId: Post['id']
   isOrphan?: boolean
 }
 
-export const CommentCard = ({ comment, post, isOrphan }: CommentCardProps): JSX.Element => {
-  const { comments } = useComments({ postId: post.id })
+export const CommentCard = ({ comment, postId, isOrphan }: CommentCardProps): JSX.Element => {
+  const { comments } = useComments({ postId })
 
   const [isEditing, setIsEditing] = useState(false)
   const [showReplies, setShowReplies] = useState(false)
@@ -35,7 +35,7 @@ export const CommentCard = ({ comment, post, isOrphan }: CommentCardProps): JSX.
           <p className={styles.commentContent}>
             <span className={styles.orphanMessage}>Este comentario fue eliminado</span>
             <div className={styles.repliesContainer}>
-              <CommentCard {...{ comment, post }} />
+              <CommentCard {...{ comment, postId }} />
             </div>
           </p>
         </div>
@@ -62,7 +62,7 @@ export const CommentCard = ({ comment, post, isOrphan }: CommentCardProps): JSX.
               </Button>
               {isReplying && (
                 <ReplyCommentInput
-                  postId={post.id}
+                  {...{ postId }}
                   parentCommentId={comment.parentCommentId || comment.id}
                   cancelIsReplying={() => setIsReplying(false)}
                 />
@@ -74,24 +74,19 @@ export const CommentCard = ({ comment, post, isOrphan }: CommentCardProps): JSX.
               )}
             </p>
             <CommentCardButtons
-              postId={post.id}
-              {...{ comment, isReplying }}
+              {...{ comment, postId, isReplying }}
               handleIsEditing={() => setIsEditing(true)}
             />
           </>
         )}
         {isEditing && (
-          <EditCommentInput
-            postId={post.id}
-            {...{ comment }}
-            cancelIsEditing={() => setIsEditing(false)}
-          />
+          <EditCommentInput {...{ comment, postId }} cancelIsEditing={() => setIsEditing(false)} />
         )}
       </div>
       {showReplies && (
         <div className={styles.repliesContainer}>
           {commentReplies.map(reply => (
-            <CommentCard key={reply.id} comment={reply} post={post} />
+            <CommentCard key={reply.id} comment={reply} {...{ postId }} />
           ))}
         </div>
       )}

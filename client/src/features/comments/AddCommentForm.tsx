@@ -8,9 +8,13 @@ import { useIsLoading } from 'src/hooks/useIsLoading.hook'
 import { emitAddComment } from 'src/sockets'
 import { CommentResponse, Post } from 'tukibook-helper'
 
-export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
+interface AddCommentFormProps {
+  postId: Post['id']
+}
+
+export const AddCommentForm = ({ postId }: AddCommentFormProps): JSX.Element => {
   const { isLoading, handleIsLoading } = useIsLoading()
-  const { addComment } = useComments({ postId: post.id })
+  const { addComment } = useComments({ postId })
 
   const handleCommentPost = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -20,7 +24,7 @@ export const AddCommentForm = ({ post }: { post: Post }): JSX.Element => {
     const content = (target[0] as HTMLInputElement).value
 
     const response = (await (
-      await addComment({ postId: post.id, content, parentCommentId: null })
+      await addComment({ postId, content, parentCommentId: null })
     ).payload) as CommentResponse
 
     handleIsLoading(false)
